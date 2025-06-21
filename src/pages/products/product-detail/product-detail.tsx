@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
-import { useCart } from "../../features/cart/lib/useCart";
-import { Product } from "../../features/products/api/productsApi.types";
+import { useCart } from "../../../features/cart/lib/useCart";
+import { Product } from "../../../features/products/api/productsApi.types";
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.spacing.xxl} auto;

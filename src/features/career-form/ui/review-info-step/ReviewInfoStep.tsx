@@ -8,6 +8,7 @@ import {
   SectionTitle,
   NoData,
   EditButton,
+  StyledCard,
 } from "./styles";
 import { EditField } from "../../../../components/ui/edit-field/EditField";
 import { useEmailSender } from "../../../../shared/api/useEmailSender";
@@ -74,7 +75,7 @@ export const ReviewInfoStep = observer(() => {
 
   return (
     <Container>
-      <Card>
+      <StyledCard>
         <SectionTitle>Персональная информация</SectionTitle>
 
         {Object.keys(personalInfo).length > 0 ? (
@@ -91,21 +92,25 @@ export const ReviewInfoStep = observer(() => {
         ) : (
           <NoData>Нет данных</NoData>
         )}
-      </Card>
+      </StyledCard>
 
-      <Card>
+      <StyledCard>
         <SectionTitle>Адресная информация</SectionTitle>
         {Object.keys(addressInfo).length > 0 ? (
           Object.entries(addressInfo).map(([key, val]) => (
             <Item key={key}>
               <Label>{formatLabel(key)}</Label>
-              <Value>{String(val)}</Value>
+              <EditField
+                text={String(val)}
+                onFinishEditMode={handleFinishEditMode}
+                onStartEditMode={handleStartEditMode}
+              />
             </Item>
           ))
         ) : (
           <NoData>Нет данных</NoData>
         )}
-      </Card>
+      </StyledCard>
 
       <div
         style={{

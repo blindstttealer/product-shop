@@ -1,66 +1,94 @@
-// components/features/cart/CartPage.tsx
 import { observer } from "mobx-react-lite";
 import { useCart } from "../lib/useCart";
 import { CartItem } from "./CartItem";
 import styled from "styled-components";
 
 const PageWrapper = styled.div`
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 1rem;
+  max-width: ${({ theme }) => theme.breakpoints.xl};
+  margin: ${({ theme }) => theme.spacing.xxl} auto;
+  padding: ${({ theme }) => theme.spacing.lg};
 `;
 
 const Title = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
   text-align: center;
+  color: ${({ theme }) => theme.colors.text.primary};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
 `;
 
 const ItemsList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: ${({ theme }) => theme.spacing.lg};
 `;
 
 const Summary = styled.div`
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background-color: #f7f7f7;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  text-align: right;
+  margin-top: ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.lg};
+  background-color: ${({ theme }) => theme.colors.background.secondary};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  box-shadow: ${({ theme }) => theme.boxShadow.sm};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
 `;
 
 const SummaryRow = styled.div`
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  color: ${({ theme }) => theme.colors.text.primary};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:last-child {
+    margin-bottom: 0;
+    padding-top: ${({ theme }) => theme.spacing.sm};
+    border-top: 1px solid ${({ theme }) => theme.colors.border.light};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+  }
+`;
+
+const SummaryLabel = styled.span`
+  color: ${({ theme }) => theme.colors.text.secondary};
+`;
+
+const SummaryValue = styled.span`
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
 
 const Empty = styled.div`
   text-align: center;
-  font-size: 1.5rem;
-  color: #999;
-  margin-top: 5rem;
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
+  color: ${({ theme }) => theme.colors.text.disabled};
+  margin-top: ${({ theme }) => theme.spacing.xxl};
+  padding: ${({ theme }) => theme.spacing.xl};
+`;
+
+const CheckoutButton = styled.button`
+  width: 100%;
+  margin-top: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.md};
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.text.inverse};
+  border: none;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primaryHover};
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    background-color: ${({ theme }) => theme.colors.primaryActive};
+    transform: translateY(0);
+  }
 `;
 
 export const CartPage = observer(() => {
   const cart = useCart();
-
-  // type SuperType = {
-  //   key: "value";
-  // };
-  //
-  // type MyType = {
-  //   key: "value";
-  //   prop: "value";
-  // };
-  //
-  // const myType: MyType = {
-  //   key: "value",
-  //   prop: "value",
-  // };
-  //
-  // const superType: SuperType = myType;
 
   if (cart.cartItems.length === 0) {
     return <Empty>🛒 Ваша корзина пуста</Empty>;
@@ -76,11 +104,16 @@ export const CartPage = observer(() => {
       </ItemsList>
       <Summary>
         <SummaryRow>
-          <strong>Товаров:</strong> {cart.totalItems}
+          <SummaryLabel>Товаров:</SummaryLabel>
+          <SummaryValue>{cart.totalItems}</SummaryValue>
         </SummaryRow>
         <SummaryRow>
-          <strong>Сумма:</strong> ${cart.totalPrice.toFixed(2)}
+          <SummaryLabel>Сумма:</SummaryLabel>
+          <SummaryValue>${cart.totalPrice.toFixed(2)}</SummaryValue>
         </SummaryRow>
+        <CheckoutButton onClick={() => console.log("Proceed to checkout")}>
+          Оформить заказ
+        </CheckoutButton>
       </Summary>
     </PageWrapper>
   );

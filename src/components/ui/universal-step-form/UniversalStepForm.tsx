@@ -128,6 +128,33 @@ const StyledForm = styled(Form)`
 const StyledCard = styled(Card)`
   width: 100%;
   max-width: 700px;
+  margin: ${({ theme }) => theme.spacing.lg} auto;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  box-shadow: ${({ theme }) => theme.boxShadow.md};
+
+  background-color: ${({ theme }) => theme.colors.background.primary};
+  border: 1px solid ${({ theme }) => theme.colors.border.normal};
+
+  .ant-card-head {
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
+    background-color: ${({ theme }) => theme.colors.background.secondary};
+    padding: ${({ theme }) => theme.spacing.md}
+      ${({ theme }) => theme.spacing.lg};
+
+    .ant-card-head-title {
+      color: ${({ theme }) => theme.colors.text.primary};
+      font-weight: 500;
+      font-size: 16px;
+    }
+  }
+  .ant-form-item-label > label {
+    color: ${({ theme }) => theme.colors.text.primary} !important;
+  }
+  /* Тело карточки */
+  .ant-card-body {
+    padding: ${({ theme }) => theme.spacing.lg};
+    color: ${({ theme }) => theme.colors.text.secondary};
+  }
 `;
 
 const PageWrapper = styled.div`

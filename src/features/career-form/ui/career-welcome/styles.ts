@@ -1,51 +1,68 @@
 import styled from "styled-components";
+import { Modal } from "antd";
 
 export const Wrapper = styled.div`
-  padding: 32px 40px;
-  background: #f0f9ff;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgb(0 123 255 / 0.25);
-  max-width: 600px;
-  margin: 40px auto;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #034078;
+  padding: ${({ theme }) => theme.spacing.xl}
+    ${({ theme }) => theme.spacing.xxl};
+  background: ${({ theme }) => theme.colors.background.secondary};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  box-shadow: ${({ theme }) => theme.boxShadow.md};
+  max-width: ${({ theme }) => theme.breakpoints.md};
+  margin: ${({ theme }) => theme.spacing.xxl} auto;
+  font-family: ${({ theme }) => theme.fontFamily.primary};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.boxShadow.lg};
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 export const Title = styled.h2`
-  margin-bottom: 24px;
-  font-size: 2rem;
-  font-weight: 700;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  font-size: ${({ theme }) => theme.fontSizes.xxl};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: center;
-  color: #0263a0;
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const StepInfo = styled.button`
   cursor: pointer;
-  background-color: #3bc14a;
-  color: white;
-  font-weight: 700;
-  padding: 16px 24px;
-  border-radius: 12px;
+  background-color: ${({ theme }) => theme.colors.success};
+  color: ${({ theme }) => theme.colors.text.inverse};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.xl};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   border: none;
   width: 100%;
-  font-size: 1.1rem;
-  transition: background-color 0.3s ease;
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
-    background-color: #32a239;
+    background-color: ${({ theme }) => theme.colors.successHover};
+    transform: translateY(-1px);
   }
 
-  &:focus {
-    outline: 2px solid #268d26;
+  &:active {
+    background-color: ${({ theme }) => theme.colors.successActive};
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.success};
     outline-offset: 2px;
   }
 `;
 
 export const CompanyInfo = styled.p`
-  margin-top: 28px;
-  font-size: 1.15rem;
-  line-height: 1.6;
-  color: #1a1a1a;
+  margin-top: ${({ theme }) => theme.spacing.xl};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  line-height: ${({ theme }) => theme.lineHeights.md};
+  color: ${({ theme }) => theme.colors.text.secondary};
   text-align: center;
   user-select: none;
 `;
+
+export const StyledModal = styled(Modal)``;
