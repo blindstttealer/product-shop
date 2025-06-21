@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { formManager } from "../../model/multi-form-manager";
-import { CompanyInfo, StepInfo, Title, Wrapper } from "./styles";
-import { Form, Input, Modal } from "antd";
+import { Form, Input } from "antd";
+import { CompanyInfo, StepInfo, StyledModal, Title, Wrapper } from "./styles";
 
 export const CareerWelcome = () => {
   const navigate = useNavigate();
@@ -46,8 +46,8 @@ export const CareerWelcome = () => {
         этапе вашего карьерного пути. Добро пожаловать в команду!
       </CompanyInfo>
 
-      <Modal
-        title="Новая форма"
+      <StyledModal
+        title="Новая карточка"
         open={isModalVisible}
         onOk={handleCreateForm}
         onCancel={() => {
@@ -57,10 +57,15 @@ export const CareerWelcome = () => {
         }}
         okText="Создать"
         cancelText="Отмена"
+        okButtonProps={{
+          style: {
+            backgroundColor: "#3bc14a",
+            borderColor: "#3bc14a",
+          },
+        }}
       >
         <Form layout="vertical">
           <Form.Item
-            label="Название формы"
             validateStatus={formNameError ? "error" : ""}
             help={formNameError}
           >
@@ -74,7 +79,7 @@ export const CareerWelcome = () => {
             />
           </Form.Item>
         </Form>
-      </Modal>
+      </StyledModal>
     </Wrapper>
   );
 };

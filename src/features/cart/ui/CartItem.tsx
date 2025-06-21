@@ -10,21 +10,33 @@ type Props = {
 const ItemCard = styled.div`
   display: flex;
   align-items: center;
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  gap: 2rem;
-  margin-bottom: 1.5rem;
+  background: ${({ theme }) => theme.colors.background.secondary};
+  padding: ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  box-shadow: ${({ theme }) => theme.boxShadow.sm};
+  gap: ${({ theme }) => theme.spacing.xl};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  border: 1px solid ${({ theme }) => theme.colors.border.normal};
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.boxShadow.md};
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.spacing.md};
+  }
 `;
 
 const Image = styled.img`
   width: 100px;
   height: 100px;
   object-fit: contain;
-  border-radius: 12px;
-  border: 1px solid #eee;
-  background-color: #f9f9f9;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  background-color: ${({ theme }) => theme.colors.background.tertiary};
 `;
 
 const Content = styled.div`
@@ -32,27 +44,32 @@ const Content = styled.div`
   justify-content: space-between;
   align-items: center;
   flex: 1;
-  gap: 2rem;
+  gap: ${({ theme }) => theme.spacing.xl};
 
-  @media (max-width: 600px) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: ${({ theme }) => theme.spacing.md};
+    width: 100%;
   }
 `;
 
 const Title = styled.h3`
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #222;
+  font-size: ${({ theme }) => theme.fontSizes.lg};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  color: ${({ theme }) => theme.colors.text.primary};
   margin: 0;
   width: 200px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: 100%;
+  }
 `;
 
 const Price = styled.p`
-  color: #9c27b0;
-  font-size: 1rem;
-  font-weight: bold;
+  color: ${({ theme }) => theme.colors.primary};
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
   margin: 0;
   min-width: 80px;
   text-align: center;
@@ -61,57 +78,65 @@ const Price = styled.p`
 const QuantityContainer = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.colors.border.normal};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   overflow: hidden;
   height: 36px;
+  background: ${({ theme }) => theme.colors.background.primary};
 `;
 
 const QuantityBtn = styled.button`
-  background: #fff;
+  background: ${({ theme }) => theme.colors.background.primary};
   border: none;
-  padding: 0 0.9rem;
-  font-size: 1.2rem;
+  padding: 0 ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.fontSizes.lg};
   cursor: pointer;
-  color: #444;
-  transition: background 0.2s;
+  color: ${({ theme }) => theme.colors.text.secondary};
 
   &:hover {
-    background: #f5f5f5;
+    background: ${({ theme }) => theme.colors.states.hover};
+    border-radius: ${({ theme }) => theme.borderRadius.md};
   }
 
   &:active {
-    background: #e0e0e0;
+    background: ${({ theme }) => theme.colors.states.active};
   }
 
   &:disabled {
-    color: #aaa;
+    color: ${({ theme }) => theme.colors.text.disabled};
     cursor: not-allowed;
   }
 `;
 
 const QuantityValue = styled.div`
-  padding: 0 1rem;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
+  padding: 0 ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
 
 const RemoveButton = styled.button`
   background: none;
-  color: #f44336;
-  font-weight: 500;
+  color: ${({ theme }) => theme.colors.error};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
   border: none;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
   transition: color 0.2s ease;
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
 
   &:hover {
-    color: #d32f2f;
+    color: ${({ theme }) => theme.colors.errorHover};
+    background: ${({ theme }) => theme.colors.errorLight};
   }
 
   &:active {
-    color: #b71c1c;
+    color: ${({ theme }) => theme.colors.errorActive};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    align-self: flex-end;
   }
 `;
 
@@ -128,7 +153,10 @@ export const CartItem = observer(({ product }: Props) => {
         <Title>{item.title}</Title>
         <Price>${item.price}</Price>
         <QuantityContainer>
-          <QuantityBtn onClick={() => cart.decrementQuantity(product.id)}>
+          <QuantityBtn
+            onClick={() => cart.decrementQuantity(product.id)}
+            disabled={item.quantity <= 1}
+          >
             −
           </QuantityBtn>
           <QuantityValue>{item.quantity}</QuantityValue>

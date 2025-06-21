@@ -24,12 +24,12 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   a {
-    color: ${({ theme }) => theme.colors.link};
+    color: ${({ theme }) => theme.colors.text.primary};
     text-decoration: none;
     transition: color 0.3s ease;
 
     &:hover {
-      color: ${({ theme }) => theme.colors.linkHover};
+      color: ${({ theme }) => theme.colors.text.secondary};
     }
   }
 

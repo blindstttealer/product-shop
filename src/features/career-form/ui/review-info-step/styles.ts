@@ -1,41 +1,49 @@
-import styled, { keyframes } from "styled-components";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-
-export const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
+import styled from "styled-components";
+import { Card } from "antd";
 
 export const Container = styled.div`
   max-width: 720px;
   margin: 40px auto;
   padding: 30px 35px;
-  border-radius: 16px;
-  box-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.05),
-    0 8px 30px rgba(0, 0, 0, 0.1);
-  font-family: "Poppins", sans-serif;
-  color: #222;
-  animation: ${fadeIn} 0.4s ease forwards;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  background-color: ${({ theme }) => theme.colors.background.primary};
+  box-shadow: ${({ theme }) => theme.boxShadow.md};
+`;
+
+export const StyledCard = styled(Card)`
+  width: 100%;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background-color: ${({ theme }) => theme.colors.background.secondary};
+  border: 1px solid ${({ theme }) => theme.colors.border.normal};
+
+  .ant-card-head {
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
+    background-color: ${({ theme }) => theme.colors.background.secondary};
+
+    .ant-card-head-title {
+      color: ${({ theme }) => theme.colors.text.primary};
+      font-weight: 500;
+    }
+  }
+
+  .ant-card-body {
+    padding: ${({ theme }) => theme.spacing.lg};
+    color: ${({ theme }) => theme.colors.text.secondary};
+  }
 `;
 
 export const Section = styled.section`
-  margin-bottom: 32px;
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
 `;
 
 export const SectionTitle = styled.h2`
   font-size: 1rem;
   font-weight: 700;
-  color: #3b3b3b;
-  margin-bottom: 20px;
-  border-left: 5px solid #4a90e2;
-  padding-left: 12px;
+  color: ${({ theme }) => theme.colors.text.primary};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  border-left: 5px solid ${({ theme }) => theme.colors.primary};
+  padding-left: ${({ theme }) => theme.spacing.md};
   text-transform: uppercase;
 `;
 
@@ -43,27 +51,21 @@ export const Item = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 12px;
-  padding: 6px 10px;
-  margin-bottom: 12px;
-  box-shadow: 0 1px 4px rgba(74, 144, 226, 0.15);
-  transition: box-shadow 0.3s ease;
-  text-wrap: nowrap;
-
-  &:hover {
-    box-shadow: 0 4px 14px rgba(150, 156, 164, 0.35);
-  }
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  background-color: ${({ theme }) => theme.colors.background.primary};
 `;
 
 export const Label = styled.span`
   font-weight: 600;
-  color: #4a4a4a;
+  color: ${({ theme }) => theme.colors.text.primary};
   text-transform: capitalize;
   letter-spacing: 0.04em;
 `;
 
 export const Value = styled.span`
-  color: #1a1a1a;
+  color: ${({ theme }) => theme.colors.text.secondary};
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -71,39 +73,36 @@ export const Value = styled.span`
   font-size: 1rem;
 `;
 
-export const BooleanIconTrue = styled(
-  FaCheckCircle as React.ComponentType<React.SVGProps<SVGSVGElement>>,
-)`
-  color: #3bc14a;
-  font-size: 1.2rem;
-`;
-
-export const BooleanIconFalse = styled(
-  FaTimesCircle as React.ComponentType<React.SVGProps<SVGSVGElement>>,
-)`
-  color: #e03c3c;
-  font-size: 1.2rem;
-`;
-
 export const NoData = styled.div`
-  color: #2b2929;
+  color: ${({ theme }) => theme.colors.text.disabled};
   font-style: italic;
-  padding: 16px 0;
+  padding: ${({ theme }) => theme.spacing.lg} 0;
   text-align: center;
 `;
 
 export const EditButton = styled.button`
-  margin-top: 24px;
-  padding: 8px 16px;
-  background-color: #4a90e2;
+  margin-top: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  background-color: ${({ theme }) => theme.colors.primary};
   border: none;
-  border-radius: 4px;
-  color: white;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.25s;
+  transition: all 0.25s ease;
 
   &:hover {
-    background-color: #4b504c;
+    background-color: ${({ theme }) => theme.colors.primaryHover};
+    transform: translateY(-1px);
   }
+
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.md};
+  justify-content: space-between;
+  margin-top: ${({ theme }) => theme.spacing.lg};
 `;
