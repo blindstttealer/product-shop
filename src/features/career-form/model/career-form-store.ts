@@ -1,34 +1,32 @@
-import { loadFromLocalStorage } from "../lib/utils/loadFromLocalStorage";
-
 import { makeAutoObservable } from "mobx";
-import { saveToLocalStorage } from "../lib/utils/saveToLocalStorage";
 import { ApplicationFormData } from "./types";
+import { formManager } from "./multi-form-manager";
 
-class CareerFormStore {
-  step = 1;
-  data: Partial<ApplicationFormData> = {};
+//TODO При создании формы некорретно отображаются начальные данные, подумать как исправить
 
-  constructor() {
+export class CareerFormStore {
+  constructor(
+    public id: string,
+    public data: Partial<ApplicationFormData> = {},
+    public step: number = 1,
+    public name: string = "defaultFormName",
+  ) {
     makeAutoObservable(this);
-    const saved = loadFromLocalStorage(["applicationForm"]);
-    console.log("saved", saved);
-    if (saved) {
-      this.data = saved?.applicationForm?.data ?? this.data;
-      this.step = saved?.applicationForm?.step ?? this.step;
-    }
+  }
+
+  private triggerSave() {
+    formManager.saveForms();
   }
 
   setStep(step: number) {
     this.step = step;
+    this.triggerSave();
   }
 
   updateData(part: Partial<ApplicationFormData>, step: number) {
     this.data = { ...this.data, ...part };
     this.step = step;
-    saveToLocalStorage("applicationForm", {
-      data: this.data,
-      step,
-    });
+    this.triggerSave();
   }
 
   setValue<S extends keyof ApplicationFormData>(
@@ -42,14 +40,25 @@ class CareerFormStore {
         ...obj,
       },
     };
-    console.log("setValueee", obj, section);
+    this.triggerSave();
+  }
+
+  setName(newName: string) {
+    this.name = newName;
+    this.triggerSave();
   }
 
   reset() {
     this.data = {};
     this.step = 1;
-    localStorage.removeItem("applicationForm");
+    this.triggerSave();
+  }
+
+  serialize() {
+    return {
+      data: this.data,
+      step: this.step,
+      name: this.name,
+    };
   }
 }
-
-export const careerFormStore = new CareerFormStore();

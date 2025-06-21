@@ -1,4 +1,9 @@
-type UniversalFormLocalStorageKeys = "applicationForm" | "step";
+type UniversalFormLocalStorageKeys =
+  | "applicationForm"
+  | "step"
+  | "careerForms"
+  | "careerFormsData"
+  | "lastActiveForm";
 
 export const loadFromLocalStorage = (keys: UniversalFormLocalStorageKeys[]) => {
   const data = {} as Record<UniversalFormLocalStorageKeys, any>;

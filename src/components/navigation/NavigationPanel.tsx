@@ -14,7 +14,6 @@ const NavigationContainer = styled.nav`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${({ theme }) => {
-    console.log("theme", theme);
     return theme.colors.text.primary;
   }};
   font-weight: 500;

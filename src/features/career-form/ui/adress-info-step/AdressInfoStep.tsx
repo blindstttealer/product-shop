@@ -1,32 +1,35 @@
 import { FormProps } from "antd";
-import { AddressInfo } from "../../model/types";
-import { UniversalForm } from "../../../../components/ui/universal-step-form/UniversalStepForm";
 import { observer } from "mobx-react-lite";
-import { careerFormStore } from "../../model/career-form-store";
+import { useParams } from "react-router";
+import { formManager } from "../../model/multi-form-manager";
+import { UniversalForm } from "../../../../components/ui/universal-step-form/UniversalStepForm";
+import { AddressInfo } from "../../model/types";
+import { useEffect } from "react";
 
 export const AdressInfoStep = observer(() => {
-  const initialState = careerFormStore.data.addressInfo;
-  const onFinish: FormProps<AddressInfo>["onFinish"] = (values) => {
-    console.log("Success:", values);
-    careerFormStore.updateData({ addressInfo: values }, 3);
-    careerFormStore.setStep(3);
-  };
+  const { formId } = useParams<{ formId: string }>();
+  const form = formManager.getForm(formId || "");
+  console.log("current form", formManager.currentForm);
 
-  const onFinishFailed: FormProps<AddressInfo>["onFinishFailed"] = (
-    errorInfo: any,
-  ) => {
-    console.log("Failed:", errorInfo);
+  useEffect(() => {
+    if (formId) {
+      formManager.switchForm(formId);
+    }
+  }, [formId]);
+
+  if (!form) return <div>Форма не найдена</div>;
+
+  const onFinish: FormProps<AddressInfo>["onFinish"] = (values) => {
+    form.updateData({ addressInfo: values }, 3);
   };
 
   const onValuesChangeHandler = <T extends Partial<AddressInfo>>(value: T) => {
-    careerFormStore.setValue("addressInfo", value);
+    form.setValue("addressInfo", value);
   };
-
   return (
     <>
-      <button onClick={() => careerFormStore.setStep(1)}>назад</button>
       <UniversalForm<AddressInfo>
-        initialState={initialState}
+        initialState={form.data.addressInfo || {}}
         onValuesChangeHandler={onValuesChangeHandler}
         title="Также заполните свои данные о проживании и разрешении на работу"
         fields={[
@@ -51,9 +54,10 @@ export const AdressInfoStep = observer(() => {
             ],
           },
         ]}
-        buttonText="Закончить"
+        buttonNextText="Закончить"
+        buttonBackText="Назад"
+        onClickBackButton={() => form.setStep(1)}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
       />
     </>
   );

@@ -1,4 +1,12 @@
-import { Form, Input, Button, Select, DatePicker, InputNumber } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  DatePicker,
+  InputNumber,
+  Space,
+} from "antd";
 import styled from "styled-components";
 import { Card } from "antd";
 import { ReactNode } from "react";
@@ -47,21 +55,25 @@ type Field<T> = {
 type UniversalFormProps<T> = {
   title: string;
   fields: Field<T>[];
-  buttonText?: string;
+  buttonNextText?: string;
+  buttonBackText?: string;
   onFinish?: (values: any) => void;
   onFinishFailed?: (error: any) => void;
   initialState?: Partial<T>;
   onValuesChangeHandler: (values: Partial<T>) => void;
+  onClickBackButton: () => void;
 };
 
 export function UniversalForm<T extends object>({
   title,
   fields,
-  buttonText = "Submit",
+  buttonNextText = "Submit",
+  buttonBackText = "back",
   onFinish,
   onFinishFailed,
   initialState,
   onValuesChangeHandler,
+  onClickBackButton,
 }: UniversalFormProps<T>) {
   const form = useFormInstance();
 
@@ -88,9 +100,18 @@ export function UniversalForm<T extends object>({
           ))}
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
-              {buttonText}
-            </Button>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Button
+                onClick={onClickBackButton}
+                type="default"
+                htmlType="button"
+              >
+                {buttonBackText}
+              </Button>
+              <Button type="primary" htmlType="submit">
+                {buttonNextText}
+              </Button>
+            </div>
           </Form.Item>
         </StyledForm>
       </StyledCard>

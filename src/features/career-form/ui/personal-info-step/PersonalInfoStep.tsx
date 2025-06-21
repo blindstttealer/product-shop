@@ -1,40 +1,40 @@
 import { FormProps } from "antd";
-import { ApplicationFormData, PersonalInfo } from "../../model/types";
-import { UniversalForm } from "../../../../components/ui/universal-step-form/UniversalStepForm";
 import { observer } from "mobx-react-lite";
-import { careerFormStore } from "../../model/career-form-store";
+import { useParams } from "react-router";
+import { formManager } from "../../model/multi-form-manager";
+import { UniversalForm } from "../../../../components/ui/universal-step-form/UniversalStepForm";
+import { PersonalInfo } from "../../model/types";
+import { useEffect } from "react";
 
 export const PersonalInfoStep = observer(() => {
-  const initialState = careerFormStore.data.personalInfo;
-  const onFinish: FormProps<PersonalInfo>["onFinish"] = (values) => {
-    console.log("Success:", values);
-    careerFormStore.updateData({ personalInfo: values }, 2);
-    careerFormStore.setStep(2);
-  };
+  const { formId } = useParams<{ formId: string }>();
 
-  const onFinishFailed: FormProps<PersonalInfo>["onFinishFailed"] = (
-    errorInfo: any,
-  ) => {
-    console.log("Failed:", errorInfo);
+  useEffect(() => {
+    if (formId) {
+      formManager.switchForm(formId);
+    }
+  }, [formId]);
+
+  const form = formManager.currentForm;
+
+  if (!form) return <div>Форма не найдена</div>;
+
+  const onFinish: FormProps<PersonalInfo>["onFinish"] = (values) => {
+    form.updateData({ personalInfo: values }, 2);
   };
 
   const onValuesChangeHandler = <T extends Partial<PersonalInfo>>(value: T) => {
-    careerFormStore.setValue("personalInfo", value);
+    form.setValue("personalInfo", value);
   };
+
+  console.log("form.data.personalInfo || {}", form.data.personalInfo || {});
 
   return (
     <>
-      <button
-        onClick={() => {
-          careerFormStore.setStep(0);
-        }}
-      >
-        Назад
-      </button>
       <UniversalForm<PersonalInfo>
         onValuesChangeHandler={onValuesChangeHandler}
-        initialState={initialState}
-        title="Заполните персональные данные будушего сотрудника"
+        initialState={form.data.personalInfo || {}}
+        title="Заполните персональные данные будущего сотрудника"
         fields={[
           { name: "email", label: "Email", required: true },
           { name: "firstName", label: "First Name", required: true },
@@ -58,9 +58,10 @@ export const PersonalInfoStep = observer(() => {
             ],
           },
         ]}
-        buttonText="Дальше"
+        buttonNextText="Дальше"
+        buttonBackText="Назад"
+        onClickBackButton={() => form.setStep(0)}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
       />
     </>
   );

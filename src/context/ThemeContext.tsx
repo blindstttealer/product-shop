@@ -19,8 +19,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   const toggleTheme = () => setIsDarkMode((prev) => !prev);
   const theme = isDarkMode ? darkTheme : lightTheme;
 
-  console.log("theme", theme);
-
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme, theme }}>
       <StyledThemeProvider theme={theme}>{children}</StyledThemeProvider>

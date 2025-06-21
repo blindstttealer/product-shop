@@ -1,5 +1,5 @@
-import { CareerForm } from "../../features/career-form/ui/CareerForm";
+import { CareerForms } from "../../features/career-form/ui/career-forms/CareerForms";
 
 export default function Careers() {
-  return <CareerForm />;
+  return <CareerForms />;
 }

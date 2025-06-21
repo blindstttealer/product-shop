@@ -1,5 +1,4 @@
 import { observer } from "mobx-react-lite";
-import { careerFormStore } from "../../model/career-form-store";
 import {
   Container,
   Item,
@@ -12,27 +11,41 @@ import {
 } from "./styles";
 import { EditField } from "../../../../components/ui/edit-field/EditField";
 import { useEmailSender } from "../../../../shared/api/useEmailSender";
+import { formManager } from "../../model/multi-form-manager";
+import { useParams } from "react-router";
+import { Card } from "antd";
 
 export const ReviewInfoStep = observer(() => {
-  const { data } = careerFormStore;
+  const { formId } = useParams<{ formId: string }>();
+
+  const currentForm = formManager.getForm(formId || "");
+
+  if (!currentForm) {
+    return (
+      <Container>
+        <NoData>Форма не выбрана</NoData>
+      </Container>
+    );
+  }
+
+  const { data } = currentForm;
+
+  console.log("data", data);
   const personalInfo = data.personalInfo || {};
   const addressInfo = data.addressInfo || {};
-  console.log(
-    "process.env.REACT_APP_EMAILJS_SERVICE_ID",
-    process.env.REACT_APP_EMAILJS_SERVICE_ID,
-  );
+  console.log("currentForm", currentForm);
+
+  console.log("personalInfo addressInfo", personalInfo, addressInfo);
 
   const emailSender = useEmailSender();
 
   const onEditClick = () => {
-    careerFormStore.setStep(1);
+    currentForm.setStep(2);
   };
 
   const handleStartEditMode = () => {};
 
-  const handleFinishEditMode = () => {
-    // careerFormStore.setValue("");
-  };
+  const handleFinishEditMode = () => {};
 
   const sendEmail = async () => {
     const sendData = {
@@ -42,21 +55,32 @@ export const ReviewInfoStep = observer(() => {
 
     await emailSender.sendEmail(
       { data: sendData },
-      { onSuccess: () => {}, onError: () => {}, onFinally: () => {} },
+      {
+        onSuccess: () => console.log("Email sent successfully"),
+        onError: (error) => console.error("Email sending failed:", error),
+        onFinally: () => {},
+      },
     );
   };
 
-  console.log("personalInfo", JSON.parse(JSON.stringify(personalInfo)));
-  console.log("addressInfo", JSON.parse(JSON.stringify(addressInfo)));
+  // Функция для форматирования ключей в читаемый вид
+  const formatLabel = (key: string) => {
+    return key
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (str) => str.toUpperCase())
+      .replace(/Dob/, "Date of Birth")
+      .replace(/WorkPermit/, "Work Permit");
+  };
+
   return (
     <Container>
-      <Section>
+      <Card>
         <SectionTitle>Персональная информация</SectionTitle>
 
         {Object.keys(personalInfo).length > 0 ? (
           Object.entries(personalInfo).map(([key, val]) => (
             <Item key={key}>
-              <Label>{key.replace(/([A-Z])/g, " $1").toLowerCase()}</Label>
+              <Label>{formatLabel(key)}</Label>
               <EditField
                 text={String(val)}
                 onFinishEditMode={handleFinishEditMode}
@@ -67,26 +91,28 @@ export const ReviewInfoStep = observer(() => {
         ) : (
           <NoData>Нет данных</NoData>
         )}
-      </Section>
+      </Card>
 
-      <Section>
+      <Card>
         <SectionTitle>Адресная информация</SectionTitle>
         {Object.keys(addressInfo).length > 0 ? (
           Object.entries(addressInfo).map(([key, val]) => (
             <Item key={key}>
-              <Label>{key.replace(/([A-Z])/g, " $1").toLowerCase()}</Label>
+              <Label>{formatLabel(key)}</Label>
               <Value>{String(val)}</Value>
             </Item>
           ))
         ) : (
           <NoData>Нет данных</NoData>
         )}
-      </Section>
+      </Card>
+
       <div
         style={{
           display: "flex",
           gap: "20px",
           justifyContent: "space-between",
+          marginTop: "20px",
         }}
       >
         <EditButton onClick={onEditClick}>

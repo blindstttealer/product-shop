@@ -16,7 +16,6 @@ export const Container = styled.div`
   max-width: 720px;
   margin: 40px auto;
   padding: 30px 35px;
-  background: #ffffff;
   border-radius: 16px;
   box-shadow:
     0 4px 10px rgba(0, 0, 0, 0.05),
@@ -31,28 +30,28 @@ export const Section = styled.section`
 `;
 
 export const SectionTitle = styled.h2`
-  font-size: 1.8rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #3b3b3b;
   margin-bottom: 20px;
   border-left: 5px solid #4a90e2;
   padding-left: 12px;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
 `;
 
 export const Item = styled.div`
   display: flex;
   justify-content: space-between;
-  background: #f5f8ff;
+  align-items: center;
   border-radius: 12px;
-  padding: 12px 20px;
+  padding: 6px 10px;
   margin-bottom: 12px;
   box-shadow: 0 1px 4px rgba(74, 144, 226, 0.15);
   transition: box-shadow 0.3s ease;
+  text-wrap: nowrap;
 
   &:hover {
-    box-shadow: 0 4px 14px rgba(74, 144, 226, 0.35);
+    box-shadow: 0 4px 14px rgba(150, 156, 164, 0.35);
   }
 `;
 

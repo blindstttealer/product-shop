@@ -77,7 +77,7 @@ class ProductsStore {
   }
 
   // Загрузить все продукты с пагинацией
-  async fetchProducts(limit: number = 10, skip: number = 0) {
+  async fetchProducts(limit: number = 100, skip: number = 0) {
     const response = await this.fetchData(
       () => productAPI.fetchProducts(limit, skip),
       ErrorMessages.FETCH_PRODUCTS,

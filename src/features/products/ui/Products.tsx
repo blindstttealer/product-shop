@@ -106,49 +106,12 @@ const Category = styled.span`
   color: #666;
 `;
 
-class TimerStore {
-  timerCounter: number = 0;
-  private timerId: any = null;
-
-  constructor() {
-    makeObservable(this, {
-      timerCounter: observable,
-      start: action,
-      stop: action,
-      time: computed,
-    });
-  }
-
-  start() {
-    if (!this.timerId) {
-      this.timerId = setInterval(() => {
-        this.timerCounter++;
-      }, 1000);
-    } else {
-      window.alert("уже запущен старт");
-    }
-  }
-
-  stop() {
-    if (this.timerId) {
-      clearInterval(this.timerId);
-      this.timerId = null;
-    }
-  }
-
-  get time() {
-    return this.timerCounter;
-  }
-}
-
-const timer = new TimerStore();
-
 export const Products = observer(() => {
   const productStore = useProductStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    productStore.fetchProducts(25);
+    productStore.fetchProducts();
   }, []);
 
   const onClickNavigateProductDetails = (id: number) => {
@@ -156,9 +119,6 @@ export const Products = observer(() => {
   };
   return (
     <Grid>
-      {timer.time}
-      <button onClick={() => timer.start()}>start</button>
-      <button onClick={() => timer.stop()}>stop</button>
       {productStore.state.products?.map((product) => (
         <Card
           onClick={() => onClickNavigateProductDetails(product.id)}
