@@ -5,98 +5,85 @@ import { useCart } from "../../features/cart/lib/useCart";
 import { Product } from "../../features/products/api/productsApi.types";
 
 const Container = styled.div`
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 1rem;
+  margin: ${({ theme }) => theme.spacing.xxl} auto;
+  padding: ${({ theme }) => theme.spacing.lg};
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const ProductWrapper = styled.div`
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  padding: 2rem;
+  background-color: ${({ theme }) => theme.colors.background.secondary};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  box-shadow: ${({ theme }) => theme.boxShadow.md};
+  padding: ${({ theme }) => theme.spacing.xl};
   display: flex;
-  gap: 2rem;
+  gap: ${({ theme }) => theme.spacing.xl};
   max-width: 1000px;
   width: 100%;
   flex-wrap: wrap;
   justify-content: center;
+  border: 1px solid ${({ theme }) => theme.colors.border.normal};
 
   &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: ${({ theme }) => theme.boxShadow.lg};
+    border-color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
 const Image = styled.img`
   width: 100%;
-  max-width: 200px;
+  max-width: 300px;
   height: auto;
-  border-radius: 12px;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   object-fit: cover;
+  box-shadow: ${({ theme }) => theme.boxShadow.sm};
 `;
 
 const Details = styled.div`
   flex: 1;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: ${({ theme }) => theme.spacing.md};
 `;
 
 const Title = styled.h2`
-  font-size: 2rem;
-  font-weight: bold;
-  color: #333;
+  color: ${({ theme }) => theme.colors.text.primary};
+  margin: 0;
 `;
 
 const Description = styled.p`
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  line-height: 1.6;
+  margin: 0;
 `;
 
 const Price = styled.span`
-  font-weight: bold;
-  color: #2a9d8f;
-  font-size: 1.2rem;
-`;
-
-const Category = styled.p`
-  font-size: 1rem;
-  color: #888;
-`;
-
-const Stock = styled.p`
-  font-size: 1rem;
-  color: #888;
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 const AddToCartButton = styled.button`
-  background-color: #2a9d8f;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: bold;
+  background-color: ${({ theme }) => theme.colors.primary};
   border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  margin-top: 1rem;
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  margin-top: ${({ theme }) => theme.spacing.lg};
   cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
+  transition: all 0.3s ease;
+  width: fit-content;
 
   &:hover {
-    background-color: #21867a;
+    background-color: ${({ theme }) => theme.colors.primaryHover};
+    transform: translateY(-2px);
   }
 
   &:active {
-    background-color: #1a6a5b;
+    background-color: ${({ theme }) => theme.colors.primaryActive};
+    transform: translateY(0);
   }
 
   &:disabled {
-    background-color: #ccc;
     cursor: not-allowed;
   }
 `;
@@ -117,7 +104,6 @@ export default function ProductDetail() {
   }, [id]);
 
   const handleAddToCart = () => {
-    // Логика для добавления товара в корзину
     if (product) {
       cart.addToCart(product);
     } else {
@@ -135,9 +121,11 @@ export default function ProductDetail() {
           <Title>{product.title}</Title>
           <Description>{product.description}</Description>
           <Price>${product.price}</Price>
-          <Category>Category: {product.category}</Category>
-          <Stock>In stock: {product.stock}</Stock>
-          <AddToCartButton onClick={handleAddToCart}>Купить</AddToCartButton>
+          <div>Category: {product.category}</div>
+          <div>In stock: {product.stock} items</div>
+          <AddToCartButton onClick={handleAddToCart}>
+            Add to Cart
+          </AddToCartButton>
         </Details>
       </ProductWrapper>
     </Container>
