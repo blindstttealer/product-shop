@@ -5,45 +5,45 @@ export const Container = styled.div`
   max-width: 720px;
   margin: 40px auto;
   padding: 30px 35px;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  background-color: ${({ theme }) => theme.colors.background.primary};
-  box-shadow: ${({ theme }) => theme.boxShadow.md};
+  border-radius: 12px;
+  background-color: ${({ theme }) => theme.color["Background/Background 1"]};
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 `;
 
 export const StyledCard = styled(Card)`
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  background-color: ${({ theme }) => theme.colors.background.secondary};
-  border: 1px solid ${({ theme }) => theme.colors.border.normal};
+  margin-bottom: 16px;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.color["Background/Background 2"]};
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
 
   .ant-card-head {
-    border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
-    background-color: ${({ theme }) => theme.colors.background.secondary};
+    border-bottom: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+    background-color: ${({ theme }) => theme.color["Background/Background 2"]};
 
     .ant-card-head-title {
-      color: ${({ theme }) => theme.colors.text.primary};
+      color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
       font-weight: 500;
     }
   }
 
   .ant-card-body {
-    padding: ${({ theme }) => theme.spacing.lg};
-    color: ${({ theme }) => theme.colors.text.secondary};
+    padding: 16px;
+    color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
   }
 `;
 
 export const Section = styled.section`
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  margin-bottom: 24px;
 `;
 
 export const SectionTitle = styled.h2`
   font-size: 1rem;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.text.primary};
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-  border-left: 5px solid ${({ theme }) => theme.colors.primary};
-  padding-left: ${({ theme }) => theme.spacing.md};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
+  margin-bottom: 16px;
+  border-left: 5px solid ${({ theme }) => theme.color["Primary/Primary 60"]};
+  padding-left: 12px;
   text-transform: uppercase;
 `;
 
@@ -51,21 +51,21 @@ export const Item = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
-  background-color: ${({ theme }) => theme.colors.background.primary};
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background-color: ${({ theme }) => theme.color["Background/Background 1"]};
 `;
 
 export const Label = styled.span`
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
   text-transform: capitalize;
   letter-spacing: 0.04em;
 `;
 
 export const Value = styled.span`
-  color: ${({ theme }) => theme.colors.text.secondary};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -74,24 +74,24 @@ export const Value = styled.span`
 `;
 
 export const NoData = styled.div`
-  color: ${({ theme }) => theme.colors.text.disabled};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 40"]};
   font-style: italic;
-  padding: ${({ theme }) => theme.spacing.lg} 0;
+  padding: 16px 0;
   text-align: center;
 `;
 
 export const EditButton = styled.button`
-  margin-top: ${({ theme }) => theme.spacing.lg};
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme }) => theme.colors.primary};
+  margin-top: 16px;
+  padding: 8px 12px;
+  background-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.primaryHover};
+    background-color: ${({ theme }) => theme.color["Primary/Primary 70"]};
     transform: translateY(-1px);
   }
 
@@ -102,7 +102,7 @@ export const EditButton = styled.button`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: 12px;
   justify-content: space-between;
-  margin-top: ${({ theme }) => theme.spacing.lg};
+  margin-top: 16px;
 `;

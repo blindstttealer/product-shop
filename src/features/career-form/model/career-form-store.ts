@@ -2,7 +2,6 @@ import { makeAutoObservable } from "mobx";
 import { ApplicationFormData } from "./types";
 import { formManager } from "./multi-form-manager";
 
-//TODO При создании формы некорретно отображаются начальные данные, подумать как исправить
 
 export class CareerFormStore {
   constructor(

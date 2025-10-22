@@ -5,29 +5,29 @@ import { useCart } from "../../../features/cart/lib/useCart";
 import { Product } from "../../../features/products/api/productsApi.types";
 
 const Container = styled.div`
-  margin: ${({ theme }) => theme.spacing.xxl} auto;
-  padding: ${({ theme }) => theme.spacing.lg};
+  margin: 32px auto;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const ProductWrapper = styled.div`
-  background-color: ${({ theme }) => theme.colors.background.secondary};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
-  box-shadow: ${({ theme }) => theme.boxShadow.md};
-  padding: ${({ theme }) => theme.spacing.xl};
+  background-color: ${({ theme }) => theme.color["Background/Background 2"]};
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 24px;
   display: flex;
-  gap: ${({ theme }) => theme.spacing.xl};
+  gap: 24px;
   max-width: 1000px;
   width: 100%;
   flex-wrap: wrap;
   justify-content: center;
-  border: 1px solid ${({ theme }) => theme.colors.border.normal};
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.boxShadow.lg};
-    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
   }
 `;
 
@@ -35,9 +35,9 @@ const Image = styled.img`
   width: 100%;
   max-width: 300px;
   height: auto;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border-radius: 8px;
   object-fit: cover;
-  box-shadow: ${({ theme }) => theme.boxShadow.sm};
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const Details = styled.div`
@@ -45,41 +45,41 @@ const Details = styled.div`
   min-width: 300px;
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: 12px;
 `;
 
 const Title = styled.h2`
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
   margin: 0;
 `;
 
 const Description = styled.p`
-  color: ${({ theme }) => theme.colors.text.secondary};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
   line-height: 1.6;
   margin: 0;
 `;
 
 const Price = styled.span`
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.color["Primary/Primary 60"]};
 `;
 
 const AddToCartButton = styled.button`
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
   border: none;
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  margin-top: ${({ theme }) => theme.spacing.lg};
+  padding: 12px 24px;
+  border-radius: 8px;
+  margin-top: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
   width: fit-content;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.primaryHover};
+    background-color: ${({ theme }) => theme.color["Primary/Primary 70"]};
     transform: translateY(-2px);
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.colors.primaryActive};
+    background-color: ${({ theme }) => theme.color["Primary/Primary 80"]};
     transform: translateY(0);
   }
 

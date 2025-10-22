@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { formManager } from "../../model/multi-form-manager";
 import { Form, Input } from "antd";
@@ -32,12 +32,18 @@ export const CareerWelcome = () => {
     setFormName("");
   };
 
+  const StepInfoTitle = useMemo(() => {
+    return formId
+      ? "Продолжить заполнение карточки"
+      : "Приступить к заполнению карточки";
+  }, [formId]);
+
   return (
     <Wrapper>
       <Title>Добро пожаловать в нашу компанию!</Title>
 
-      <StepInfo onClick={handleStartClick}>
-        Приступить к заполнению карточки
+      <StepInfo hasFormId={!!formId} onClick={handleStartClick}>
+        {StepInfoTitle}
       </StepInfo>
 
       <CompanyInfo>

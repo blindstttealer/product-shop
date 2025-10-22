@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Button } from "antd";
 
 export const Container = styled.div`
   margin: 0 auto;
@@ -44,4 +45,29 @@ export const FormInfo = styled.div`
     margin: 6px 0;
     color: #495057;
   }
+`;
+
+export const FormsListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  min-width: 300px;
+  max-width: 400px;
+  max-height: 70vh;
+  overflow-y: auto;
+  border-radius: 8px;
+`;
+
+export const CreateButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+  border-top: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+  margin-top: 12px;
+`;
+
+export const StyledButton = styled(Button)`
+  width: 100%;
+  max-width: 240px;
 `;

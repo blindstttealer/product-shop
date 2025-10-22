@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import {
   CategoryList,
   DeletedProduct,
@@ -6,27 +6,28 @@ import {
   ProductCategories,
   ProductResponse,
 } from "./productsApi.types";
+import { apiService } from "../../../api/services";
 
-class ProductAPI {
+export class ProductAPI {
   private baseURL: string;
 
   constructor(baseURL: string = "https://dummyjson.com/products") {
     this.baseURL = baseURL;
   }
 
-  async fetchProducts(
-    limit: number = 10,
-    skip: number = 0,
+  static async fetchProducts(
+    params?: {
+      limit?: number;
+      skip?: number;
+    },
+    config: AxiosRequestConfig = {},
   ): Promise<ProductResponse> {
-    try {
-      const response = await axios.get(
-        `${this.baseURL}?limit=${limit}&skip=${skip}`,
-      );
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    return apiService
+      .get<ProductResponse>("https://dummyjson.com/products", {
+        params: params,
+        ...config,
+      })
+      .then((response) => response.data);
   }
 
   async fetchProductById(id: number): Promise<Product> {
@@ -168,5 +169,3 @@ class ProductAPI {
     }
   }
 }
-
-export const productAPI = new ProductAPI();

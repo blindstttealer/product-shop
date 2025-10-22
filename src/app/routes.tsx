@@ -11,29 +11,26 @@ import Cart from "../pages/cart/cart-page";
 import { CareerWelcome } from "../features/career-form/ui/career-welcome/CareerWelcome";
 import { CareerForms } from "../features/career-form/ui/career-forms/CareerForms";
 
-export const appRouter = createBrowserRouter(
-  [
-    {
-      path: "/",
-      Component: MainLayout,
-      children: [
-        { index: true, Component: About },
-        { path: "promotion", Component: Promotion },
-        {
-          path: "careers",
-          children: [
-            { index: true, Component: CareerWelcome },
-            { path: "form/:formId", Component: CareerForms },
-          ],
-        },
-        { path: "delivery", Component: Delivery },
-        { path: "favorites", Component: Favorites },
-        { path: "about", Component: About },
-        { path: "products", Component: Products },
-        { path: "products/:id", Component: ProductDetail },
-        { path: "cart", Component: Cart },
-      ],
-    },
-  ],
-  { basename: "/product-shop" },
-);
+export const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    Component: MainLayout,
+    children: [
+      { index: true, Component: About },
+      { path: "promotion", Component: Promotion },
+      {
+        path: "careers",
+        children: [
+          { index: true, Component: CareerWelcome },
+          { path: "form/:formId", Component: CareerForms },
+        ],
+      },
+      { path: "delivery", Component: Delivery },
+      { path: "favorites", Component: Favorites },
+      { path: "about", Component: About },
+      { path: "products", Component: Products },
+      { path: "products/:id", Component: ProductDetail },
+      { path: "cart", Component: Cart },
+    ],
+  },
+]);

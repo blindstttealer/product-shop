@@ -4,18 +4,11 @@ import { useParams } from "react-router";
 import { formManager } from "../../model/multi-form-manager";
 import { UniversalForm } from "../../../../components/ui/universal-step-form/UniversalStepForm";
 import { AddressInfo } from "../../model/types";
-import { useEffect } from "react";
 
 export const AdressInfoStep = observer(() => {
-  const { formId } = useParams<{ formId: string }>();
-  const form = formManager.getForm(formId || "");
-  console.log("current form", formManager.currentForm);
+  const form = formManager.currentForm;
 
-  useEffect(() => {
-    if (formId) {
-      formManager.switchForm(formId);
-    }
-  }, [formId]);
+  console.log("current form", formManager.currentForm);
 
   if (!form) return <div>Форма не найдена</div>;
 

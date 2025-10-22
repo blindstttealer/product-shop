@@ -5,77 +5,94 @@ import { steps } from "../const";
 import { useEffect, useState } from "react";
 import { formManager } from "../../model/multi-form-manager";
 import { useParams, useNavigate } from "react-router";
-import { Button, Form, Input, Modal, Popover, Space, Spin } from "antd";
+import { Button, Popover, Spin } from "antd";
 import { CareerFormList } from "./ui/career-form-list/CareerFormList";
 import {
   Container,
   ControlsRow,
+  CreateButtonWrapper,
   FormContent,
   FormInfo,
+  FormsListContainer,
   HeaderSection,
   ProgressContainer,
+  StyledButton,
 } from "./styles";
-import styled from "styled-components";
-
-const FormsListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px;
-  min-width: 300px;
-  max-width: 400px;
-  max-height: 70vh;
-  overflow-y: auto;
-  border-radius: 8px;
-`;
-
-const CreateButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  padding-top: 8px;
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
-  margin-top: 12px;
-`;
-
-const StyledButton = styled(Button)`
-  width: 100%;
-  max-width: 240px;
-`;
+import { CreateFormModal } from "./ui/create-form-modal/CreateFormModal";
 
 export const CareerForms = observer(() => {
   const { formId } = useParams<{ formId: string }>();
   const navigate = useNavigate();
+  const formList = formManager.formList;
+  const currentForm = formManager.currentForm;
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formName, setFormName] = useState("");
   const [formNameError, setFormNameError] = useState("");
 
+  if (!formId) return <Spin spinning={isLoading} />;
+
+  const onSwitchFormHandler = (id: string) => {
+    setIsLoading(true);
+    formManager.switchForm(formId).then(() => {
+      navigate(`/careers/form/${id}`);
+      setIsLoading(false);
+    });
+  };
+
+  const onDeleteFormHandler = (id: string) => {
+    formManager.deleteForm(id);
+
+    if (id === formId) {
+      const nextForm = formList.find((f) => f.id !== id);
+      navigate(`/careers/form/${nextForm?.id}`);
+    }
+  };
+
+  const onEditFormHandler = (id: string, text: string) => {
+    formManager.editForm(id, text);
+  };
+
   useEffect(() => {
     if (formId) {
-      setIsLoading(true);
-      formManager.switchForm(formId).finally(() => setIsLoading(false));
+      onSwitchFormHandler(formId);
     }
   }, [formId]);
 
-  const currentForm = formManager.getForm(formId || "");
-
   if (isLoading) return <Spin spinning={isLoading} />;
+
   if (!currentForm) {
     navigate("/careers");
     return null;
   }
 
-  const { step, data } = currentForm;
-
-  const handleCreateNewForm = () => {
+  const createNewFormHandler = () => {
     const newForm = formManager.createForm({}, formName);
     navigate(`/careers/form/${newForm.id}`);
   };
 
+  const cancelNewFormHandler = () => {
+    setIsModalVisible(false);
+    setFormName("");
+    setFormNameError("");
+  };
+
+  const onChangeFormNameHandler = (name: string) => {
+    setFormName(name);
+    if (formNameError) setFormNameError("");
+  };
+
   const popoverContent = (
     <FormsListContainer>
-      <CareerFormList />
+      <CareerFormList
+        currentFormId={formId}
+        onSwitchForm={onSwitchFormHandler}
+        onDeleteForm={onDeleteFormHandler}
+        onEditForm={onEditFormHandler}
+        formList={formList}
+      />
       <CreateButtonWrapper>
         <StyledButton size="large" onClick={() => setIsModalVisible(true)}>
           Создать новую форму
@@ -86,38 +103,18 @@ export const CareerForms = observer(() => {
 
   return (
     <Container>
-      <Modal
-        title="Новая форма"
-        open={isModalVisible}
-        onOk={handleCreateNewForm}
-        onCancel={() => {
-          setIsModalVisible(false);
-          setFormName("");
-          setFormNameError("");
-        }}
-        okText="Создать"
-        cancelText="Отмена"
-      >
-        <Form layout="vertical">
-          <Form.Item
-            label="Название формы"
-            validateStatus={formNameError ? "error" : ""}
-            help={formNameError}
-          >
-            <Input
-              value={formName}
-              onChange={(e) => {
-                setFormName(e.target.value);
-                if (formNameError) setFormNameError("");
-              }}
-              placeholder="Введите название формы"
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
+      <CreateFormModal
+        formName={formName}
+        error={formNameError}
+        isModalOpen={isModalVisible}
+        onOkHandler={createNewFormHandler}
+        onCancelHandler={cancelNewFormHandler}
+        onChangeFormName={onChangeFormNameHandler}
+      />
+
       <HeaderSection>
         <ProgressContainer>
-          <ProgressSteps steps={steps} current={step} />
+          <ProgressSteps steps={steps} current={currentForm.step} />
         </ProgressContainer>
 
         <ControlsRow>
@@ -137,7 +134,7 @@ export const CareerForms = observer(() => {
       <FormInfo>
         <h4>Информация о текущей форме:</h4>
         <p>ID: {formId}</p>
-        <p>Шаг: {step}</p>
+        <p>Шаг: {currentForm.step}</p>
       </FormInfo>
     </Container>
   );

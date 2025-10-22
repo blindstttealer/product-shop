@@ -11,7 +11,7 @@ export const StyledCheckbox = styled(AntCheckbox)<{ $error?: boolean }>`
   && {
     .ant-checkbox-inner {
       border-color: ${({ $error, theme }) =>
-        $error ? theme.colors.error : ""};
+        $error ? theme.color["Error/Error 40"] : ""};
     }
 
     .ant-checkbox + span {
@@ -23,11 +23,11 @@ export const StyledCheckbox = styled(AntCheckbox)<{ $error?: boolean }>`
 export const HelperText = styled(Typography.Text)`
   font-size: 12px;
   margin-left: 24px;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 40"]};
 `;
 
 export const ErrorText = styled(Typography.Text)`
   font-size: 12px;
   margin-left: 24px;
-  color: ${({ theme }) => theme.colors.error};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 40"]};
 `;
