@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useCart } from "../lib/useCart";
 import styled from "styled-components";
-import { Product } from "../../products/ui/Products";
+import { Product } from "../../products/api/productsApi.types";
 
 type Props = {
   product: Product;
@@ -10,21 +10,33 @@ type Props = {
 const ItemCard = styled.div`
   display: flex;
   align-items: center;
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  gap: 2rem;
-  margin-bottom: 1.5rem;
+  background: ${({ theme }) => theme.color["Background/Background 2"]};
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  gap: 24px;
+  margin-bottom: 16px;
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+
+  &:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    border-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
+  }
+
+  @media (max-width: 576px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 `;
 
 const Image = styled.img`
   width: 100px;
   height: 100px;
   object-fit: contain;
-  border-radius: 12px;
-  border: 1px solid #eee;
-  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+  background-color: ${({ theme }) => theme.color["Background/Background 3"]};
 `;
 
 const Content = styled.div`
@@ -32,27 +44,32 @@ const Content = styled.div`
   justify-content: space-between;
   align-items: center;
   flex: 1;
-  gap: 2rem;
+  gap: 24px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 576px) {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 12px;
+    width: 100%;
   }
 `;
 
 const Title = styled.h3`
-  font-size: 1.1rem;
+  font-size: 16px;
   font-weight: 600;
-  color: #222;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
   margin: 0;
   width: 200px;
+
+  @media (max-width: 576px) {
+    width: 100%;
+  }
 `;
 
 const Price = styled.p`
-  color: #9c27b0;
-  font-size: 1rem;
-  font-weight: bold;
+  color: ${({ theme }) => theme.color["Primary/Primary 60"]};
+  font-size: 14px;
+  font-weight: 700;
   margin: 0;
   min-width: 80px;
   text-align: center;
@@ -61,57 +78,65 @@ const Price = styled.p`
 const QuantityContainer = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
   border-radius: 8px;
   overflow: hidden;
   height: 36px;
+  background: ${({ theme }) => theme.color["Background/Background 1"]};
 `;
 
 const QuantityBtn = styled.button`
-  background: #fff;
+  background: ${({ theme }) => theme.color["Background/Background 1"]};
   border: none;
-  padding: 0 0.9rem;
-  font-size: 1.2rem;
+  padding: 0 12px;
+  font-size: 16px;
   cursor: pointer;
-  color: #444;
-  transition: background 0.2s;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
 
   &:hover {
-    background: #f5f5f5;
+    background: ${({ theme }) => theme.color["Background/Background 2"]};
+    border-radius: 8px;
   }
 
   &:active {
-    background: #e0e0e0;
+    background: ${({ theme }) => theme.color["Background/Background 3"]};
   }
 
   &:disabled {
-    color: #aaa;
+    color: ${({ theme }) => theme.color["Neutral/Neutral 40"]};
     cursor: not-allowed;
   }
 `;
 
 const QuantityValue = styled.div`
-  padding: 0 1rem;
-  font-size: 1rem;
+  padding: 0 12px;
+  font-size: 14px;
   font-weight: 500;
-  color: #333;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
 `;
 
 const RemoveButton = styled.button`
   background: none;
-  color: #f44336;
+  color: ${({ theme }) => theme.color["Error/Error 60"]};
   font-weight: 500;
   border: none;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 12px;
   transition: color 0.2s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
 
   &:hover {
-    color: #d32f2f;
+    color: ${({ theme }) => theme.color["Error/Error 70"]};
+    background: ${({ theme }) => theme.color["Error/Error 10"]};
   }
 
   &:active {
-    color: #b71c1c;
+    color: ${({ theme }) => theme.color["Error/Error 80"]};
+  }
+
+  @media (max-width: 576px) {
+    align-self: flex-end;
   }
 `;
 
@@ -128,7 +153,10 @@ export const CartItem = observer(({ product }: Props) => {
         <Title>{item.title}</Title>
         <Price>${item.price}</Price>
         <QuantityContainer>
-          <QuantityBtn onClick={() => cart.decrementQuantity(product.id)}>
+          <QuantityBtn
+            onClick={() => cart.decrementQuantity(product.id)}
+            disabled={item.quantity <= 1}
+          >
             −
           </QuantityBtn>
           <QuantityValue>{item.quantity}</QuantityValue>

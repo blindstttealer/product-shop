@@ -1,66 +1,94 @@
-// components/features/cart/CartPage.tsx
 import { observer } from "mobx-react-lite";
 import { useCart } from "../lib/useCart";
 import { CartItem } from "./CartItem";
 import styled from "styled-components";
 
 const PageWrapper = styled.div`
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 1rem;
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 16px;
 `;
 
 const Title = styled.h1`
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+  font-size: 24px;
+  margin-bottom: 32px;
   text-align: center;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
+  font-weight: 700;
 `;
 
 const ItemsList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 16px;
 `;
 
 const Summary = styled.div`
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background-color: #f7f7f7;
+  margin-top: 32px;
+  padding: 16px;
+  background-color: ${({ theme }) => theme.color["Background/Background 2"]};
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  text-align: right;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
 `;
 
 const SummaryRow = styled.div`
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:last-child {
+    margin-bottom: 0;
+    padding-top: 8px;
+    border-top: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+    font-weight: 700;
+  }
+`;
+
+const SummaryLabel = styled.span`
+  color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
+`;
+
+const SummaryValue = styled.span`
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
 `;
 
 const Empty = styled.div`
   text-align: center;
-  font-size: 1.5rem;
-  color: #999;
-  margin-top: 5rem;
+  font-size: 24px;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 40"]};
+  margin-top: 32px;
+  padding: 16px;
+`;
+
+const CheckoutButton = styled.button`
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  background-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 00"]};
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color["Primary/Primary 70"]};
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    background-color: ${({ theme }) => theme.color["Primary/Primary 80"]};
+    transform: translateY(0);
+  }
 `;
 
 export const CartPage = observer(() => {
   const cart = useCart();
-
-  // type SuperType = {
-  //   key: "value";
-  // };
-  //
-  // type MyType = {
-  //   key: "value";
-  //   prop: "value";
-  // };
-  //
-  // const myType: MyType = {
-  //   key: "value",
-  //   prop: "value",
-  // };
-  //
-  // const superType: SuperType = myType;
 
   if (cart.cartItems.length === 0) {
     return <Empty>🛒 Ваша корзина пуста</Empty>;
@@ -76,11 +104,16 @@ export const CartPage = observer(() => {
       </ItemsList>
       <Summary>
         <SummaryRow>
-          <strong>Товаров:</strong> {cart.totalItems}
+          <SummaryLabel>Товаров:</SummaryLabel>
+          <SummaryValue>{cart.totalItems}</SummaryValue>
         </SummaryRow>
         <SummaryRow>
-          <strong>Сумма:</strong> ${cart.totalPrice.toFixed(2)}
+          <SummaryLabel>Сумма:</SummaryLabel>
+          <SummaryValue>${cart.totalPrice.toFixed(2)}</SummaryValue>
         </SummaryRow>
+        <CheckoutButton onClick={() => console.log("Proceed to checkout")}>
+          Оформить заказ
+        </CheckoutButton>
       </Summary>
     </PageWrapper>
   );

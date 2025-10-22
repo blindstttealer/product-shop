@@ -1,51 +1,81 @@
 import styled from "styled-components";
+import { Modal } from "antd";
 
 export const Wrapper = styled.div`
-  padding: 32px 40px;
-  background: #f0f9ff;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgb(0 123 255 / 0.25);
-  max-width: 600px;
-  margin: 40px auto;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #034078;
+  padding: 24px 32px;
+  background: ${({ theme }) => theme.color["Neutral/Neutral 00"]};
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 768px;
+  margin: 32px auto;
+  font-family: "VTB Group UI", sans-serif;
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
+  }
 `;
 
 export const Title = styled.h2`
-  margin-bottom: 24px;
-  font-size: 2rem;
+  margin-bottom: 16px;
+  font-size: 24px;
   font-weight: 700;
   text-align: center;
-  color: #0263a0;
+  color: ${({ theme }) => theme.color["Primary/Primary 60"]};
 `;
 
-export const StepInfo = styled.button`
+export const StepInfo = styled.button<{ hasFormId?: boolean }>`
   cursor: pointer;
-  background-color: #3bc14a;
-  color: white;
+  background-color: ${({ theme, hasFormId }) =>
+    hasFormId
+      ? theme.color["Attention/Attention 70"]
+      : theme.color["Success/Success 70"]};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 00"]};
   font-weight: 700;
   padding: 16px 24px;
-  border-radius: 12px;
+  border-radius: 16px;
   border: none;
   width: 100%;
-  font-size: 1.1rem;
-  transition: background-color 0.3s ease;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
 
   &:hover {
-    background-color: #32a239;
+    background-color: ${({ theme, hasFormId }) =>
+      hasFormId
+        ? theme.color["Attention/Attention 80"]
+        : theme.color["Success/Success 80"]};
+    transform: translateY(-1px);
   }
 
-  &:focus {
-    outline: 2px solid #268d26;
+  &:active {
+    background-color: ${({ theme, hasFormId }) =>
+      hasFormId
+        ? theme.color["Attention/Attention 90"]
+        : theme.color["Success/Success 90"]};
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: 2px solid
+      ${({ theme, hasFormId }) =>
+        hasFormId
+          ? theme.color["Attention/Attention 60"]
+          : theme.color["Success/Success 60"]};
     outline-offset: 2px;
   }
 `;
 
 export const CompanyInfo = styled.p`
-  margin-top: 28px;
-  font-size: 1.15rem;
-  line-height: 1.6;
-  color: #1a1a1a;
+  margin-top: 24px;
+  font-size: 16px;
+  line-height: 24px;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
   text-align: center;
   user-select: none;
 `;
+
+export const StyledModal = styled(Modal)``;

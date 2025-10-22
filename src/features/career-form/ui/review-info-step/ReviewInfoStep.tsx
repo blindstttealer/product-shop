@@ -3,17 +3,15 @@ import {
   Container,
   Item,
   Label,
-  Section,
-  Value,
   SectionTitle,
   NoData,
   EditButton,
+  StyledCard,
 } from "./styles";
 import { EditField } from "../../../../components/ui/edit-field/EditField";
 import { useEmailSender } from "../../../../shared/api/useEmailSender";
 import { formManager } from "../../model/multi-form-manager";
 import { useParams } from "react-router";
-import { Card } from "antd";
 
 export const ReviewInfoStep = observer(() => {
   const { formId } = useParams<{ formId: string }>();
@@ -30,12 +28,8 @@ export const ReviewInfoStep = observer(() => {
 
   const { data } = currentForm;
 
-  console.log("data", data);
   const personalInfo = data.personalInfo || {};
   const addressInfo = data.addressInfo || {};
-  console.log("currentForm", currentForm);
-
-  console.log("personalInfo addressInfo", personalInfo, addressInfo);
 
   const emailSender = useEmailSender();
 
@@ -59,7 +53,7 @@ export const ReviewInfoStep = observer(() => {
         onSuccess: () => console.log("Email sent successfully"),
         onError: (error) => console.error("Email sending failed:", error),
         onFinally: () => {},
-      },
+      }
     );
   };
 
@@ -74,7 +68,7 @@ export const ReviewInfoStep = observer(() => {
 
   return (
     <Container>
-      <Card>
+      <StyledCard>
         <SectionTitle>Персональная информация</SectionTitle>
 
         {Object.keys(personalInfo).length > 0 ? (
@@ -91,21 +85,25 @@ export const ReviewInfoStep = observer(() => {
         ) : (
           <NoData>Нет данных</NoData>
         )}
-      </Card>
+      </StyledCard>
 
-      <Card>
+      <StyledCard>
         <SectionTitle>Адресная информация</SectionTitle>
         {Object.keys(addressInfo).length > 0 ? (
           Object.entries(addressInfo).map(([key, val]) => (
             <Item key={key}>
               <Label>{formatLabel(key)}</Label>
-              <Value>{String(val)}</Value>
+              <EditField
+                text={String(val)}
+                onFinishEditMode={handleFinishEditMode}
+                onStartEditMode={handleStartEditMode}
+              />
             </Item>
           ))
         ) : (
           <NoData>Нет данных</NoData>
         )}
-      </Card>
+      </StyledCard>
 
       <div
         style={{

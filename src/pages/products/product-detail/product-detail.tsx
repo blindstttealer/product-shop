@@ -1,102 +1,89 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import styled from "styled-components";
-import { useCart } from "../../features/cart/lib/useCart";
-import { Product } from "../../features/products/api/productsApi.types";
+import { useCart } from "../../../features/cart/lib/useCart";
+import { Product } from "../../../features/products/api/productsApi.types";
 
 const Container = styled.div`
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 1rem;
+  margin: 32px auto;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const ProductWrapper = styled.div`
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  padding: 2rem;
+  background-color: ${({ theme }) => theme.color["Background/Background 2"]};
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 24px;
   display: flex;
-  gap: 2rem;
+  gap: 24px;
   max-width: 1000px;
   width: 100%;
   flex-wrap: wrap;
   justify-content: center;
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
 
   &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
   }
 `;
 
 const Image = styled.img`
   width: 100%;
-  max-width: 200px;
+  max-width: 300px;
   height: auto;
-  border-radius: 12px;
+  border-radius: 8px;
   object-fit: cover;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const Details = styled.div`
   flex: 1;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 12px;
 `;
 
 const Title = styled.h2`
-  font-size: 2rem;
-  font-weight: bold;
-  color: #333;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
+  margin: 0;
 `;
 
 const Description = styled.p`
-  font-size: 1rem;
-  color: #555;
-  line-height: 1.5;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
+  line-height: 1.6;
+  margin: 0;
 `;
 
 const Price = styled.span`
-  font-weight: bold;
-  color: #2a9d8f;
-  font-size: 1.2rem;
-`;
-
-const Category = styled.p`
-  font-size: 1rem;
-  color: #888;
-`;
-
-const Stock = styled.p`
-  font-size: 1rem;
-  color: #888;
+  color: ${({ theme }) => theme.color["Primary/Primary 60"]};
 `;
 
 const AddToCartButton = styled.button`
-  background-color: #2a9d8f;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: bold;
+  background-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
   border: none;
-  padding: 0.8rem 1.5rem;
+  padding: 12px 24px;
   border-radius: 8px;
-  margin-top: 1rem;
+  margin-top: 16px;
   cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
+  transition: all 0.3s ease;
+  width: fit-content;
 
   &:hover {
-    background-color: #21867a;
+    background-color: ${({ theme }) => theme.color["Primary/Primary 70"]};
+    transform: translateY(-2px);
   }
 
   &:active {
-    background-color: #1a6a5b;
+    background-color: ${({ theme }) => theme.color["Primary/Primary 80"]};
+    transform: translateY(0);
   }
 
   &:disabled {
-    background-color: #ccc;
     cursor: not-allowed;
   }
 `;
@@ -117,7 +104,6 @@ export default function ProductDetail() {
   }, [id]);
 
   const handleAddToCart = () => {
-    // Логика для добавления товара в корзину
     if (product) {
       cart.addToCart(product);
     } else {
@@ -135,9 +121,11 @@ export default function ProductDetail() {
           <Title>{product.title}</Title>
           <Description>{product.description}</Description>
           <Price>${product.price}</Price>
-          <Category>Category: {product.category}</Category>
-          <Stock>In stock: {product.stock}</Stock>
-          <AddToCartButton onClick={handleAddToCart}>Купить</AddToCartButton>
+          <div>Category: {product.category}</div>
+          <div>In stock: {product.stock} items</div>
+          <AddToCartButton onClick={handleAddToCart}>
+            Add to Cart
+          </AddToCartButton>
         </Details>
       </ProductWrapper>
     </Container>
