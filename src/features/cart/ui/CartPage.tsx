@@ -4,85 +4,85 @@ import { CartItem } from "./CartItem";
 import styled from "styled-components";
 
 const PageWrapper = styled.div`
-  max-width: ${({ theme }) => theme.breakpoints.xl};
-  margin: ${({ theme }) => theme.spacing.xxl} auto;
-  padding: ${({ theme }) => theme.spacing.lg};
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 16px;
 `;
 
 const Title = styled.h1`
-  font-size: ${({ theme }) => theme.fontSizes.xxl};
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  font-size: 24px;
+  margin-bottom: 32px;
   text-align: center;
-  color: ${({ theme }) => theme.colors.text.primary};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
+  font-weight: 700;
 `;
 
 const ItemsList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.lg};
+  gap: 16px;
 `;
 
 const Summary = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.xl};
-  padding: ${({ theme }) => theme.spacing.lg};
-  background-color: ${({ theme }) => theme.colors.background.secondary};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
-  box-shadow: ${({ theme }) => theme.boxShadow.sm};
-  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  margin-top: 32px;
+  padding: 16px;
+  background-color: ${({ theme }) => theme.color["Background/Background 2"]};
+  border-radius: 12px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
 `;
 
 const SummaryRow = styled.div`
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
-  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   &:last-child {
     margin-bottom: 0;
-    padding-top: ${({ theme }) => theme.spacing.sm};
-    border-top: 1px solid ${({ theme }) => theme.colors.border.light};
-    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    padding-top: 8px;
+    border-top: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+    font-weight: 700;
   }
 `;
 
 const SummaryLabel = styled.span`
-  color: ${({ theme }) => theme.colors.text.secondary};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
 `;
 
 const SummaryValue = styled.span`
-  color: ${({ theme }) => theme.colors.text.primary};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
 `;
 
 const Empty = styled.div`
   text-align: center;
-  font-size: ${({ theme }) => theme.fontSizes.xxl};
-  color: ${({ theme }) => theme.colors.text.disabled};
-  margin-top: ${({ theme }) => theme.spacing.xxl};
-  padding: ${({ theme }) => theme.spacing.xl};
+  font-size: 24px;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 40"]};
+  margin-top: 32px;
+  padding: 16px;
 `;
 
 const CheckoutButton = styled.button`
   width: 100%;
-  margin-top: ${({ theme }) => theme.spacing.lg};
-  padding: ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.text.inverse};
+  margin-top: 16px;
+  padding: 12px;
+  background-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 00"]};
   border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.primaryHover};
+    background-color: ${({ theme }) => theme.color["Primary/Primary 70"]};
     transform: translateY(-1px);
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.colors.primaryActive};
+    background-color: ${({ theme }) => theme.color["Primary/Primary 80"]};
     transform: translateY(0);
   }
 `;

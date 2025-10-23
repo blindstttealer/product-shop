@@ -18,18 +18,18 @@ export const GlobalStyles = createGlobalStyle`
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.5;
-    color: ${({ theme }) => theme.colors.text.primary};
-    background-color: ${({ theme }) => theme.colors.background.primary};
+    color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
+    background-color: ${({ theme }) => theme.color["Background/Background 1"]};
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   a {
-    color: ${({ theme }) => theme.colors.text.primary};
+    color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
     text-decoration: none;
     transition: color 0.3s ease;
 
     &:hover {
-      color: ${({ theme }) => theme.colors.text.secondary};
+      color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
     }
   }
 
@@ -53,29 +53,27 @@ export const GlobalStyles = createGlobalStyle`
     height: auto;
   }
 
-  /* Сброс стилей для Ant Design */
   .ant-layout {
-    background: ${({ theme }) => theme.colors.background.primary};
+    background: ${({ theme }) => theme.color["Background/Background 1"]};
   }
 
   .ant-btn-primary {
-    background: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.color["Primary/Primary 60"]};
     
     &:hover {
-      background: ${({ theme }) => theme.colors.primaryHover};
+      background: ${({ theme }) => theme.color["Primary/Primary 70"]};
     }
     
     &:active {
-      background: ${({ theme }) => theme.colors.primaryActive};
+      background: ${({ theme }) => theme.color["Primary/Primary 80"]};
     }
   }
 
-  /* Кастомные глобальные классы */
   .container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 ${({ theme }) => theme.spacing.md};
+    padding: 0 16px;
   }
 
   .sr-only {

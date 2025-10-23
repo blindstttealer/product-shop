@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useCart } from "../lib/useCart";
 import styled from "styled-components";
-import { Product } from "../../products/ui/Products";
+import { Product } from "../../products/api/productsApi.types";
 
 type Props = {
   product: Product;
@@ -10,23 +10,23 @@ type Props = {
 const ItemCard = styled.div`
   display: flex;
   align-items: center;
-  background: ${({ theme }) => theme.colors.background.secondary};
-  padding: ${({ theme }) => theme.spacing.lg};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
-  box-shadow: ${({ theme }) => theme.boxShadow.sm};
-  gap: ${({ theme }) => theme.spacing.xl};
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-  border: 1px solid ${({ theme }) => theme.colors.border.normal};
+  background: ${({ theme }) => theme.color["Background/Background 2"]};
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  gap: 24px;
+  margin-bottom: 16px;
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.boxShadow.md};
-    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    border-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+  @media (max-width: 576px) {
     flex-direction: column;
     align-items: flex-start;
-    gap: ${({ theme }) => theme.spacing.md};
+    gap: 12px;
   }
 `;
 
@@ -34,9 +34,9 @@ const Image = styled.img`
   width: 100px;
   height: 100px;
   object-fit: contain;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  border: 1px solid ${({ theme }) => theme.colors.border.light};
-  background-color: ${({ theme }) => theme.colors.background.tertiary};
+  border-radius: 8px;
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+  background-color: ${({ theme }) => theme.color["Background/Background 3"]};
 `;
 
 const Content = styled.div`
@@ -44,32 +44,32 @@ const Content = styled.div`
   justify-content: space-between;
   align-items: center;
   flex: 1;
-  gap: ${({ theme }) => theme.spacing.xl};
+  gap: 24px;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+  @media (max-width: 576px) {
     flex-direction: column;
     align-items: flex-start;
-    gap: ${({ theme }) => theme.spacing.md};
+    gap: 12px;
     width: 100%;
   }
 `;
 
 const Title = styled.h3`
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 16px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
   margin: 0;
   width: 200px;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+  @media (max-width: 576px) {
     width: 100%;
   }
 `;
 
 const Price = styled.p`
-  color: ${({ theme }) => theme.colors.primary};
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  color: ${({ theme }) => theme.color["Primary/Primary 60"]};
+  font-size: 14px;
+  font-weight: 700;
   margin: 0;
   min-width: 80px;
   text-align: center;
@@ -78,64 +78,64 @@ const Price = styled.p`
 const QuantityContainer = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid ${({ theme }) => theme.colors.border.normal};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+  border-radius: 8px;
   overflow: hidden;
   height: 36px;
-  background: ${({ theme }) => theme.colors.background.primary};
+  background: ${({ theme }) => theme.color["Background/Background 1"]};
 `;
 
 const QuantityBtn = styled.button`
-  background: ${({ theme }) => theme.colors.background.primary};
+  background: ${({ theme }) => theme.color["Background/Background 1"]};
   border: none;
-  padding: 0 ${({ theme }) => theme.spacing.md};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
+  padding: 0 12px;
+  font-size: 16px;
   cursor: pointer;
-  color: ${({ theme }) => theme.colors.text.secondary};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.states.hover};
-    border-radius: ${({ theme }) => theme.borderRadius.md};
+    background: ${({ theme }) => theme.color["Background/Background 2"]};
+    border-radius: 8px;
   }
 
   &:active {
-    background: ${({ theme }) => theme.colors.states.active};
+    background: ${({ theme }) => theme.color["Background/Background 3"]};
   }
 
   &:disabled {
-    color: ${({ theme }) => theme.colors.text.disabled};
+    color: ${({ theme }) => theme.color["Neutral/Neutral 40"]};
     cursor: not-allowed;
   }
 `;
 
 const QuantityValue = styled.div`
-  padding: 0 ${({ theme }) => theme.spacing.md};
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
-  color: ${({ theme }) => theme.colors.text.primary};
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
 `;
 
 const RemoveButton = styled.button`
   background: none;
-  color: ${({ theme }) => theme.colors.error};
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  color: ${({ theme }) => theme.color["Error/Error 60"]};
+  font-weight: 500;
   border: none;
   cursor: pointer;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-size: 12px;
   transition: color 0.2s ease;
-  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  padding: 4px 8px;
+  border-radius: 4px;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.errorHover};
-    background: ${({ theme }) => theme.colors.errorLight};
+    color: ${({ theme }) => theme.color["Error/Error 70"]};
+    background: ${({ theme }) => theme.color["Error/Error 10"]};
   }
 
   &:active {
-    color: ${({ theme }) => theme.colors.errorActive};
+    color: ${({ theme }) => theme.color["Error/Error 80"]};
   }
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+  @media (max-width: 576px) {
     align-self: flex-end;
   }
 `;

@@ -2,65 +2,78 @@ import styled from "styled-components";
 import { Modal } from "antd";
 
 export const Wrapper = styled.div`
-  padding: ${({ theme }) => theme.spacing.xl}
-    ${({ theme }) => theme.spacing.xxl};
-  background: ${({ theme }) => theme.colors.background.secondary};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
-  box-shadow: ${({ theme }) => theme.boxShadow.md};
-  max-width: ${({ theme }) => theme.breakpoints.md};
-  margin: ${({ theme }) => theme.spacing.xxl} auto;
-  font-family: ${({ theme }) => theme.fontFamily.primary};
-  border: 1px solid ${({ theme }) => theme.colors.border.light};
+  padding: 24px 32px;
+  background: ${({ theme }) => theme.color["Neutral/Neutral 00"]};
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 768px;
+  margin: 32px auto;
+  font-family: "VTB Group UI", sans-serif;
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.boxShadow.lg};
-    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
   }
 `;
 
 export const Title = styled.h2`
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-  font-size: ${({ theme }) => theme.fontSizes.xxl};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 700;
   text-align: center;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.color["Primary/Primary 60"]};
 `;
 
-export const StepInfo = styled.button`
+export const StepInfo = styled.button<{ hasFormId?: boolean }>`
   cursor: pointer;
-  background-color: ${({ theme }) => theme.colors.success};
-  color: ${({ theme }) => theme.colors.text.inverse};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.xl};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  background-color: ${({ theme, hasFormId }) =>
+    hasFormId
+      ? theme.color["Attention/Attention 70"]
+      : theme.color["Success/Success 70"]};
+  color: ${({ theme }) => theme.color["Neutral/Neutral 00"]};
+  font-weight: 700;
+  padding: 16px 24px;
+  border-radius: 16px;
   border: none;
   width: 100%;
-  font-size: ${({ theme }) => theme.fontSizes.lg};
+  font-size: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.2s ease;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.successHover};
+    background-color: ${({ theme, hasFormId }) =>
+      hasFormId
+        ? theme.color["Attention/Attention 80"]
+        : theme.color["Success/Success 80"]};
     transform: translateY(-1px);
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.colors.successActive};
+    background-color: ${({ theme, hasFormId }) =>
+      hasFormId
+        ? theme.color["Attention/Attention 90"]
+        : theme.color["Success/Success 90"]};
     transform: translateY(0);
   }
 
   &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.success};
+    outline: 2px solid
+      ${({ theme, hasFormId }) =>
+        hasFormId
+          ? theme.color["Attention/Attention 60"]
+          : theme.color["Success/Success 60"]};
     outline-offset: 2px;
   }
 `;
 
 export const CompanyInfo = styled.p`
-  margin-top: ${({ theme }) => theme.spacing.xl};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-  line-height: ${({ theme }) => theme.lineHeights.md};
-  color: ${({ theme }) => theme.colors.text.secondary};
+  margin-top: 24px;
+  font-size: 16px;
+  line-height: 24px;
+  color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
   text-align: center;
   user-select: none;
 `;

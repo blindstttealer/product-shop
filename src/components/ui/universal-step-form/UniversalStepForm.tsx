@@ -43,7 +43,7 @@ function getRules<T>(field: Field<T>) {
 }
 type FieldType = "text" | "textArea" | "date" | "select" | "phone";
 
-type Field<T> = {
+export type Field<T> = {
   name: keyof T;
   label: string;
   required?: boolean;
@@ -128,32 +128,32 @@ const StyledForm = styled(Form)`
 const StyledCard = styled(Card)`
   width: 100%;
   max-width: 700px;
-  margin: ${({ theme }) => theme.spacing.lg} auto;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  box-shadow: ${({ theme }) => theme.boxShadow.md};
+  margin: 24px auto;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
-  background-color: ${({ theme }) => theme.colors.background.primary};
-  border: 1px solid ${({ theme }) => theme.colors.border.normal};
+  background-color: ${({ theme }) => theme.color["Background/Background 1"]};
+  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
 
   .ant-card-head {
-    border-bottom: 1px solid ${({ theme }) => theme.colors.border.light};
-    background-color: ${({ theme }) => theme.colors.background.secondary};
-    padding: ${({ theme }) => theme.spacing.md}
-      ${({ theme }) => theme.spacing.lg};
+    border-bottom: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+    background-color: ${({ theme }) => theme.color["Background/Background 2"]};
+    padding: 16px 24px;
 
     .ant-card-head-title {
-      color: ${({ theme }) => theme.colors.text.primary};
+      color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
       font-weight: 500;
       font-size: 16px;
     }
   }
+
   .ant-form-item-label > label {
-    color: ${({ theme }) => theme.colors.text.primary} !important;
+    color: ${({ theme }) => theme.color["Neutral/Neutral 90"]} !important;
   }
-  /* Тело карточки */
+
   .ant-card-body {
-    padding: ${({ theme }) => theme.spacing.lg};
-    color: ${({ theme }) => theme.colors.text.secondary};
+    padding: 24px;
+    color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
   }
 `;
 
