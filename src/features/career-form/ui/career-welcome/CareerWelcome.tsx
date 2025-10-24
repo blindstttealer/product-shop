@@ -1,15 +1,30 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { formManager } from "../../model/multi-form-manager";
 import { Form, Input } from "antd";
-import { CompanyInfo, StepInfo, StyledModal, Title, Wrapper } from "./styles";
+import { CompanyInfo, StepInfo, StyledModal, Title, Wrapper, modalOkButtonClass } from "./styles";
+import {
+  STEP_INFO_TITLE_CONTINUE,
+  STEP_INFO_TITLE_START,
+  MODAL_TITLE,
+  OK_TEXT,
+  CANCEL_TEXT,
+  FORM_NAME_PLACEHOLDER,
+  FORM_NAME_ERROR_MESSAGE,
+  WELCOME_TITLE,
+  COMPANY_INFO_TEXT,
+} from "./consts";
 
 export const CareerWelcome = () => {
   const navigate = useNavigate();
-  const { formId } = useParams<{ formId: string }>();
+  const { formId } = useParams<{ formId: string | undefined }>();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [formName, setFormName] = useState("");
   const [formNameError, setFormNameError] = useState("");
+
+  const validateFormName = (name: string): string => {
+    return name.trim() ? "" : FORM_NAME_ERROR_MESSAGE;
+  };
 
   const handleStartClick = () => {
     if (formId) {
@@ -21,8 +36,9 @@ export const CareerWelcome = () => {
   };
 
   const handleCreateForm = () => {
-    if (!formName.trim()) {
-      setFormNameError("Пожалуйста, введите название формы");
+    const error = validateFormName(formName);
+    if (error) {
+      setFormNameError(error);
       return;
     }
 
@@ -30,44 +46,41 @@ export const CareerWelcome = () => {
     navigate(`/careers/form/${form.id}`);
     setIsModalVisible(false);
     setFormName("");
+    setFormNameError("");
   };
 
-  const StepInfoTitle = useMemo(() => {
-    return formId
-      ? "Продолжить заполнение карточки"
-      : "Приступить к заполнению карточки";
-  }, [formId]);
+  const handleCancelModal = () => {
+    setIsModalVisible(false);
+    setFormName("");
+    setFormNameError("");
+  };
+
+  const handleFormNameChange = (value: string) => {
+    setFormName(value);
+    if (formNameError) setFormNameError("");
+  };
+
+  const stepInfoTitle = formId ? STEP_INFO_TITLE_CONTINUE : STEP_INFO_TITLE_START;
 
   return (
     <Wrapper>
-      <Title>Добро пожаловать в нашу компанию!</Title>
+      <Title>{WELCOME_TITLE}</Title>
 
       <StepInfo hasFormId={!!formId} onClick={handleStartClick}>
-        {StepInfoTitle}
+        {stepInfoTitle}
       </StepInfo>
 
-      <CompanyInfo>
-        Мы рады приветствовать новых сотрудников в нашей компании! Здесь вы
-        найдете дружелюбную команду, возможности для роста и поддержку на каждом
-        этапе вашего карьерного пути. Добро пожаловать в команду!
-      </CompanyInfo>
+      <CompanyInfo>{COMPANY_INFO_TEXT}</CompanyInfo>
 
       <StyledModal
-        title="Новая карточка"
+        title={MODAL_TITLE}
         open={isModalVisible}
         onOk={handleCreateForm}
-        onCancel={() => {
-          setIsModalVisible(false);
-          setFormName("");
-          setFormNameError("");
-        }}
-        okText="Создать"
-        cancelText="Отмена"
+        onCancel={handleCancelModal}
+        okText={OK_TEXT}
+        cancelText={CANCEL_TEXT}
         okButtonProps={{
-          style: {
-            backgroundColor: "#3bc14a",
-            borderColor: "#3bc14a",
-          },
+          className: modalOkButtonClass,
         }}
       >
         <Form layout="vertical">
@@ -77,11 +90,8 @@ export const CareerWelcome = () => {
           >
             <Input
               value={formName}
-              onChange={(e) => {
-                setFormName(e.target.value);
-                if (formNameError) setFormNameError("");
-              }}
-              placeholder="Введите название формы"
+              onChange={(e) => handleFormNameChange(e.target.value)}
+              placeholder={FORM_NAME_PLACEHOLDER}
             />
           </Form.Item>
         </Form>

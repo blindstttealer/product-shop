@@ -79,3 +79,26 @@ export const CompanyInfo = styled.p`
 `;
 
 export const StyledModal = styled(Modal)``;
+
+export const ModalOkButton = styled.button`
+  background-color: #3bc14a;
+  border-color: #3bc14a;
+  color: white;
+  border: 1px solid;
+  padding: 6px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #32a844;
+    border-color: #32a844;
+  }
+
+  &:focus {
+    outline: 2px solid #3bc14a;
+    outline-offset: 2px;
+  }
+`;
+
+export const modalOkButtonClass = "modal-ok-button";
