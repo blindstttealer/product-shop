@@ -1,4 +1,4 @@
-import { Form, Input, Modal } from "antd";
+import { Form, Input, Modal } from 'antd';
 
 interface CreateFormModalProps {
   formName: string;
@@ -27,11 +27,7 @@ export const CreateFormModal = ({
       cancelText="Отмена"
     >
       <Form layout="vertical">
-        <Form.Item
-          label="Название формы"
-          validateStatus={error ? "error" : ""}
-          help={error}
-        >
+        <Form.Item label="Название формы" validateStatus={error ? 'error' : ''} help={error}>
           <Input
             value={formName}
             onChange={(event) => {

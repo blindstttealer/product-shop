@@ -1,8 +1,8 @@
-import { FormListItem } from "../../../../model/multi-form-manager";
-import { FC } from "react";
-import { CareerFormItem } from "../career-form-item/CareerFormItem";
-import { FormListContainer, FormListGrid } from "./styles";
-import { observer } from "mobx-react-lite";
+import { FormListItem } from '../../../../model/multi-form-manager';
+import { FC } from 'react';
+import { CareerFormItem } from '../career-form-item/CareerFormItem';
+import { FormListContainer, FormListGrid } from './styles';
+import { observer } from 'mobx-react-lite';
 
 interface CareerFormListProps {
   currentFormId: string;
@@ -35,5 +35,5 @@ export const CareerFormList: FC<CareerFormListProps> = observer(
         </FormListGrid>
       </FormListContainer>
     );
-  }
+  },
 );

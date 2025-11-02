@@ -1,4 +1,4 @@
-import emailjs from "@emailjs/browser";
+import emailjs from '@emailjs/browser';
 
 type SendEmailParams<T extends Record<string, unknown>> = {
   templateId?: string;
@@ -19,17 +19,14 @@ type Callbacks = {
 
 export const useEmailSender = (userConfig?: EmailConfig) => {
   const config = {
-    serviceId:
-      userConfig?.serviceId || process.env.REACT_APP_EMAILJS_SERVICE_ID,
-    publicKey:
-      userConfig?.publicKey || process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
+    serviceId: userConfig?.serviceId || process.env.REACT_APP_EMAILJS_SERVICE_ID,
+    publicKey: userConfig?.publicKey || process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
     defaultTemplateId:
-      userConfig?.defaultTemplateId ||
-      process.env.REACT_APP_EMAILJS_DEFAULT_TEMPLATE_ID,
+      userConfig?.defaultTemplateId || process.env.REACT_APP_EMAILJS_DEFAULT_TEMPLATE_ID,
   };
 
   if (!config.serviceId || !config.publicKey) {
-    throw new Error("EmailJS serviceId and publicKey are required!");
+    throw new Error('EmailJS serviceId and publicKey are required!');
   }
 
   const sendEmail = async <T extends Record<string, unknown>>(
@@ -39,7 +36,7 @@ export const useEmailSender = (userConfig?: EmailConfig) => {
     const { templateId = config.defaultTemplateId, data } = params;
 
     if (!templateId) {
-      throw new Error("templateId is required!");
+      throw new Error('templateId is required!');
     }
 
     try {

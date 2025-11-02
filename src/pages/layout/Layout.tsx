@@ -1,7 +1,7 @@
-import { Outlet } from "react-router";
-import React, { useEffect } from "react";
-import { AppLayout } from "../../components/layout/AppLayout";
-import { useAuthStore } from "../../providers/AuthProvider";
+import { Outlet } from 'react-router';
+import React, { useEffect } from 'react';
+import { AppLayout } from '../../components/layout/AppLayout';
+import { useAuthStore } from '../../providers/AuthProvider';
 
 export default function MainLayout() {
   const authStore = useAuthStore();

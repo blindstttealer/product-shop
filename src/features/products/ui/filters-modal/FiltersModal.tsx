@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Button } from "antd";
-import { ProductFilters } from "../products-filters/ProductsFilters";
-import { Product } from "../../api/productsApi.types";
-import { StyledModal } from "./styles";
+import { useEffect, useState } from 'react';
+import { Button } from 'antd';
+import { ProductFilters } from '../products-filters/ProductsFilters';
+import { Product } from '../../api/productsApi.types';
+import { StyledModal } from './styles';
 
 interface FiltersModalProps {
   open: boolean;
@@ -11,12 +11,7 @@ interface FiltersModalProps {
   products: Product[];
 }
 
-export const FiltersModal = ({
-  open,
-  onClose,
-  onApply,
-  products,
-}: FiltersModalProps) => {
+export const FiltersModal = ({ open, onClose, onApply, products }: FiltersModalProps) => {
   const [tempFilters, setTempFilters] = useState<Product[]>(products);
 
   useEffect(() => {

@@ -1,9 +1,9 @@
-import { httpClient } from "../../../shared/api/httpClient";
-import { CartsResponse } from "./cartApi.types";
+import { httpClient } from '../../../shared/api/httpClient';
+import { CartsResponse } from './cartApi.types';
 
 export const cartApi = {
   async fetchCart() {
-    const { data } = await httpClient.get<CartsResponse[]>("/carts");
+    const { data } = await httpClient.get<CartsResponse[]>('/carts');
     return data;
   },
   async getSingleCart(cartId: number) {

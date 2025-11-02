@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { observer } from "mobx-react-lite";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { observer } from 'mobx-react-lite';
 
-import { Container, Grid, ProductsColumn } from "./styles";
-import { Product } from "../../api/productsApi.types";
-import { FiltersModal } from "../filters-modal/FiltersModal";
-import { ProductAPI } from "../../api/productsApi";
-import { productsStore } from "../../model/products-store";
-import { Pagination } from "../../../../components/pagination/Pagination";
-import { ProductItem } from "../product-item/ProductItem";
+import { Container, Grid, ProductsColumn } from './styles';
+import { Product } from '../../api/productsApi.types';
+import { FiltersModal } from '../filters-modal/FiltersModal';
+import { ProductAPI } from '../../api/productsApi';
+import { productsStore } from '../../model/products-store';
+import { Pagination } from '../../../../components/pagination/Pagination';
+import { ProductItem } from '../product-item/ProductItem';
 
 export const Products = observer(() => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -52,10 +52,7 @@ export const Products = observer(() => {
       <ProductsColumn>
         <Grid>
           {productsStore.productsToShow.map((product) => (
-            <ProductItem
-              product={product}
-              onItemClick={onClickNavigateProductDetails}
-            />
+            <ProductItem product={product} onItemClick={onClickNavigateProductDetails} />
           ))}
         </Grid>
       </ProductsColumn>

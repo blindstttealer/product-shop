@@ -1,8 +1,8 @@
-import React from "react";
-import { Table, Empty, Button, ConfigProvider } from "antd";
-import type { TableProps, ColumnsType } from "antd/es/table";
+import React from 'react';
+import { Table, Empty, Button, ConfigProvider } from 'antd';
+import type { TableProps, ColumnsType } from 'antd/es/table';
 
-interface ReusableTableProps<T> extends Omit<TableProps<T>, "title"> {
+interface ReusableTableProps<T> extends Omit<TableProps<T>, 'title'> {
   columns: ColumnsType<T>;
   data: T[];
   title?: React.ReactNode;
@@ -15,20 +15,16 @@ export function AntdTableComponent<T extends { key?: React.Key }>({
   columns,
   data,
   title,
-  toggleButtonLabel = "Toggle Data",
+  toggleButtonLabel = 'Toggle Data',
   onToggleData,
-  emptyDescription = "No Data",
+  emptyDescription = 'No Data',
   ...restProps
 }: ReusableTableProps<T>) {
   const dataWithKeys = React.useMemo(() => {
-    return data.map((item, index) =>
-      item.key ? item : { ...item, key: index },
-    );
+    return data.map((item, index) => (item.key ? item : { ...item, key: index }));
   }, [data]);
 
-  const renderEmpty = (componentName?: string) => (
-    <Empty description={emptyDescription} />
-  );
+  const renderEmpty = (componentName?: string) => <Empty description={emptyDescription} />;
 
   const toggleButton = onToggleData ? (
     <Button type="primary" onClick={onToggleData} style={{ marginBottom: 12 }}>

@@ -1,12 +1,8 @@
-import { observer } from "mobx-react-lite";
-import { Button, Popover } from "antd";
-import {
-  FormsListContainer,
-  CreateButtonWrapper,
-  StyledButton,
-} from "../styles";
-import { FormsPopoverProps } from "../types";
-import { CareerFormList } from "../ui/career-form-list/CareerFormList";
+import { observer } from 'mobx-react-lite';
+import { Button, Popover } from 'antd';
+import { FormsListContainer, CreateButtonWrapper, StyledButton } from '../styles';
+import { FormsPopoverProps } from '../types';
+import { CareerFormList } from '../ui/career-form-list/CareerFormList';
 
 export const FormsPopover = observer(
   ({
@@ -35,14 +31,9 @@ export const FormsPopover = observer(
     );
 
     return (
-      <Popover
-        content={popoverContent}
-        title="Мои формы"
-        trigger="click"
-        placement="bottomLeft"
-      >
+      <Popover content={popoverContent} title="Мои формы" trigger="click" placement="bottomLeft">
         <Button>Открыть Список форм</Button>
       </Popover>
     );
-  }
+  },
 );

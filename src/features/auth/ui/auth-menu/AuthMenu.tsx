@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
-import styled from "styled-components";
-import { Modal, Form, Input, Button, message } from "antd";
-import { LoginCredits, RegistrationCredits } from "../../model/authStore";
-import { useAuthStore } from "../../../../providers/AuthProvider";
+import { useMemo, useState } from 'react';
+import styled from 'styled-components';
+import { Modal, Form, Input, Button, message } from 'antd';
+import { LoginCredits, RegistrationCredits } from '../../model/authStore';
+import { useAuthStore } from '../../../../providers/AuthProvider';
 
 const StyledButton = styled(Button)``;
 
@@ -29,11 +29,10 @@ export const AuthMenu = () => {
     try {
       setLoading(true);
       const response = await authStore.login(values);
-      message.success("Вход выполнен!");
-      console.log(response);
+      message.success('Вход выполнен!');
       setLoginVisible(false);
     } catch (err: any) {
-      message.error(err?.response?.data?.error || "Ошибка при входе");
+      message.error(err?.response?.data?.error || 'Ошибка при входе');
     } finally {
       setLoading(false);
     }
@@ -43,11 +42,10 @@ export const AuthMenu = () => {
     try {
       setLoading(true);
       const response = await authStore.registration(values);
-      message.success("Регистрация прошла успешно!");
-      console.log(response);
+      message.success('Регистрация прошла успешно!');
       setRegisterVisible(false);
     } catch (err: any) {
-      message.error(err?.response?.data?.errorMessage || "Ошибка регистрации");
+      message.error(err?.response?.data?.errorMessage || 'Ошибка регистрации');
     } finally {
       setLoading(false);
     }
@@ -81,24 +79,19 @@ export const AuthMenu = () => {
   return (
     <StyledWrapper>
       {authMenuPopup}
-      <Modal
-        title="Вход"
-        open={loginVisible}
-        onCancel={() => setLoginVisible(false)}
-        footer={null}
-      >
+      <Modal title="Вход" open={loginVisible} onCancel={() => setLoginVisible(false)} footer={null}>
         <Form layout="vertical" onFinish={handleLogin} autoComplete="off">
           <Form.Item
             label="Email"
             name="email"
-            rules={[{ required: true, message: "Введите email" }]}
+            rules={[{ required: true, message: 'Введите email' }]}
           >
             <Input placeholder="Email" />
           </Form.Item>
           <Form.Item
             label="Пароль"
             name="password"
-            rules={[{ required: true, message: "Введите пароль" }]}
+            rules={[{ required: true, message: 'Введите пароль' }]}
           >
             <Input.Password placeholder="Пароль" />
           </Form.Item>
@@ -115,17 +108,13 @@ export const AuthMenu = () => {
         onCancel={() => setRegisterVisible(false)}
         footer={null}
       >
-        <Form
-          layout="vertical"
-          onFinish={handleRegistration}
-          autoComplete="off"
-        >
+        <Form layout="vertical" onFinish={handleRegistration} autoComplete="off">
           <Form.Item
             label="Имя пользователя"
             name="username"
             rules={[
-              { required: true, message: "Введите имя пользователя" },
-              { min: 2, message: "Минимум 2 символа" },
+              { required: true, message: 'Введите имя пользователя' },
+              { min: 2, message: 'Минимум 2 символа' },
             ]}
           >
             <Input placeholder="Имя пользователя" />
@@ -134,8 +123,8 @@ export const AuthMenu = () => {
             label="Email"
             name="email"
             rules={[
-              { required: true, message: "Введите email" },
-              { type: "email", message: "Введите корректный email" },
+              { required: true, message: 'Введите email' },
+              { type: 'email', message: 'Введите корректный email' },
             ]}
           >
             <Input placeholder="Email" />
@@ -144,8 +133,8 @@ export const AuthMenu = () => {
             label="Пароль"
             name="password"
             rules={[
-              { required: true, message: "Введите пароль" },
-              { min: 6, message: "Минимум 6 символов" },
+              { required: true, message: 'Введите пароль' },
+              { min: 6, message: 'Минимум 6 символов' },
             ]}
           >
             <Input.Password placeholder="Пароль" />

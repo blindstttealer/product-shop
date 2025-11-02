@@ -1,10 +1,6 @@
-import { useState } from "react";
-import styled from "styled-components";
-import {
-  CloseOutlined,
-  CheckOutlined,
-  EditOutlined,
-} from "@mui/icons-material";
+import { useState } from 'react';
+import styled from 'styled-components';
+import { CheckOutlined, EditOutlined } from '@mui/icons-material';
 
 type EditFieldProps = {
   text: string;
@@ -104,8 +100,8 @@ export const EditField = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleSave();
-    if (e.key === "Escape") deactivateEditMode();
+    if (e.key === 'Enter') handleSave();
+    if (e.key === 'Escape') deactivateEditMode();
   };
 
   return (

@@ -1,6 +1,6 @@
-import React from "react";
-import { Switch } from "antd";
-import styled from "styled-components";
+import React from 'react';
+import { Switch } from 'antd';
+import styled from 'styled-components';
 
 const ToggleContainer = styled.div`
   position: fixed;
@@ -14,10 +14,7 @@ interface ThemeToggleProps {
   toggleTheme?: () => void;
 }
 
-export const ThemeToggle: React.FC<ThemeToggleProps> = ({
-  isDarkMode,
-  toggleTheme,
-}) => (
+export const ThemeToggle: React.FC<ThemeToggleProps> = ({ isDarkMode, toggleTheme }) => (
   <ToggleContainer>
     <Switch
       checked={isDarkMode}

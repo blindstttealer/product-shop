@@ -1,9 +1,5 @@
-import AxiosStatic, {
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-} from "axios";
-import CacheService from "./cache-service";
+import AxiosStatic, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import CacheService from './cache-service';
 
 interface ApiRequestConfig extends AxiosRequestConfig {
   cache?: {
@@ -19,8 +15,6 @@ export class ApiService {
   constructor({ cache, ...axiosConfig }: ApiRequestConfig = {}) {
     this.axios = AxiosStatic.create(axiosConfig);
     this.cache = new CacheService(cache?.maxAge);
-
-  
   }
 
   setConfig({ cache, ...axiosConfig }: ApiRequestConfig = {}) {
@@ -33,7 +27,7 @@ export class ApiService {
     url: string,
     config?: ApiRequestConfig,
   ): Promise<R> {
-    let uniqKey = "";
+    let uniqKey = '';
     let cache = null;
 
     if (config?.cache?.enable) {
@@ -89,4 +83,3 @@ export class ApiService {
     return this.axios;
   }
 }
-
