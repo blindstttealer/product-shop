@@ -1,20 +1,20 @@
-import { observer } from "mobx-react-lite";
-import { Spin } from "antd";
-import { getCurrentStepComponent } from "../../lib/utils/getCurrentStepComponents";
-import { formManager } from "../../model/multi-form-manager";
-import { Container, ControlsRow, FormContent, HeaderSection } from "./styles";
-import { CreateFormModal } from "./ui/create-form-modal/CreateFormModal";
-import { FormsPopover, FormHeader, FormInfo } from "./components";
-import { useCareerFormActions, useCreateFormModal } from "./hooks";
+import { observer } from 'mobx-react-lite';
+import { getCurrentStepComponent } from '../../lib/utils/getCurrentStepComponents';
+import { formManager } from '../../model/multi-form-manager';
+import { Container, ControlsRow, FormContent, HeaderSection } from './styles';
+import { CreateFormModal } from './ui/create-form-modal/CreateFormModal';
+import { FormsPopover, FormHeader, FormInfo } from './components';
+import { useCareerFormActions, useCreateFormModal } from './hooks';
+import { Spinner } from '@admiral-ds/react-ui';
+import { useCallback, useMemo } from 'react';
 
 export const CareerForms = observer(() => {
   const {
     formId,
-    isLoading,
     switchToForm,
     deleteForm,
     editForm,
-    createNewForm,
+    // createNewForm,
   } = useCareerFormActions();
 
   const {
@@ -28,19 +28,21 @@ export const CareerForms = observer(() => {
   } = useCreateFormModal();
 
   const formList = formManager.formList;
+
   const currentForm = formManager.currentForm;
 
-  if (!formId) return <Spin spinning={isLoading} />;
-
-  if (isLoading) return <Spin spinning={isLoading} />;
-
-  if (!currentForm) {
-    return null;
+  if (!currentForm || formManager.templatesLoading) {
+    return <Spinner />;
   }
 
   const handleCreateNewForm = () => {
     if (validateFormName()) {
-      createNewForm(formName);
+      /* Дать возможность создавать форму. Подумать, создавать новую
+      форму по существующему или давать возможность выбора template еще раз
+      Раньше был только метод createNewForm. Сейчас еще появился byTemplate
+      */
+
+      // createNewForm(formName);
       closeModal();
     }
   };
@@ -48,6 +50,28 @@ export const CareerForms = observer(() => {
   const handleOpenModal = () => {
     openModal();
   };
+
+  const buildHeaderSteps = useCallback(() => {
+    const template = currentForm.templateId ? formManager.templates[currentForm.templateId] : null;
+    const header: { title: string }[] = [];
+
+    header.push({ title: 'Welcome' });
+
+    if (template && Array.isArray(template.steps)) {
+      template.steps.forEach((s, idx) => {
+        const title = (s as any).title ?? (s as any).name ?? (s as any).id ?? `Step ${idx + 1}`;
+        header.push({ title });
+      });
+    } else {
+      header.push({ title: 'Step 1' });
+    }
+
+    header.push({ title: 'Review' });
+
+    return header;
+  }, [currentForm.templateId]);
+
+  const headerSteps = useMemo(() => buildHeaderSteps(), [buildHeaderSteps]);
 
   return (
     <Container>
@@ -61,7 +85,7 @@ export const CareerForms = observer(() => {
       />
 
       <HeaderSection>
-        <FormHeader currentStep={currentForm.step} />
+        <FormHeader currentStep={currentForm.step} steps={headerSteps} />
 
         <ControlsRow>
           <FormsPopover
@@ -74,9 +98,7 @@ export const CareerForms = observer(() => {
           />
         </ControlsRow>
       </HeaderSection>
-
       <FormContent>{getCurrentStepComponent(currentForm.step)}</FormContent>
-
       <FormInfo formId={formId} />
     </Container>
   );

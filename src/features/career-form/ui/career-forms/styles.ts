@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Button } from "antd";
+import styled from 'styled-components';
+import { Button } from 'antd';
 
 export const Container = styled.div`
   margin: 0 auto;
@@ -63,7 +63,7 @@ export const CreateButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 8px;
-  border-top: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+  border-top: 1px solid ${({ theme }) => theme.color['Neutral/Neutral 20']};
   margin-top: 12px;
 `;
 

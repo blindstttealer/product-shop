@@ -1,16 +1,20 @@
-import { makeAutoObservable } from "mobx";
-import { ApplicationFormData } from "./types";
-import { formManager } from "./multi-form-manager";
-
+import { makeAutoObservable } from 'mobx';
+import { formManager } from './multi-form-manager';
 
 export class CareerFormStore {
-  constructor(
-    public id: string,
-    public data: Partial<ApplicationFormData> = {},
-    public step: number = 1,
-    public name: string = "defaultFormName",
-  ) {
-    makeAutoObservable(this);
+  id: string;
+  data: Record<string, any>;
+  step: number;
+  name: string;
+  templateId?: string;
+
+  constructor(id: string, data = {}, step = 1, name = 'Untitled', templateId?: string) {
+    this.id = id;
+    this.data = data;
+    this.step = step;
+    this.name = name;
+    this.templateId = templateId;
+    makeAutoObservable(this, {}, { autoBind: true });
   }
 
   private triggerSave() {
@@ -22,16 +26,13 @@ export class CareerFormStore {
     this.triggerSave();
   }
 
-  updateData(part: Partial<ApplicationFormData>, step: number) {
+  updateData(part: Record<string, any>, step?: number) {
     this.data = { ...this.data, ...part };
-    this.step = step;
+    if (step) this.step = step;
     this.triggerSave();
   }
 
-  setValue<S extends keyof ApplicationFormData>(
-    section: S,
-    obj: Partial<ApplicationFormData[S]>,
-  ) {
+  setValue(section: string, obj: Record<string, any>) {
     this.data = {
       ...this.data,
       [section]: {
@@ -58,6 +59,7 @@ export class CareerFormStore {
       data: this.data,
       step: this.step,
       name: this.name,
+      templateId: this.templateId,
     };
   }
 }

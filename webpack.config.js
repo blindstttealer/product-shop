@@ -2,6 +2,10 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const AppConfig = require("./src/app.config");
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const webpack = require("webpack");
+require("dotenv").config(); 
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -11,10 +15,12 @@ module.exports = {
     publicPath: AppConfig.webPackPublicPath,
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      favicon: "src/favicon.ico",
-      template: "src/index.html",
-    }),
+ new HtmlWebpackPlugin({
+  template: path.resolve(__dirname, "public/index.html"),
+}),
+new Dotenv({
+    systemvars: true, 
+  }),
   ],
   module: {
     rules: [
@@ -39,9 +45,14 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: ['.tsx', '.ts', '.js'],
+    plugins: [ new TsconfigPathsPlugin({ configFile: path.resolve(process.cwd(), 'tsconfig.json') }) ]
   },
   devServer: {
+    historyApiFallback: true,
     hot: true,
+    port: 3000,        
+    host: 'localhost', 
+    open: true,       
   },
 };

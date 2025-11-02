@@ -1,19 +1,25 @@
-import { CareerWelcome } from "../../ui/career-welcome/CareerWelcome";
-import { PersonalInfoStep } from "../../ui/personal-info-step/PersonalInfoStep";
-import { AdressInfoStep } from "../../ui/adress-info-step/AdressInfoStep";
-import { ReviewInfoStep } from "../../ui/review-info-step/ReviewInfoStep";
+import { CareerWelcome } from '../../ui/career-welcome/CareerWelcome';
+import { ReviewInfoStep } from '../../ui/review-info-step/ReviewInfoStep';
+import DynamicStep from '../../ui/dynamic-step/DynamicStep';
+import { formManager } from '../../model/multi-form-manager';
 
 export const getCurrentStepComponent = (step: number) => {
-  switch (step) {
-    case 0:
-      return <CareerWelcome />;
-    case 1:
-      return <PersonalInfoStep />;
+  const currentForm = formManager.currentForm;
+  const templateId = currentForm.templateId;
+  const template = formManager.templates[templateId];
 
-    case 2:
-      return <AdressInfoStep />;
+  // Подумать как избавится от этой проверки
+  if (!template || !Array.isArray(template.steps)) return <CareerWelcome />;
 
-    case 3:
-      return <ReviewInfoStep />;
+  const stepsCount = template.steps.length;
+
+  const normalizedStep = Math.max(0, step - 1);
+
+  if (normalizedStep >= 0 && normalizedStep < stepsCount) {
+    return <DynamicStep stepIndex={normalizedStep} />;
+  }
+
+  if (normalizedStep >= stepsCount) {
+    return <ReviewInfoStep />;
   }
 };

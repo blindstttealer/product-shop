@@ -1,15 +1,7 @@
-import React, { useState, useEffect } from "react";
-import {
-  Checkbox,
-  Input,
-  Slider,
-  Collapse,
-  Typography,
-  Rate,
-  Divider,
-} from "antd";
-import { StyledFilters } from "./styles";
-import { Product } from "../../api/productsApi.types";
+import React, { useState, useEffect } from 'react';
+import { Checkbox, Input, Slider, Collapse, Typography, Rate, Divider } from 'antd';
+import { StyledFilters } from './styles';
+import { Product } from '../../api/productsApi.types';
 
 const { Panel } = Collapse;
 const { Title, Text } = Typography;
@@ -19,10 +11,7 @@ interface FilterProps {
   onFilterChange: (filteredProducts: Product[]) => void;
 }
 
-export const ProductFilters: React.FC<FilterProps> = ({
-  products,
-  onFilterChange,
-}) => {
+export const ProductFilters: React.FC<FilterProps> = ({ products, onFilterChange }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -31,63 +20,42 @@ export const ProductFilters: React.FC<FilterProps> = ({
 
   useEffect(() => {
     applyFilters();
-  }, [
-    selectedCategories,
-    selectedBrands,
-    selectedTags,
-    priceRange,
-    selectedRating,
-  ]);
+  }, [selectedCategories, selectedBrands, selectedTags, priceRange, selectedRating]);
 
   const applyFilters = () => {
     let filtered = [...products];
 
     if (selectedCategories.length > 0) {
-      filtered = filtered.filter(
-        (p) => p.category && selectedCategories.includes(p.category)
-      );
+      filtered = filtered.filter((p) => p.category && selectedCategories.includes(p.category));
     }
 
     if (selectedBrands.length > 0) {
-      filtered = filtered.filter(
-        (p) => p.brand && selectedBrands.includes(p.brand)
-      );
+      filtered = filtered.filter((p) => p.brand && selectedBrands.includes(p.brand));
     }
 
     if (selectedTags.length > 0) {
-      filtered = filtered.filter(
-        (p) => p.tags && p.tags.some((tag) => selectedTags.includes(tag))
-      );
+      filtered = filtered.filter((p) => p.tags && p.tags.some((tag) => selectedTags.includes(tag)));
     }
 
     filtered = filtered.filter(
-      (p) =>
-        p.price !== undefined &&
-        p.price >= priceRange[0] &&
-        p.price <= priceRange[1]
+      (p) => p.price !== undefined && p.price >= priceRange[0] && p.price <= priceRange[1],
     );
 
     if (selectedRating > 0) {
-      filtered = filtered.filter(
-        (p) => p.rating !== undefined && p.rating >= selectedRating
-      );
+      filtered = filtered.filter((p) => p.rating !== undefined && p.rating >= selectedRating);
     }
 
     onFilterChange(filtered);
   };
 
   const categories = Array.from(
-    new Set(products.map((p) => p.category).filter((c): c is string => !!c))
+    new Set(products.map((p) => p.category).filter((c): c is string => !!c)),
   );
 
-  const brands = Array.from(
-    new Set(products.map((p) => p.brand).filter((b): b is string => !!b))
-  );
+  const brands = Array.from(new Set(products.map((p) => p.brand).filter((b): b is string => !!b)));
 
   const tags = Array.from(
-    new Set(
-      products.flatMap((p) => p.tags || []).filter((t): t is string => !!t)
-    )
+    new Set(products.flatMap((p) => p.tags || []).filter((t): t is string => !!t)),
   );
 
   const handlePriceChange = (value: number | number[]) => {
@@ -98,7 +66,7 @@ export const ProductFilters: React.FC<FilterProps> = ({
 
   return (
     <StyledFilters>
-      <Collapse ghost defaultActiveKey={["1"]}>
+      <Collapse ghost defaultActiveKey={['1']}>
         <Panel header="Категории" key="1">
           <Checkbox.Group
             options={categories.map((c) => ({ label: c, value: c }))}
@@ -125,15 +93,9 @@ export const ProductFilters: React.FC<FilterProps> = ({
 
         <Panel header="Цена" key="4">
           <div style={{ marginBottom: 16 }}>
-            <Slider
-              range
-              min={0}
-              max={1000}
-              value={priceRange}
-              onChange={handlePriceChange}
-            />
+            <Slider range min={0} max={1000} value={priceRange} onChange={handlePriceChange} />
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8 }}>
             <Input
               type="number"
               placeholder="От"
@@ -157,14 +119,8 @@ export const ProductFilters: React.FC<FilterProps> = ({
 
         {/* Рейтинг */}
         <Panel header="Рейтинг" key="5">
-          <Rate
-            value={selectedRating}
-            onChange={setSelectedRating}
-            allowClear
-          />
-          {selectedRating > 0 && (
-            <Text style={{ marginLeft: 8 }}>{selectedRating}+ звезд</Text>
-          )}
+          <Rate value={selectedRating} onChange={setSelectedRating} allowClear />
+          {selectedRating > 0 && <Text style={{ marginLeft: 8 }}>{selectedRating}+ звезд</Text>}
         </Panel>
       </Collapse>
 

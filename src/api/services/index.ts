@@ -1,8 +1,8 @@
-import { ApiService } from "./api-service";
-import { AuthExtension } from "./auth-service";
+import { ApiService } from './api-service';
+import { AuthExtension } from './auth-service';
 
 export function createApiService() {
-  const api = new ApiService()
+  const api = new ApiService();
 
   new AuthExtension(api, () => () => console.log('AuthExtension'));
 

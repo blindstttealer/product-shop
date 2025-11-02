@@ -1,5 +1,5 @@
-import { CheckboxProps as AntCheckboxProps } from "antd";
-import React from "react";
+import { CheckboxProps as AntCheckboxProps } from 'antd';
+import React from 'react';
 
 export interface CheckboxProps extends AntCheckboxProps {
   /**
