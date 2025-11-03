@@ -3,7 +3,6 @@ import { Layout } from 'antd';
 
 export const StyledHeader = styled(Layout)`
   position: fixed;
-  z-index: 111;
   width: 100%;
   display: flex;
   min-height: 100px;

@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite';
 import { PopoverComponent } from '../../ui/popover/Popover';
 import { AuthMenu } from '../../../features/auth/ui/auth-menu/AuthMenu';
 import { useAuthStore } from '../../../providers/AuthProvider';
+import { Chat } from '@/features/online-chat/ui/OnlineChat';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -36,6 +37,7 @@ export const AppLayout: React.FC<AppLayoutProps> = observer(
           }}
         >
           <MainContent collapsed={collapsed}>{children}</MainContent>
+          <Chat currentUser="Slava Petrovskiy" />
         </Layout>
       </Layout>
     );
