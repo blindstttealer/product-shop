@@ -40,6 +40,7 @@ export const AppLayout: React.FC<AppLayoutProps> = observer(
           }}
         >
           <MainContent collapsed={collapsed}>{children}</MainContent>
+          <Chat currentUser="Slava Petrovskiy" />
         </Layout>
       </Layout>
     );
