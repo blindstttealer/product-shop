@@ -10,6 +10,7 @@ import { AuthMenu } from '@/features/auth/ui/auth-menu/AuthMenu';
 import { useAuthStore } from '@/providers/AuthProvider';
 import { ThemeToggle } from '@/components/theme-switcher/ThemeSwitcher';
 import { useThemeContext } from '@/providers/ThemeProvider';
+import { Chat } from '@/features/online-chat/ui/OnlineChat';
 
 interface AppLayoutProps {
   children: React.ReactNode;
