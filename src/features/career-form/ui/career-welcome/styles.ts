@@ -40,6 +40,7 @@ export const StepInfo = styled.button<{ hasFormId?: boolean }>`
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease;
+  margin-top: 20px;
 
   &:hover {
     background-color: ${({ theme, hasFormId }) =>
@@ -58,6 +59,11 @@ export const StepInfo = styled.button<{ hasFormId?: boolean }>`
       ${({ theme, hasFormId }) =>
         hasFormId ? theme.color['Attention/Attention 60'] : theme.color['Success/Success 60']};
     outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 `;
 

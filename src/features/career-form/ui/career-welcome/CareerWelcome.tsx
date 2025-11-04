@@ -61,10 +61,6 @@ export const CareerWelcome = observer(() => {
     <Wrapper>
       <Title>Добро пожаловать в нашу компанию!</Title>
 
-      <StepInfo hasFormId={!!formId} onClick={handleStartClick}>
-        {StepInfoTitle}
-      </StepInfo>
-
       <SelectField
         mode="searchSelect"
         label="Выберите форму"
@@ -74,6 +70,10 @@ export const CareerWelcome = observer(() => {
       >
         {renderOptions()}
       </SelectField>
+
+      <StepInfo hasFormId={!!formId} onClick={handleStartClick} disabled={!selectedTemplate}>
+        {StepInfoTitle}
+      </StepInfo>
 
       <CompanyInfo>
         Мы рады приветствовать новых сотрудников в нашей компании! Здесь вы найдете дружелюбную
