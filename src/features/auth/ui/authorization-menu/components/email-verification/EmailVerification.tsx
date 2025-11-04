@@ -1,0 +1,144 @@
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
+import { Button, T } from '@admiral-ds/react-ui';
+import { httpClient } from '@/shared/api/httpClient';
+import { Center, Wrapper } from './styles';
+import { getTokenFromSearch } from './utils';
+import { Status } from './types';
+
+export const EmailVerification = () => {
+  const location = useLocation();
+
+  const navigate = useNavigate();
+
+  const token = useMemo(() => getTokenFromSearch(location.search), [location.search]);
+
+  const [status, setStatus] = useState<Status>('loading');
+
+  const [message, setMessage] = useState<string>('');
+
+  const [email, setEmail] = useState<string | null>(null);
+
+  const [resendLoading, setResendLoading] = useState(false);
+
+  const [resendMessage, setResendMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!token) {
+      setStatus('error');
+      setMessage('Отсутствует токен подтверждения в ссылке.');
+      return;
+    }
+
+    const confirmEmail = async () => {
+      try {
+        const resp = await httpClient.post('/auth/confirmVerification', { token });
+        const data = resp?.data ?? resp;
+
+        setStatus('success');
+        setMessage(data?.message || 'Email успешно подтверждён.');
+      } catch (err: any) {
+        const code = err?.response?.data?.code;
+        setEmail(err?.response?.data?.email || null);
+
+        switch (code) {
+          case 'expired':
+            setStatus('expired');
+            setMessage(err?.response?.data?.message || 'Срок действия ссылки подтверждения истёк.');
+            break;
+          case 'already_confirmed':
+            setStatus('already_confirmed');
+            setMessage(err?.response?.data?.message || 'Email уже подтверждён.');
+            break;
+          default:
+            setStatus('error');
+            setMessage(err?.response?.data?.message || 'Не удалось подтвердить email.');
+        }
+      }
+    };
+
+    confirmEmail();
+  }, [token, navigate]);
+
+  const handleResend = async () => {
+    if (!email) {
+      setResendMessage(
+        'Не удалось определить email. Введите почту вручную на странице повторной отправки.',
+      );
+      return;
+    }
+
+    setResendLoading(true);
+    setResendMessage(null);
+
+    try {
+      await httpClient.post('/auth/resend-confirmation', { email });
+      setResendMessage('Письмо с подтверждением отправлено повторно. Проверьте почту.');
+    } catch (err: any) {
+      const respMsg =
+        err?.response?.data?.message || err?.message || 'Не удалось отправить письмо повторно.';
+      setResendMessage(respMsg);
+    } finally {
+      setResendLoading(false);
+    }
+  };
+
+  return (
+    <Wrapper>
+      <Center>
+        {status === 'loading' && <T font="Body/Body 1 Short">Проверяем ссылку...</T>}
+
+        {status === 'success' && (
+          <>
+            <T font="Body/Body 1 Short">Email подтверждён</T>
+            <T font="Body/Body 1 Short">{message}</T>
+            <div style={{ display: 'flex', gap: 12 }}>
+              <Button appearance="primary" onClick={() => navigate('/login')}>
+                Перейти к входу
+              </Button>
+              <Button appearance="secondary" onClick={() => navigate('/')}>
+                На главную
+              </Button>
+            </div>
+          </>
+        )}
+
+        {status === 'already_confirmed' && (
+          <>
+            <T font="Body/Body 1 Short">Email уже подтверждён</T>
+            <T font="Body/Body 1 Short">{message}</T>
+            <Button appearance="primary" onClick={() => navigate('/login')}>
+              Войти
+            </Button>
+          </>
+        )}
+
+        {status === 'expired' && (
+          <>
+            <T font="Body/Body 1 Short">Срок действия ссылки истёк</T>
+            <T font="Body/Body 1 Short">{message}</T>
+            {resendMessage && <T font="Body/Body 1 Short">{resendMessage}</T>}
+            <div style={{ display: 'flex', gap: 12 }}>
+              <Button appearance="secondary" onClick={handleResend} disabled={resendLoading}>
+                {resendLoading ? 'Отправка...' : 'Отправить письмо снова'}
+              </Button>
+              <Button appearance="primary" onClick={() => navigate('/login')}>
+                Войти
+              </Button>
+            </div>
+          </>
+        )}
+
+        {status === 'error' && (
+          <>
+            <T font="Body/Body 1 Short">Ошибка подтверждения</T>
+            <T font="Body/Body 1 Short">{message}</T>
+            <Button appearance="secondary" onClick={() => navigate('/support')}>
+              Связаться с поддержкой
+            </Button>
+          </>
+        )}
+      </Center>
+    </Wrapper>
+  );
+};
