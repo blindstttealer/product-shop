@@ -10,13 +10,13 @@ export default function MainLayout() {
     setCollapsed(!collapsed);
   };
 
-  const meRequest = async () => {
-    await authStore.me();
-  };
+  // const meRequest = async () => {
+  //   await authStore.me();
+  // };
 
-  useEffect(() => {
-    meRequest();
-  }, []);
+  // useEffect(() => {
+  //   meRequest();
+  // }, []);
 
   return (
     <AppLayout collapsed={collapsed} toggleCollapse={toggleCollapse}>

@@ -5,12 +5,11 @@ import { UserAvatar } from '../../ui/user-avatar';
 import AppHeader from '../AppHeader';
 import { NavigationPanel } from '../../navigation/NavigationPanel';
 import { observer } from 'mobx-react-lite';
-import { PopoverComponent } from '../../ui/popover/Popover';
-import { AuthMenu } from '@/features/auth/ui/auth-menu/AuthMenu';
 import { useAuthStore } from '@/providers/AuthProvider';
 import { ThemeToggle } from '@/components/theme-switcher/ThemeSwitcher';
 import { useThemeContext } from '@/providers/ThemeProvider';
 import { Chat } from '@/features/online-chat/ui/OnlineChat';
+import { AuthorizationMenu } from '@/features/auth/ui/authorization-menu';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -26,11 +25,11 @@ export const AppLayout: React.FC<AppLayoutProps> = observer(
       <Layout style={{ minHeight: '100vh' }}>
         <AppHeader>
           <NavigationPanel />
-          <PopoverComponent content={<AuthMenu />} buttonTitle="Профиль" />
           <UserAvatar
             name={authStore.authorizationUser?.userName}
             email={authStore.authorizationUser?.email}
           />
+          <AuthorizationMenu />
           <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         </AppHeader>
         <Layout

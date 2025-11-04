@@ -11,6 +11,10 @@ import { Pagination } from '../../../../components/pagination/Pagination';
 import { ProductItem } from '../product-item/ProductItem';
 
 export const Products = observer(() => {
+  /*Компонент по большей части моковый. Будет в последствии заменяться
+  на отображение Резюме/Вакансий и тд
+  
+  */
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const navigate = useNavigate();
   const [totalElements, setTotalElements] = useState<number>();
@@ -24,10 +28,10 @@ export const Products = observer(() => {
     });
   };
 
-  useEffect(() => {
-    const skip = (page - 1) * pageSize;
-    loadProducts({ limit: pageSize, skip });
-  }, [page, pageSize]);
+  // useEffect(() => {
+  //   const skip = (page - 1) * pageSize;
+  //   loadProducts({ limit: pageSize, skip });
+  // }, [page, pageSize]);
 
   const onClickNavigateProductDetails = (id: number) => {
     navigate(`/products/${id}`);

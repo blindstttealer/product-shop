@@ -10,6 +10,7 @@ import ProductDetail from '../pages/products/product-detail/product-detail';
 import Cart from '../pages/cart/cart-page';
 import { CareerWelcome } from '../features/career-form/ui/career-welcome/CareerWelcome';
 import { CareerForms } from '../features/career-form/ui/career-forms/CareerForms';
+import ConfirmEmailPage from '@/pages/email-verification/email-verification-page';
 
 export const appRouter = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ export const appRouter = createBrowserRouter([
       { path: 'products', Component: Products },
       { path: 'products/:id', Component: ProductDetail },
       { path: 'cart', Component: Cart },
+      { path: 'email-verification', Component: ConfirmEmailPage },
     ],
   },
 ]);
