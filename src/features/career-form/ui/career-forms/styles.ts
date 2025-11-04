@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Button } from 'antd';
+import { Modal } from '@admiral-ds/react-ui';
 
 export const Container = styled.div`
   margin: 0 auto;
@@ -70,4 +71,8 @@ export const CreateButtonWrapper = styled.div`
 export const StyledButton = styled(Button)`
   width: 100%;
   max-width: 240px;
+`;
+
+export const StyledModal = styled(Modal)`
+  top: 35%;
 `;

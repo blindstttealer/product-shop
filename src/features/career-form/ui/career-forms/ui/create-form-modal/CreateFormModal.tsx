@@ -1,4 +1,11 @@
-import { Form, Input, Modal } from 'antd';
+import {
+  Button,
+  InputField,
+  ModalButtonPanel,
+  ModalContent,
+  ModalTitle,
+} from '@admiral-ds/react-ui';
+import { StyledModal } from '@/features/career-form/ui/career-forms/styles';
 
 interface CreateFormModalProps {
   formName: string;
@@ -18,25 +25,31 @@ export const CreateFormModal = ({
   onChangeFormName,
 }: CreateFormModalProps) => {
   return (
-    <Modal
-      title="Новая форма"
-      open={isModalOpen}
-      onOk={onOkHandler}
-      onCancel={onCancelHandler}
-      okText="Создать"
-      cancelText="Отмена"
-    >
-      <Form layout="vertical">
-        <Form.Item label="Название формы" validateStatus={error ? 'error' : ''} help={error}>
-          <Input
-            value={formName}
-            onChange={(event) => {
-              onChangeFormName(event.target.value);
-            }}
-            placeholder="Введите название формы"
-          />
-        </Form.Item>
-      </Form>
-    </Modal>
+    isModalOpen && (
+      <StyledModal onClose={onCancelHandler} dimension={'m'}>
+        <ModalTitle>Новая форма</ModalTitle>
+        <ModalContent>
+          <form>
+            <InputField
+              value={formName}
+              onChange={(event) => {
+                onChangeFormName(event.target.value);
+              }}
+              status={error ? 'error' : undefined}
+              extraText={error}
+              placeholder="Введите название формы"
+            />
+          </form>
+        </ModalContent>
+        <ModalButtonPanel>
+          <Button appearance="primary" dimension="s" onClick={onOkHandler}>
+            Создать
+          </Button>
+          <Button appearance="secondary" dimension="s" onClick={onCancelHandler}>
+            Отмена
+          </Button>
+        </ModalButtonPanel>
+      </StyledModal>
+    )
   );
 };
