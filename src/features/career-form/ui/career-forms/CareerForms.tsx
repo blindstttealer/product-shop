@@ -2,11 +2,12 @@ import { observer } from 'mobx-react-lite';
 import { getCurrentStepComponent } from '../../lib/utils/getCurrentStepComponents';
 import { formManager } from '../../model/multi-form-manager';
 import { Container, ControlsRow, FormContent, HeaderSection } from './styles';
-import { CreateFormModal } from './ui/create-form-modal/CreateFormModal';
+import { CreateFormModal } from '../create-form-modal/CreateFormModal';
 import { FormsPopover, FormHeader, FormInfo } from './components';
-import { useCareerFormActions, useCreateFormModal } from './hooks';
+import { useCareerFormActions } from './hooks';
 import { Spinner } from '@admiral-ds/react-ui';
 import { useCallback, useMemo } from 'react';
+import { useCreateFormModal } from '@/features/career-form/ui/create-form-modal/hooks';
 
 export const CareerForms = observer(() => {
   const {

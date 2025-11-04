@@ -1,20 +1,28 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { formManager } from '../../model/multi-form-manager';
-import { Form, Input } from 'antd';
-import { CompanyInfo, StepInfo, StyledModal, Title, Wrapper } from './styles';
+import { CompanyInfo, StepInfo, Title, Wrapper } from './styles';
 import { observer } from 'mobx-react-lite';
-import { SelectField, Option } from '@admiral-ds/react-ui';
+import { Option, SelectField } from '@admiral-ds/react-ui';
 import { FormDefinition } from '../../model/types';
+import { CreateFormModal } from '@/features/career-form/ui/create-form-modal/CreateFormModal';
+import { useCreateFormModal } from '@/features/career-form/ui/create-form-modal/hooks';
 
 export const CareerWelcome = observer(() => {
   const navigate = useNavigate();
   const { formId } = useParams<{ formId: string }>();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [formName, setFormName] = useState('');
-  const [formNameError, setFormNameError] = useState('');
   const [templates, setTemplates] = useState<FormDefinition[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState('');
+
+  const {
+    isModalVisible,
+    formName,
+    formNameError,
+    openModal,
+    closeModal,
+    updateFormName,
+    validateFormName,
+  } = useCreateFormModal();
 
   useEffect(() => {
     formManager.loadTemplates().then((fields) => {
@@ -28,19 +36,16 @@ export const CareerWelcome = observer(() => {
       currentForm?.setStep(1);
       return;
     }
-    setIsModalVisible(true);
+    openModal();
   };
 
   const handleCreateForm = () => {
-    if (!formName.trim()) {
-      setFormNameError('Пожалуйста, введите название формы');
-      return;
+    if (validateFormName()) {
+      const form = formManager.createFromTemplate(selectedTemplate, formName);
+      navigate(`/careers/form/${form.id}`);
+      updateFormName('');
+      closeModal();
     }
-
-    const form = formManager.createFromTemplate(selectedTemplate, formName);
-    navigate(`/careers/form/${form.id}`);
-    setIsModalVisible(false);
-    setFormName('');
   };
 
   const StepInfoTitle = useMemo(() => {
@@ -61,10 +66,6 @@ export const CareerWelcome = observer(() => {
     <Wrapper>
       <Title>Добро пожаловать в нашу компанию!</Title>
 
-      <StepInfo hasFormId={!!formId} onClick={handleStartClick}>
-        {StepInfoTitle}
-      </StepInfo>
-
       <SelectField
         mode="searchSelect"
         label="Выберите форму"
@@ -75,43 +76,24 @@ export const CareerWelcome = observer(() => {
         {renderOptions()}
       </SelectField>
 
+      <StepInfo hasFormId={!!formId} onClick={handleStartClick} disabled={!selectedTemplate}>
+        {StepInfoTitle}
+      </StepInfo>
+
       <CompanyInfo>
         Мы рады приветствовать новых сотрудников в нашей компании! Здесь вы найдете дружелюбную
         команду, возможности для роста и поддержку на каждом этапе вашего карьерного пути. Добро
         пожаловать в команду!
       </CompanyInfo>
 
-      <StyledModal
-        title="Новая карточка"
-        open={isModalVisible}
-        onOk={handleCreateForm}
-        onCancel={() => {
-          setIsModalVisible(false);
-          setFormName('');
-          setFormNameError('');
-        }}
-        okText="Создать"
-        cancelText="Отмена"
-        okButtonProps={{
-          style: {
-            backgroundColor: '#3bc14a',
-            borderColor: '#3bc14a',
-          },
-        }}
-      >
-        <Form layout="vertical">
-          <Form.Item validateStatus={formNameError ? 'error' : ''} help={formNameError}>
-            <Input
-              value={formName}
-              onChange={(e) => {
-                setFormName(e.target.value);
-                if (formNameError) setFormNameError('');
-              }}
-              placeholder="Введите название формы"
-            />
-          </Form.Item>
-        </Form>
-      </StyledModal>
+      <CreateFormModal
+        isModalOpen={isModalVisible}
+        formName={formName}
+        error={formNameError}
+        onChangeFormName={updateFormName}
+        onCancelHandler={closeModal}
+        onOkHandler={handleCreateForm}
+      />
     </Wrapper>
   );
 });

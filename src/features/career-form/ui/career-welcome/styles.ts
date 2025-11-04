@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Modal } from 'antd';
 
 export const Wrapper = styled.div`
   padding: 24px 32px;
@@ -40,6 +39,7 @@ export const StepInfo = styled.button<{ hasFormId?: boolean }>`
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease;
+  margin-top: 20px;
 
   &:hover {
     background-color: ${({ theme, hasFormId }) =>
@@ -59,6 +59,11 @@ export const StepInfo = styled.button<{ hasFormId?: boolean }>`
         hasFormId ? theme.color['Attention/Attention 60'] : theme.color['Success/Success 60']};
     outline-offset: 2px;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 `;
 
 export const CompanyInfo = styled.p`
@@ -69,5 +74,3 @@ export const CompanyInfo = styled.p`
   text-align: center;
   user-select: none;
 `;
-
-export const StyledModal = styled(Modal)``;

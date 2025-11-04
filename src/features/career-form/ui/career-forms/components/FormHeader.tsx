@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { ProgressSteps } from '../../../../../components/ui/progress-bar/ProgressBar';
+import { ProgressSteps } from '@/components/ui/progress-bar/ProgressBar';
 import { FormHeaderProps } from '../types';
 
 export const FormHeader = observer(({ currentStep, steps }: FormHeaderProps) => {
