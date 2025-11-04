@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Modal } from 'antd';
 
 export const Wrapper = styled.div`
   padding: 24px 32px;
@@ -75,5 +74,3 @@ export const CompanyInfo = styled.p`
   text-align: center;
   user-select: none;
 `;
-
-export const StyledModal = styled(Modal)``;

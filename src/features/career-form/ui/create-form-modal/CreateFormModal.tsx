@@ -5,7 +5,7 @@ import {
   ModalContent,
   ModalTitle,
 } from '@admiral-ds/react-ui';
-import { StyledModal } from '@/features/career-form/ui/career-forms/styles';
+import { StyledModal } from './styles';
 
 interface CreateFormModalProps {
   formName: string;
@@ -42,7 +42,7 @@ export const CreateFormModal = ({
           </form>
         </ModalContent>
         <ModalButtonPanel>
-          <Button appearance="primary" dimension="s" onClick={onOkHandler}>
+          <Button appearance="primary" dimension="s" onClick={onOkHandler} disabled={!formName}>
             Создать
           </Button>
           <Button appearance="secondary" dimension="s" onClick={onCancelHandler}>
