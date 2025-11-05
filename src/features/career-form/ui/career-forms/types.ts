@@ -1,4 +1,4 @@
-import { ProgressStep } from '../../../../components/ui/progress-bar/ProgressBar';
+import { ProgressStep } from '@/components/ui/progress-bar/ProgressBar';
 import { FormListItem } from '../../model/multi-form-manager';
 
 export interface FormsPopoverProps {

@@ -1,24 +1,42 @@
 import { observer } from 'mobx-react-lite';
 import { formManager } from '../../../model/multi-form-manager';
 import { FormInfoProps } from '../types';
+import {
+  FormInfoBlock,
+  FormInfoItem,
+  FormInfoTitle,
+} from '@/features/career-form/ui/career-forms/styles';
 
 export const FormInfo = observer(({ formId }: FormInfoProps) => {
   const currentForm = formManager.currentForm;
+  const currentTemplate = currentForm ? formManager.templates[currentForm.templateId] : undefined;
+  if (!currentForm || !currentTemplate) return null;
 
-  if (!currentForm) return null;
+  const currentStepIndex = currentForm.step - 1;
+  const currentStep = currentTemplate.steps[currentStepIndex];
+
+  const requiredFields = currentStep?.fields?.filter((f) => f.required) || [];
+
+  const stepData = currentForm.data[currentStepIndex] || {};
+
+  const emptyRequiredFields = requiredFields.filter((f) => {
+    const value = stepData?.[f.key];
+    return value === '' || value === null || value === undefined;
+  });
+
+  const stepTitle = currentTemplate.steps.length >= currentForm.step ? currentStep.title : 'Review';
 
   return (
-    <div
-      style={{
-        padding: '16px',
-        background: '#f8f9fa',
-        borderRadius: '8px',
-        marginTop: '24px',
-      }}
-    >
-      <h4 style={{ marginBottom: '12px', color: '#343a40' }}>Информация о текущей форме:</h4>
-      <p style={{ margin: '6px 0', color: '#495057' }}>ID: {formId}</p>
-      <p style={{ margin: '6px 0', color: '#495057' }}>Шаг: {currentForm.step}</p>
-    </div>
+    <FormInfoBlock>
+      <FormInfoTitle>Информация о текущей форме:</FormInfoTitle>
+      <FormInfoItem>ID: {formId}</FormInfoItem>
+      <FormInfoItem>Шаблон: {currentTemplate.name}</FormInfoItem>
+      <FormInfoItem>
+        Шаг {currentForm.step}: {stepTitle}
+      </FormInfoItem>
+      {!!requiredFields.length && (
+        <FormInfoItem>Незаполненных обязательных полей: {emptyRequiredFields.length}</FormInfoItem>
+      )}
+    </FormInfoBlock>
   );
 });
