@@ -1,0 +1,190 @@
+{
+  "forms": [
+    {
+      "id": "candidate-application-form",
+      "name": "Candidate Application",
+      "version": "2.1",
+      "description": "Форма отклика кандидата — базовые данные, контакты, опыт и образование",
+      "steps": [
+        {
+          "id": "personal",
+          "title": "Личные данные",
+          "fields": [
+            { "key": "firstName", "label": "Имя", "type": "text", "required": true },
+            { "key": "lastName", "label": "Фамилия", "type": "text", "required": true },
+            { "key": "dateOfBirth", "label": "Дата рождения", "type": "date" },
+            { "key": "city", "label": "Город проживания", "type": "text" },
+            { "key": "citizenship", "label": "Гражданство", "type": "text" }
+          ]
+        },
+        {
+          "id": "contact",
+          "title": "Контактная информация",
+          "fields": [
+            { "key": "email", "label": "Email", "type": "email", "required": true },
+            { "key": "phone", "label": "Номер телефона", "type": "phone", "required": true },
+            { "key": "linkedIn", "label": "Профиль LinkedIn", "type": "url" },
+            { "key": "telegram", "label": "Telegram / другой мессенджер", "type": "text" }
+          ]
+        },
+        {
+          "id": "experience",
+          "title": "Опыт работы",
+          "fields": [
+            { "key": "desiredPosition", "label": "Желаемая должность", "type": "text", "required": true },
+            { "key": "experienceYears", "label": "Опыт работы (лет)", "type": "number" },
+            {
+              "key": "lastCompany",
+              "label": "Последнее место работы",
+              "type": "group",
+              "fields": [
+                { "key": "companyName", "label": "Компания", "type": "text" },
+                { "key": "position", "label": "Должность", "type": "text" },
+                { "key": "startDate", "label": "Дата начала", "type": "date" },
+                { "key": "endDate", "label": "Дата окончания", "type": "date" }
+              ]
+            },
+            { "key": "skills", "label": "Ключевые навыки", "type": "tags" },
+            { "key": "resumeFile", "label": "Резюме (PDF/DOCX)", "type": "file", "required": true }
+          ]
+        },
+        {
+          "id": "education",
+          "title": "Образование",
+          "fields": [
+            { "key": "university", "label": "Учебное заведение", "type": "text" },
+            { "key": "degree", "label": "Степень / специальность", "type": "text" },
+            { "key": "graduationYear", "label": "Год окончания", "type": "number" }
+          ]
+        },
+        {
+          "id": "additional",
+          "title": "Дополнительная информация",
+          "fields": [
+            { "key": "salaryExpectation", "label": "Ожидаемая зарплата (валюта и сумма)", "type": "text" },
+            { "key": "relocation", "label": "Готовность к переезду", "type": "select", "options": [{ "label": "Да", "value": "yes" }, { "label": "Нет", "value": "no" }] },
+            { "key": "noticePeriod", "label": "Срок выхода (в неделях)", "type": "number" },
+            { "key": "coverLetter", "label": "Сопроводительное письмо", "type": "textArea" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "phone-screen-form",
+      "name": "Phone Screening",
+      "version": "2.1",
+      "description": "Форма оценки кандидата на этапе телефонного скрининга",
+      "steps": [
+        {
+          "id": "session",
+          "title": "Информация о звонке",
+          "fields": [
+            { "key": "candidateId", "label": "ID кандидата", "type": "text", "required": true },
+            { "key": "interviewer", "label": "Имя интервьюера", "type": "text", "required": true },
+            { "key": "callDate", "label": "Дата звонка", "type": "date" },
+            { "key": "channel", "label": "Канал связи", "type": "select", "options": [{ "label": "Телефон", "value": "phone" }, { "label": "Zoom", "value": "zoom" }, { "label": "Google Meet", "value": "meet" }] }
+          ]
+        },
+        {
+          "id": "evaluation",
+          "title": "Оценка кандидата",
+          "fields": [
+            { "key": "motivation", "label": "Мотивация кандидата", "type": "textArea" },
+            { "key": "experienceMatch", "label": "Соответствие опыту (1–5)", "type": "number", "min": 1, "max": 5 },
+            { "key": "communication", "label": "Коммуникация (1–5)", "type": "number", "min": 1, "max": 5 },
+            { "key": "salaryFit", "label": "Зарплатные ожидания совпадают", "type": "select", "options": [{ "label": "Да", "value": "yes" }, { "label": "Нет", "value": "no" }] },
+            { "key": "recommendation", "label": "Рекомендация", "type": "select", "options": [{ "label": "Далее", "value": "proceed" }, { "label": "Отказ", "value": "reject" }, { "label": "Под вопросом", "value": "hold" }] }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "interview-feedback-form",
+      "name": "Interview Feedback",
+      "version": "2.1",
+      "description": "Отчет интервьюера после проведения интервью",
+      "steps": [
+        {
+          "id": "meta",
+          "title": "Информация об интервью",
+          "fields": [
+            { "key": "candidateId", "label": "ID кандидата", "type": "text", "required": true },
+            { "key": "interviewer", "label": "Имя интервьюера", "type": "text", "required": true },
+            { "key": "interviewType", "label": "Тип интервью", "type": "select", "options": [{ "label": "Техническое", "value": "technical" }, { "label": "HR", "value": "hr" }, { "label": "Финальное", "value": "final" }] },
+            { "key": "interviewDate", "label": "Дата интервью", "type": "date" }
+          ]
+        },
+        {
+          "id": "feedback",
+          "title": "Оценка и комментарии",
+          "fields": [
+            { "key": "technicalScore", "label": "Технический уровень (1–10)", "type": "number", "min": 1, "max": 10 },
+            { "key": "communicationScore", "label": "Коммуникация (1–10)", "type": "number", "min": 1, "max": 10 },
+            { "key": "teamFitScore", "label": "Совместимость с командой (1–10)", "type": "number", "min": 1, "max": 10 },
+            { "key": "strengths", "label": "Сильные стороны", "type": "textArea" },
+            { "key": "weaknesses", "label": "Зоны роста", "type": "textArea" },
+            { "key": "recommendation", "label": "Решение", "type": "select", "options": [{ "label": "Нанять", "value": "hire" }, { "label": "Рассмотреть дополнительно", "value": "maybe" }, { "label": "Отказ", "value": "reject" }] }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "offer-details-form",
+      "name": "Offer Details",
+      "version": "2.0",
+      "description": "Форма подготовки и согласования оффера",
+      "steps": [
+        {
+          "id": "offer",
+          "title": "Основные параметры",
+          "fields": [
+            { "key": "candidateId", "label": "ID кандидата", "type": "text", "required": true },
+            { "key": "position", "label": "Должность", "type": "text", "required": true },
+            { "key": "salary", "label": "Зарплата (валюта и сумма)", "type": "text" },
+            { "key": "startDate", "label": "Дата выхода", "type": "date" },
+            { "key": "contractType", "label": "Тип договора", "type": "select", "options": [{ "label": "Постоянный", "value": "permanent" }, { "label": "Срочный", "value": "fixed" }, { "label": "Подряд", "value": "contract" }] }
+          ]
+        },
+        {
+          "id": "verification",
+          "title": "Проверки",
+          "fields": [
+            { "key": "backgroundCheck", "label": "Проверка бэкграунда пройдена", "type": "select", "options": [{ "label": "Да", "value": "yes" }, { "label": "Нет", "value": "no" }] },
+            { "key": "documents", "label": "Необходимые документы", "type": "textArea" },
+            { "key": "signedOffer", "label": "Подписанный оффер (ссылка)", "type": "url" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "onboarding-checklist-form",
+      "name": "Onboarding Checklist",
+      "version": "1.0",
+      "description": "Форма подготовки сотрудника к первому дню работы",
+      "steps": [
+        {
+          "id": "access",
+          "title": "Доступы и инструменты",
+          "fields": [
+            { "key": "emailAccount", "label": "Создан корпоративный email", "type": "checkbox" },
+            { "key": "hardwareIssued", "label": "Выдан ноутбук / оборудование", "type": "checkbox" },
+            { "key": "systemAccess", "label": "Доступ к системам предоставлен", "type": "checkbox" }
+          ]
+        },
+        {
+          "id": "orientation",
+          "title": "Адаптация",
+          "fields": [
+            { "key": "orientationDate", "label": "Дата вводного дня", "type": "date" },
+            { "key": "departmentIntro", "label": "Встреча с отделом проведена", "type": "checkbox" },
+            { "key": "trainingPlan", "label": "План обучения утвержден", "type": "checkbox" }
+          ]
+        }
+      ]
+    }
+  ]
+}

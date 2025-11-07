@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import styled from "styled-components";
-import { useCart } from "../../../features/cart/lib/useCart";
-import { Product } from "../../../features/products/api/productsApi.types";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import styled from 'styled-components';
+import { useCart } from '../../../features/cart/lib/useCart';
+import { Product } from '../../../features/products/api/productsApi.types';
 
 const Container = styled.div`
   margin: 32px auto;
@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 const ProductWrapper = styled.div`
-  background-color: ${({ theme }) => theme.color["Background/Background 2"]};
+  background-color: ${({ theme }) => theme.color['Background/Background 2']};
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 24px;
@@ -23,11 +23,11 @@ const ProductWrapper = styled.div`
   width: 100%;
   flex-wrap: wrap;
   justify-content: center;
-  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+  border: 1px solid ${({ theme }) => theme.color['Neutral/Neutral 20']};
 
   &:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    border-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
+    border-color: ${({ theme }) => theme.color['Primary/Primary 60']};
   }
 `;
 
@@ -49,22 +49,22 @@ const Details = styled.div`
 `;
 
 const Title = styled.h2`
-  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
+  color: ${({ theme }) => theme.color['Neutral/Neutral 90']};
   margin: 0;
 `;
 
 const Description = styled.p`
-  color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
+  color: ${({ theme }) => theme.color['Neutral/Neutral 70']};
   line-height: 1.6;
   margin: 0;
 `;
 
 const Price = styled.span`
-  color: ${({ theme }) => theme.color["Primary/Primary 60"]};
+  color: ${({ theme }) => theme.color['Primary/Primary 60']};
 `;
 
 const AddToCartButton = styled.button`
-  background-color: ${({ theme }) => theme.color["Primary/Primary 60"]};
+  background-color: ${({ theme }) => theme.color['Primary/Primary 60']};
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -74,12 +74,12 @@ const AddToCartButton = styled.button`
   width: fit-content;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color["Primary/Primary 70"]};
+    background-color: ${({ theme }) => theme.color['Primary/Primary 70']};
     transform: translateY(-2px);
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.color["Primary/Primary 80"]};
+    background-color: ${({ theme }) => theme.color['Primary/Primary 80']};
     transform: translateY(0);
   }
 
@@ -107,7 +107,7 @@ export default function ProductDetail() {
     if (product) {
       cart.addToCart(product);
     } else {
-      throw new Error("Product not found");
+      throw new Error('Product not found');
     }
   };
 
@@ -123,9 +123,7 @@ export default function ProductDetail() {
           <Price>${product.price}</Price>
           <div>Category: {product.category}</div>
           <div>In stock: {product.stock} items</div>
-          <AddToCartButton onClick={handleAddToCart}>
-            Add to Cart
-          </AddToCartButton>
+          <AddToCartButton onClick={handleAddToCart}>Add to Cart</AddToCartButton>
         </Details>
       </ProductWrapper>
     </Container>

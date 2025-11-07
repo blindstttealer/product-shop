@@ -1,9 +1,6 @@
-import {
-  removeLocalStorage,
-  setLocalStorage,
-} from "../../../shared/api/utils/localStorage";
-import { AuthApi } from "../api/authApi";
-import { makeAutoObservable, runInAction } from "mobx";
+import { removeFromLocalStorage, saveToLocalStorage } from '../../../shared/utils/localStorage';
+import { AuthApi } from '../api/authApi';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 interface User {
   id: string;
@@ -28,7 +25,7 @@ export interface RegistrationCredits {
 
 export class AuthStore {
   private user: User | null = null;
-  loading: boolean = false;
+  loading = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -39,11 +36,9 @@ export class AuthStore {
     try {
       const response = await AuthApi.registration(credits);
 
-      console.log("response---", response);
+      saveToLocalStorage('accessToken', response.token.accessToken);
 
-      setLocalStorage("accessToken", response.token.accessToken);
-
-      setLocalStorage("refreshToken", response.token.refreshToken);
+      saveToLocalStorage('refreshToken', response.token.refreshToken);
 
       runInAction(() => {
         this.user = {
@@ -55,7 +50,6 @@ export class AuthStore {
 
       this.loading = false;
     } catch (error) {
-      console.log("error in registration- ", error);
       this.loading = false;
     }
   }
@@ -65,9 +59,9 @@ export class AuthStore {
     try {
       const response = await AuthApi.login(credits);
 
-      setLocalStorage("accessToken", response.token.accessToken);
+      saveToLocalStorage('accessToken', response.token.accessToken);
 
-      setLocalStorage("refreshToken", response.token.refreshToken);
+      saveToLocalStorage('refreshToken', response.token.refreshToken);
 
       runInAction(() => {
         this.user = {
@@ -79,15 +73,14 @@ export class AuthStore {
 
       this.loading = false;
     } catch (error) {
-      console.log("error in login- ", error);
       this.loading = false;
     }
   }
 
   logout() {
     this.user = null;
-    removeLocalStorage("accessToken");
-    removeLocalStorage("refreshToken");
+    removeFromLocalStorage('accessToken');
+    removeFromLocalStorage('refreshToken');
   }
 
   async me() {
@@ -106,7 +99,7 @@ export class AuthStore {
 
       this.loading = false;
     } catch (error) {
-      console.error("error me---", error);
+      console.error('error me---', error);
       this.loading = false;
     }
   }

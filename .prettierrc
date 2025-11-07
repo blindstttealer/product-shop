@@ -1,0 +1,13 @@
+{
+  "endOfLine": "crlf",
+  "printWidth": 100,               
+  "tabWidth": 2,                   
+  "useTabs": false,                
+  "singleQuote": true,              
+  "jsxSingleQuote": false,         
+  "trailingComma": "all",          
+  "bracketSpacing": true,          
+  "arrowParens": "always",          
+  "proseWrap": "preserve",          
+  "embeddedLanguageFormatting": "auto" 
+}

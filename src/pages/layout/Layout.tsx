@@ -1,7 +1,7 @@
-import { Outlet } from "react-router";
-import React, { useEffect } from "react";
-import { AppLayout } from "../../components/layout/AppLayout";
-import { useAuthStore } from "../../providers/AuthProvider";
+import { Outlet } from 'react-router';
+import React, { useEffect } from 'react';
+import { AppLayout } from '../../components/layout/AppLayout';
+import { useAuthStore } from '../../providers/AuthProvider';
 
 export default function MainLayout() {
   const authStore = useAuthStore();
@@ -10,13 +10,13 @@ export default function MainLayout() {
     setCollapsed(!collapsed);
   };
 
-  const meRequest = async () => {
-    await authStore.me();
-  };
+  // const meRequest = async () => {
+  //   await authStore.me();
+  // };
 
-  useEffect(() => {
-    meRequest();
-  }, []);
+  // useEffect(() => {
+  //   meRequest();
+  // }, []);
 
   return (
     <AppLayout collapsed={collapsed} toggleCollapse={toggleCollapse}>

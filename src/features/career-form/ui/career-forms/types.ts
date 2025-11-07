@@ -1,4 +1,5 @@
-import { FormListItem } from "../../model/multi-form-manager";
+import { ProgressStep } from '../../../../components/ui/progress-bar/ProgressBar';
+import { FormListItem } from '../../model/multi-form-manager';
 
 export interface FormsPopoverProps {
   currentFormId: string | undefined;
@@ -11,10 +12,9 @@ export interface FormsPopoverProps {
 
 export interface FormHeaderProps {
   currentStep: number;
+  steps: ProgressStep[];
 }
 
 export interface FormInfoProps {
   formId: string | undefined;
 }
-
-

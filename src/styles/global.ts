@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
   *,
@@ -18,18 +18,18 @@ export const GlobalStyles = createGlobalStyle`
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.5;
-    color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
-    background-color: ${({ theme }) => theme.color["Background/Background 1"]};
+    color: ${({ theme }) => theme.color['Neutral/Neutral 90']};
+    background-color: ${({ theme }) => theme.color['Background/Background 1']};
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   a {
-    color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
+    color: ${({ theme }) => theme.color['Neutral/Neutral 90']};
     text-decoration: none;
     transition: color 0.3s ease;
 
     &:hover {
-      color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
+      color: ${({ theme }) => theme.color['Neutral/Neutral 70']};
     }
   }
 
@@ -54,18 +54,18 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .ant-layout {
-    background: ${({ theme }) => theme.color["Background/Background 1"]};
+    background: ${({ theme }) => theme.color['Background/Background 1']};
   }
 
   .ant-btn-primary {
-    background: ${({ theme }) => theme.color["Primary/Primary 60"]};
+    background: ${({ theme }) => theme.color['Primary/Primary 60']};
     
     &:hover {
-      background: ${({ theme }) => theme.color["Primary/Primary 70"]};
+      background: ${({ theme }) => theme.color['Primary/Primary 70']};
     }
     
     &:active {
-      background: ${({ theme }) => theme.color["Primary/Primary 80"]};
+      background: ${({ theme }) => theme.color['Primary/Primary 80']};
     }
   }
 

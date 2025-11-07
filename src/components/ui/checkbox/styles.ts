@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Checkbox as AntCheckbox, Typography, Space } from "antd";
+import styled from 'styled-components';
+import { Checkbox as AntCheckbox, Typography, Space } from 'antd';
 
 export const StyledCheckboxContainer = styled(Space)`
   width: 100%;
@@ -10,8 +10,7 @@ export const StyledCheckboxContainer = styled(Space)`
 export const StyledCheckbox = styled(AntCheckbox)<{ $error?: boolean }>`
   && {
     .ant-checkbox-inner {
-      border-color: ${({ $error, theme }) =>
-        $error ? theme.color["Error/Error 40"] : ""};
+      border-color: ${({ $error, theme }) => ($error ? theme.color['Error/Error 40'] : '')};
     }
 
     .ant-checkbox + span {
@@ -23,11 +22,11 @@ export const StyledCheckbox = styled(AntCheckbox)<{ $error?: boolean }>`
 export const HelperText = styled(Typography.Text)`
   font-size: 12px;
   margin-left: 24px;
-  color: ${({ theme }) => theme.color["Neutral/Neutral 40"]};
+  color: ${({ theme }) => theme.color['Neutral/Neutral 40']};
 `;
 
 export const ErrorText = styled(Typography.Text)`
   font-size: 12px;
   margin-left: 24px;
-  color: ${({ theme }) => theme.color["Neutral/Neutral 40"]};
+  color: ${({ theme }) => theme.color['Neutral/Neutral 40']};
 `;

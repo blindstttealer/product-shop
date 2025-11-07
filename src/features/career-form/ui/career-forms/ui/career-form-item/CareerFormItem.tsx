@@ -1,17 +1,8 @@
-import {
-  CloseOutlined,
-  EditOutlined,
-  SwapHorizOutlined,
-} from "@mui/icons-material";
-import { ComponentPropsWithoutRef, FC } from "react";
-import {
-  ActionButton,
-  ActionsContainer,
-  FormItemContainer,
-  FormTitle,
-} from "./styles";
-import { EditField } from "../../../../../../components/ui/edit-field/EditField";
-import { observer } from "mobx-react-lite";
+import { CloseOutlined, EditOutlined, SwapHorizOutlined } from '@mui/icons-material';
+import { ComponentPropsWithoutRef, FC } from 'react';
+import { ActionButton, ActionsContainer, FormItemContainer, FormTitle } from './styles';
+import { EditField } from '../../../../../../components/ui/edit-field/EditField';
+import { observer } from 'mobx-react-lite';
 
 type CareerFormItemProps = {
   currentFormId?: string;
