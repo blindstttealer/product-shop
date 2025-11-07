@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { StyledHeader, Container } from "./styles";
+import { ReactNode } from 'react';
+import { StyledHeader, Container } from './styles';
 export default function AppHeader({ children }: { children?: ReactNode }) {
   return (
     <StyledHeader>

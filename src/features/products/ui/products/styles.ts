@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Grid = styled.div`
   display: grid;
@@ -20,14 +20,14 @@ export const ProductsColumn = styled.div`
 `;
 
 export const Card = styled.div`
-  background-color: ${({ theme }) => theme.color["Background/Background 1"]};
+  background-color: ${({ theme }) => theme.color['Background/Background 1']};
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   padding: 16px;
   display: flex;
   flex-direction: column;
   transition: 0.2s ease;
-  color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
+  color: ${({ theme }) => theme.color['Neutral/Neutral 90']};
 
   &:hover {
     transform: translateY(-4px);

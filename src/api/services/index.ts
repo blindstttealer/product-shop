@@ -1,12 +1,12 @@
-import { ApiService } from "./api-service";
-import { AuthExtension } from "./auth-service";
+import { AuthExtensionSimple } from '../interceptors/auth-interceptors';
+import { ApiService } from './api-service';
 
-export function createApiService() {
-  const api = new ApiService()
+const apiService = new ApiService({
+  baseURL: 'http://localhost:3000/',
+  withCredentials: true,
+  timeout: 10_000,
+});
 
-  new AuthExtension(api, () => () => console.log('AuthExtension'));
+new AuthExtensionSimple(apiService);
 
-  return api;
-}
-
-export const apiService = createApiService();
+export { apiService };

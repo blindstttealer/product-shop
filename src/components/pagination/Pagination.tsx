@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { Pagination as AntdPagination, PaginationProps } from "antd";
+import React, { useState } from 'react';
+import { Pagination as AntdPagination, PaginationProps } from 'antd';
 
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-type ItemType = "page" | "prev" | "next";
+type ItemType = 'page' | 'prev' | 'next';
 
 // Временно вынес сюда тип чтобы понятнее было что пропсы делают
 interface PaginationProps1 {
   /**
    * Выравнивание пагинации: влево, по центру или вправо
    */
-  align?: "start" | "center" | "end";
+  align?: 'start' | 'center' | 'end';
 
   /**
    * Текущий номер страницы (контролируемый режим)
@@ -43,11 +43,7 @@ interface PaginationProps1 {
   /**
    * Кастомизация отрисовки кнопок пагинации
    */
-  itemRender?: (
-    page: number,
-    type: ItemType,
-    originalElement: React.ReactNode
-  ) => React.ReactNode;
+  itemRender?: (page: number, type: ItemType, originalElement: React.ReactNode) => React.ReactNode;
 
   /**
    * Количество элементов на странице (контролируемый режим)
@@ -110,7 +106,7 @@ interface PaginationProps1 {
    * Размер пагинации
    * По умолчанию: 'default'
    */
-  size?: "default" | "small";
+  size?: 'default' | 'small';
 
   /**
    * Общее количество элементов (обязательно для работы пагинации)
@@ -135,7 +131,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   pageSize,
   defaultPageSize = 10,
   total = 0,
-  align = "center",
+  align = 'center',
   showSizeChanger = total > 50,
   pageSizeOptions = [10, 20, 50, 100],
   showQuickJumper = true,
@@ -143,7 +139,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   disabled,
   hideOnSinglePage = false,
   responsive = true,
-  size = "default",
+  size = 'default',
   onChange,
   ...rest
 }) => {

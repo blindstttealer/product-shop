@@ -1,6 +1,6 @@
-import { makeAutoObservable } from "mobx";
-import { CartItem } from "./types";
-import { Product } from "../../products/api/productsApi.types";
+import { makeAutoObservable } from 'mobx';
+import { CartItem } from './types';
+import { Product } from '../../products/api/productsApi.types';
 
 export class CartStore {
   cartItems: CartItem[] = [];
@@ -48,10 +48,7 @@ export class CartStore {
   }
 
   get totalPrice() {
-    return this.cartItems.reduce(
-      (acc, item) => acc + item.price * item.quantity,
-      0,
-    );
+    return this.cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   }
 }
 

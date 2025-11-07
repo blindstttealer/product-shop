@@ -1,0 +1,1 @@
+export { ForgotVisible } from './ForgotPassword';

@@ -1,5 +1,5 @@
-import { Card, Category, Image, Price, Title } from "../products/styles";
-import { Product } from "../../api/productsApi.types";
+import { Card, Category, Image, Price, Title } from '../products/styles';
+import { Product } from '../../api/productsApi.types';
 
 interface ProductItem {
   onItemClick: (id: number) => void;

@@ -1,117 +1,111 @@
-import {
-  removeLocalStorage,
-  setLocalStorage,
-} from "../../../shared/api/utils/localStorage";
-import { AuthApi } from "../api/authApi";
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, runInAction } from 'mobx';
+import { AuthApi } from '../api/authApi';
 
-interface User {
+export interface User {
   id: string;
-  userName?: string;
-  email?: string;
-  meta?: {
-    ip: string;
-    userAgent: string;
-  };
-}
-
-export interface LoginCredits {
+  login?: string;
   email: string;
-  password: string;
-}
-
-export interface RegistrationCredits {
-  email: string;
-  password: string;
-  userName: string;
 }
 
 export class AuthStore {
-  private user: User | null = null;
-  loading: boolean = false;
+  user: User | null = null;
+  loading = false;
+  initialized = false;
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  async registration(credits: RegistrationCredits) {
-    this.loading = true;
-    try {
-      const response = await AuthApi.registration(credits);
-
-      console.log("response---", response);
-
-      setLocalStorage("accessToken", response.token.accessToken);
-
-      setLocalStorage("refreshToken", response.token.refreshToken);
-
-      runInAction(() => {
-        this.user = {
-          id: response.user.id,
-          email: response.user.email,
-          userName: response.user.userName,
-        };
-      });
-
-      this.loading = false;
-    } catch (error) {
-      console.log("error in registration- ", error);
-      this.loading = false;
-    }
+  get isAuthenticated(): boolean {
+    return !!this.user;
   }
 
-  async login(credits: LoginCredits) {
-    this.loading = true;
-    try {
-      const response = await AuthApi.login(credits);
-
-      setLocalStorage("accessToken", response.token.accessToken);
-
-      setLocalStorage("refreshToken", response.token.refreshToken);
-
-      runInAction(() => {
-        this.user = {
-          id: response.user.id,
-          email: response.user.email,
-          userName: response.user.userName,
-        };
-      });
-
-      this.loading = false;
-    } catch (error) {
-      console.log("error in login- ", error);
-      this.loading = false;
-    }
-  }
-
-  logout() {
-    this.user = null;
-    removeLocalStorage("accessToken");
-    removeLocalStorage("refreshToken");
-  }
-
-  async me() {
-    this.loading = true;
-    try {
-      const response = await AuthApi.me();
-
-      runInAction(() => {
-        this.user = {
-          id: response.user.id,
-          email: response.user.email,
-          userName: response.user.userName,
-        };
-        this.user.meta = response.meta;
-      });
-
-      this.loading = false;
-    } catch (error) {
-      console.error("error me---", error);
-      this.loading = false;
-    }
-  }
-
-  get authorizationUser() {
+  get authenticatedUser() {
     return this.user;
+  }
+
+  setUser(user: User | null) {
+    this.user = user;
+  }
+
+  clearUser() {
+    this.user = null;
+  }
+
+  setLoading(flag: boolean) {
+    this.loading = flag;
+  }
+
+  setInitialized(flag: boolean) {
+    this.initialized = flag;
+  }
+
+  async hydrate() {
+    this.setLoading(true);
+    try {
+      const resp = await AuthApi.getUser();
+      runInAction(() => {
+        if (resp && resp.id) {
+          this.user = {
+            id: resp.id,
+            email: resp.email,
+            // бэк забыл добавить логин, потом еще и его устанавливать
+          };
+        } else {
+          this.user = null;
+        }
+        this.initialized = true;
+      });
+      return this.user;
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  }
+
+  async registration(payload: { email?: string; password?: string; login?: string }) {
+    this.setLoading(true);
+    try {
+      const res = await AuthApi.registration(payload);
+      runInAction(() => {
+        if (res.user) {
+          const { email, id, login } = res.user;
+          this.user = { email, id, login };
+        }
+      });
+      return res;
+    } finally {
+      runInAction(() => (this.loading = false));
+    }
+  }
+
+  async login(payload: { login: string; password: string }) {
+    this.setLoading(true);
+    try {
+      const res = await AuthApi.login({ email: payload.login, password: payload.password });
+
+      runInAction(() => {
+        if (res) {
+          const { email, id } = res;
+          this.user = { email, id };
+        }
+      });
+      return res;
+    } finally {
+      runInAction(() => (this.loading = false));
+    }
+  }
+
+  async logout() {
+    this.setLoading(true);
+    try {
+      await AuthApi.logout();
+      runInAction(() => {
+        this.user = null;
+      });
+    } finally {
+      runInAction(() => (this.loading = false));
+    }
   }
 }

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router";
-import { formManager } from "../../../model/multi-form-manager";
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router';
+import { formManager } from '../../../model/multi-form-manager';
 
 export const useCareerFormActions = () => {
   const { formId } = useParams<{ formId: string }>();
@@ -25,7 +25,7 @@ export const useCareerFormActions = () => {
       if (nextForm) {
         navigate(`/careers/form/${nextForm.id}`);
       } else {
-        navigate("/careers");
+        navigate('/careers');
       }
     }
   };
@@ -34,10 +34,10 @@ export const useCareerFormActions = () => {
     formManager.editForm(id, newName);
   };
 
-  const createNewForm = (formName: string) => {
-    const newForm = formManager.createForm({}, formName);
-    navigate(`/careers/form/${newForm.id}`);
-  };
+  // const createNewForm = (formName: string) => {
+  //   const newForm = formManager.createForm({}, formName);
+  //   navigate(`/careers/form/${newForm.id}`);
+  // };
 
   useEffect(() => {
     if (formId) {
@@ -51,6 +51,6 @@ export const useCareerFormActions = () => {
     switchToForm,
     deleteForm,
     editForm,
-    createNewForm,
+    // createNewForm,
   };
 };

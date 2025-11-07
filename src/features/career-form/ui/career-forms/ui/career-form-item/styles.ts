@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Button, Typography } from "antd";
+import styled from 'styled-components';
+import { Button, Typography } from 'antd';
 
 export const FormItemContainer = styled.div<{ $isActive: boolean }>`
   display: flex;
@@ -12,7 +12,7 @@ export const FormItemContainer = styled.div<{ $isActive: boolean }>`
   transition: all 0.3s;
   max-width: 500px;
   width: 100%;
-  background-color: ${(props) => (props.$isActive ? "#eaeaea" : "#f8f8f8")};
+  background-color: ${(props) => (props.$isActive ? '#eaeaea' : '#f8f8f8')};
 
   &:hover {
     border-color: #d9d9d9;
@@ -41,8 +41,8 @@ export const ActionsContainer = styled.div`
 `;
 
 export const ActionButton = styled(Button).attrs({
-  type: "text",
-  size: "small",
+  type: 'text',
+  size: 'small',
 })`
   color: #8c8c8c;
 

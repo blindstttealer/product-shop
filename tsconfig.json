@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",  
+    "paths": {
+      "@/*": ["*"],                
+      "@shared/*": ["shared/*"],   
+    },
     "target": "ESNext",
     "lib": [
       "dom",
@@ -16,7 +21,7 @@
     "module": "commonjs",
     "resolveJsonModule": true,
     "isolatedModules": false,
-    "noEmit": true,
+    "noEmit": false,
     "jsx": "react-jsx"
   },
   "include": ["src", "src/types"]

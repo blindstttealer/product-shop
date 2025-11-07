@@ -1,11 +1,6 @@
-import React from "react";
-import { CheckboxProps } from "./types";
-import {
-  StyledCheckboxContainer,
-  StyledCheckbox,
-  HelperText,
-  ErrorText,
-} from "./styles";
+import React from 'react';
+import { CheckboxProps } from './types';
+import { StyledCheckboxContainer, StyledCheckbox, HelperText, ErrorText } from './styles';
 
 export const Checkbox: React.FC<CheckboxProps> = ({
   label,
@@ -17,18 +12,12 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   ...props
 }) => {
   return (
-    <StyledCheckboxContainer
-      direction="vertical"
-      size={4}
-      style={containerStyle}
-    >
+    <StyledCheckboxContainer direction="vertical" size={4} style={containerStyle}>
       <StyledCheckbox className={className} $error={error} {...props}>
         {label}
       </StyledCheckbox>
 
-      {helperText && !error && (
-        <HelperText type="secondary">{helperText}</HelperText>
-      )}
+      {helperText && !error && <HelperText type="secondary">{helperText}</HelperText>}
 
       {error && errorMessage && <ErrorText>{errorMessage}</ErrorText>}
     </StyledCheckboxContainer>

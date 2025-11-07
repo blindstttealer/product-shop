@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { observer } from "mobx-react-lite";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { observer } from 'mobx-react-lite';
 
-import { Container, Grid, ProductsColumn } from "./styles";
-import { Product } from "../../api/productsApi.types";
-import { FiltersModal } from "../filters-modal/FiltersModal";
-import { ProductAPI } from "../../api/productsApi";
-import { productsStore } from "../../model/products-store";
-import { Pagination } from "../../../../components/pagination/Pagination";
-import { ProductItem } from "../product-item/ProductItem";
+import { Container, Grid, ProductsColumn } from './styles';
+import { Product } from '../../api/productsApi.types';
+import { FiltersModal } from '../filters-modal/FiltersModal';
+import { ProductAPI } from '../../api/productsApi';
+import { productsStore } from '../../model/products-store';
+import { Pagination } from '../../../../components/pagination/Pagination';
+import { ProductItem } from '../product-item/ProductItem';
 
 export const Products = observer(() => {
+  /*Компонент по большей части моковый. Будет в последствии заменяться
+  на отображение Резюме/Вакансий и тд
+  
+  */
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const navigate = useNavigate();
   const [totalElements, setTotalElements] = useState<number>();
@@ -24,10 +28,10 @@ export const Products = observer(() => {
     });
   };
 
-  useEffect(() => {
-    const skip = (page - 1) * pageSize;
-    loadProducts({ limit: pageSize, skip });
-  }, [page, pageSize]);
+  // useEffect(() => {
+  //   const skip = (page - 1) * pageSize;
+  //   loadProducts({ limit: pageSize, skip });
+  // }, [page, pageSize]);
 
   const onClickNavigateProductDetails = (id: number) => {
     navigate(`/products/${id}`);
@@ -52,10 +56,7 @@ export const Products = observer(() => {
       <ProductsColumn>
         <Grid>
           {productsStore.productsToShow.map((product) => (
-            <ProductItem
-              product={product}
-              onItemClick={onClickNavigateProductDetails}
-            />
+            <ProductItem product={product} onItemClick={onClickNavigateProductDetails} />
           ))}
         </Grid>
       </ProductsColumn>

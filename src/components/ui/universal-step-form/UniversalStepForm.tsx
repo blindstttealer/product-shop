@@ -1,19 +1,11 @@
-import {
-  Form,
-  Input,
-  Button,
-  Select,
-  DatePicker,
-  InputNumber,
-  Space,
-} from "antd";
-import styled from "styled-components";
-import { Card } from "antd";
-import { ReactNode } from "react";
-import TextArea from "antd/es/input/TextArea";
-import PhoneInput from "react-phone-number-input/input";
-import useFormInstance from "antd/es/form/hooks/useFormInstance";
-import { isValidPhoneNumber, parsePhoneNumber } from "react-phone-number-input";
+import { Form, Input, Button, Select, DatePicker, InputNumber, Space } from 'antd';
+import styled from 'styled-components';
+import { Card } from 'antd';
+import { ReactNode } from 'react';
+import TextArea from 'antd/es/input/TextArea';
+import PhoneInput from 'react-phone-number-input/input';
+import useFormInstance from 'antd/es/form/hooks/useFormInstance';
+import { isValidPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
 
 function getRules<T>(field: Field<T>) {
   const rules = [];
@@ -25,14 +17,14 @@ function getRules<T>(field: Field<T>) {
     });
   }
 
-  if (field.type === "phone") {
+  if (field.type === 'phone') {
     rules.push({
       validator: (_: any, value: string) => {
         if (!value) {
           return Promise.resolve();
         }
         if (!isValidPhoneNumber(value)) {
-          return Promise.reject("Введите корректный номер телефона");
+          return Promise.reject('Введите корректный номер телефона');
         }
         return Promise.resolve();
       },
@@ -41,7 +33,7 @@ function getRules<T>(field: Field<T>) {
 
   return rules;
 }
-type FieldType = "text" | "textArea" | "date" | "select" | "phone";
+type FieldType = 'text' | 'textArea' | 'date' | 'select' | 'phone';
 
 export type Field<T> = {
   name: keyof T;
@@ -67,8 +59,8 @@ type UniversalFormProps<T> = {
 export function UniversalForm<T extends object>({
   title,
   fields,
-  buttonNextText = "Submit",
-  buttonBackText = "back",
+  buttonNextText = 'Submit',
+  buttonBackText = 'back',
   onFinish,
   onFinishFailed,
   initialState,
@@ -100,12 +92,8 @@ export function UniversalForm<T extends object>({
           ))}
 
           <Form.Item>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Button
-                onClick={onClickBackButton}
-                type="default"
-                htmlType="button"
-              >
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Button onClick={onClickBackButton} type="default" htmlType="button">
                 {buttonBackText}
               </Button>
               <Button type="primary" htmlType="submit">
@@ -132,28 +120,28 @@ const StyledCard = styled(Card)`
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
-  background-color: ${({ theme }) => theme.color["Background/Background 1"]};
-  border: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
+  background-color: ${({ theme }) => theme.color['Background/Background 1']};
+  border: 1px solid ${({ theme }) => theme.color['Neutral/Neutral 20']};
 
   .ant-card-head {
-    border-bottom: 1px solid ${({ theme }) => theme.color["Neutral/Neutral 20"]};
-    background-color: ${({ theme }) => theme.color["Background/Background 2"]};
+    border-bottom: 1px solid ${({ theme }) => theme.color['Neutral/Neutral 20']};
+    background-color: ${({ theme }) => theme.color['Background/Background 2']};
     padding: 16px 24px;
 
     .ant-card-head-title {
-      color: ${({ theme }) => theme.color["Neutral/Neutral 90"]};
+      color: ${({ theme }) => theme.color['Neutral/Neutral 90']};
       font-weight: 500;
       font-size: 16px;
     }
   }
 
   .ant-form-item-label > label {
-    color: ${({ theme }) => theme.color["Neutral/Neutral 90"]} !important;
+    color: ${({ theme }) => theme.color['Neutral/Neutral 90']} !important;
   }
 
   .ant-card-body {
     padding: 24px;
-    color: ${({ theme }) => theme.color["Neutral/Neutral 70"]};
+    color: ${({ theme }) => theme.color['Neutral/Neutral 70']};
   }
 `;
 
@@ -165,9 +153,9 @@ const PageWrapper = styled.div`
 
 function renderInputByType<T>(field: Field<T>, form: any): ReactNode {
   switch (field.type) {
-    case "textArea":
+    case 'textArea':
       return <TextArea rows={4} />;
-    case "select":
+    case 'select':
       return (
         <Select>
           {field.options?.map((opt) => (
@@ -179,10 +167,10 @@ function renderInputByType<T>(field: Field<T>, form: any): ReactNode {
       );
     // case "date":
     //   return <DatePicker format="DD.MM.YYYY" style={{ width: "100%" }} />;
-    case "phone":
+    case 'phone':
       return (
         <PhoneInput
-          masks={{ ru: "(...) ...-..-.." }}
+          masks={{ ru: '(...) ...-..-..' }}
           country="RU"
           value={form?.getFieldValue(field.name as string)}
           onChange={(value: any | undefined) => {
@@ -190,15 +178,15 @@ function renderInputByType<T>(field: Field<T>, form: any): ReactNode {
           }}
           maxLength={17}
           style={{
-            width: "100%",
-            height: "32px",
-            borderRadius: "6px",
-            border: "1px solid #d9d9d9",
-            paddingLeft: "11px",
+            width: '100%',
+            height: '32px',
+            borderRadius: '6px',
+            border: '1px solid #d9d9d9',
+            paddingLeft: '11px',
           }}
         />
       );
-    case "text":
+    case 'text':
     default:
       return <Input />;
   }

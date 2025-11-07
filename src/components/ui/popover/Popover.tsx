@@ -1,6 +1,6 @@
-import React, { ReactNode } from "react";
-import { Button, Popover, Space } from "antd";
-import styled from "styled-components";
+import React, { ReactNode } from 'react';
+import { Button, Popover, Space } from 'antd';
+import styled from 'styled-components';
 
 type PopoverComponentProps = {
   buttonTitle: string;
@@ -22,7 +22,7 @@ export const PopoverComponent: React.FC<PopoverComponentProps> = ({
   <Space wrap>
     <StyledPopover
       content={<PopoverContent>{content}</PopoverContent>}
-      title={popoverTitle || ""}
+      title={popoverTitle || ''}
       trigger="click"
     >
       <Button>{buttonTitle}</Button>

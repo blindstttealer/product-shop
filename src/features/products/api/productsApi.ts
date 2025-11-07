@@ -1,17 +1,17 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from 'axios';
 import {
   CategoryList,
   DeletedProduct,
   Product,
   ProductCategories,
   ProductResponse,
-} from "./productsApi.types";
-import { apiService } from "../../../api/services";
+} from './productsApi.types';
+import { apiService } from '../../../api/services';
 
 export class ProductAPI {
   private baseURL: string;
 
-  constructor(baseURL: string = "https://dummyjson.com/products") {
+  constructor(baseURL: string = 'https://dummyjson.com/products') {
     this.baseURL = baseURL;
   }
 
@@ -23,7 +23,7 @@ export class ProductAPI {
     config: AxiosRequestConfig = {},
   ): Promise<ProductResponse> {
     return apiService
-      .get<ProductResponse>("https://dummyjson.com/products", {
+      .get<ProductResponse>('https://dummyjson.com/products', {
         params: params,
         ...config,
       })
@@ -64,9 +64,7 @@ export class ProductAPI {
         }
       });
 
-      const response = await axios.get(
-        `${this.baseURL}?${urlParams.toString()}`,
-      );
+      const response = await axios.get(`${this.baseURL}?${urlParams.toString()}`);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -76,17 +74,15 @@ export class ProductAPI {
 
   async fetchProductsBySort(params: {
     sortBy: string;
-    order: "asc" | "desc";
+    order: 'asc' | 'desc';
   }): Promise<ProductResponse> {
     try {
       const urlParams = new URLSearchParams();
 
-      urlParams.append("sortBy", params.sortBy);
-      urlParams.append("order", params.order);
+      urlParams.append('sortBy', params.sortBy);
+      urlParams.append('order', params.order);
 
-      const response = await axios.get(
-        `${this.baseURL}?${urlParams.toString()}`,
-      );
+      const response = await axios.get(`${this.baseURL}?${urlParams.toString()}`);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -96,9 +92,7 @@ export class ProductAPI {
 
   async fetchCategories(): Promise<ProductCategories[]> {
     try {
-      const response = await axios.get(
-        "https://dummyjson.com/products/categories",
-      );
+      const response = await axios.get('https://dummyjson.com/products/categories');
       return response.data;
     } catch (error) {
       console.error(error);
@@ -108,9 +102,7 @@ export class ProductAPI {
 
   async fetchCategoryList(): Promise<CategoryList> {
     try {
-      const response = await axios.get(
-        "https://dummyjson.com/products/category-list",
-      );
+      const response = await axios.get('https://dummyjson.com/products/category-list');
       return response.data;
     } catch (error) {
       console.error(error);
@@ -120,9 +112,7 @@ export class ProductAPI {
 
   async fetchProductsByCategory(category: string): Promise<ProductResponse> {
     try {
-      const response = await axios.get(
-        `https://dummyjson.com/products/category/${category}`,
-      );
+      const response = await axios.get(`https://dummyjson.com/products/category/${category}`);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -133,7 +123,7 @@ export class ProductAPI {
   async addProduct(newProduct: Product): Promise<Product> {
     try {
       const response = await axios.post(`${this.baseURL}/add`, newProduct, {
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
       });
       return response.data;
     } catch (error) {
@@ -144,13 +134,9 @@ export class ProductAPI {
 
   async updateProduct(id: number, updatedProduct: Product): Promise<Product> {
     try {
-      const response = await axios.put(
-        `${this.baseURL}/${id}`,
-        updatedProduct,
-        {
-          headers: { "Content-Type": "application/json" },
-        },
-      );
+      const response = await axios.put(`${this.baseURL}/${id}`, updatedProduct, {
+        headers: { 'Content-Type': 'application/json' },
+      });
       return response.data;
     } catch (error) {
       console.error(error);
