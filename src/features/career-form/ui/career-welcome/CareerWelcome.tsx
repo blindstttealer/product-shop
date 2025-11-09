@@ -97,4 +97,3 @@ export const CareerWelcome = observer(() => {
     </Wrapper>
   );
 });
-
