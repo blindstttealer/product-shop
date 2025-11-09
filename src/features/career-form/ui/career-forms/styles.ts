@@ -71,3 +71,20 @@ export const StyledButton = styled(Button)`
   width: 100%;
   max-width: 240px;
 `;
+
+export const FormInfoBlock = styled.div`
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 24px;
+`;
+
+export const FormInfoTitle = styled.h4`
+  margin-bottom: 12px;
+  color: #343a40;
+`;
+
+export const FormInfoItem = styled.p`
+  margin: 6px 0;
+  color: #495057;
+`;

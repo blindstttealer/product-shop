@@ -6,17 +6,11 @@ import { useAuthStore } from '../../providers/AuthProvider';
 export default function MainLayout() {
   const authStore = useAuthStore();
   const [collapsed, setCollapsed] = React.useState(false);
-  const toggleCollapse = () => {
-    setCollapsed(!collapsed);
-  };
+  const toggleCollapse = () => setCollapsed(!collapsed);
 
-  // const meRequest = async () => {
-  //   await authStore.me();
-  // };
-
-  // useEffect(() => {
-  //   meRequest();
-  // }, []);
+  useEffect(() => {
+    authStore.hydrate();
+  }, [authStore]);
 
   return (
     <AppLayout collapsed={collapsed} toggleCollapse={toggleCollapse}>
