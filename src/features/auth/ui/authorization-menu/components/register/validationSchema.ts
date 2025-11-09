@@ -2,7 +2,7 @@
 import * as yup from 'yup';
 
 export const registerSchema = yup.object({
-  username: yup
+  login: yup
     .string()
     .required('Введите имя пользователя')
     .min(2, 'Минимум 2 символа')

@@ -4,11 +4,12 @@ import { Login } from './components/login';
 import { Register } from './components/register';
 import { ForgotVisible } from './components/forgot-password';
 
-import { Button, T } from '@admiral-ds/react-ui';
+import { Button } from '@admiral-ds/react-ui';
 import { StyledWrapper } from './styles';
 import { EmailConfirmation } from './components/email-confirmation';
+import { observer } from 'mobx-react-lite';
 
-export const AuthorizationMenu = () => {
+export const AuthorizationMenu = observer(() => {
   const [loginVisible, setLoginVisible] = useState(false);
 
   const [registerVisible, setRegisterVisible] = useState(false);
@@ -28,7 +29,7 @@ export const AuthorizationMenu = () => {
   const isAnyAuthVisible = loginVisible || registerVisible || forgotVisible || confirmVisible;
 
   const authMenuPopup = useMemo(() => {
-    if (authStore.authorizationUser) {
+    if (authStore.isAuthenticated) {
       return (
         <Button appearance="ghost" onClick={logoutHandler}>
           Выйти
@@ -46,7 +47,7 @@ export const AuthorizationMenu = () => {
         </Button>
       </div>
     );
-  }, [authStore.authorizationUser]);
+  }, [authStore.isAuthenticated]);
 
   return (
     <StyledWrapper>
@@ -70,4 +71,4 @@ export const AuthorizationMenu = () => {
       />
     </StyledWrapper>
   );
-};
+});

@@ -20,7 +20,7 @@ export class AuthExtensionSimple {
           от заказчика переделать существующий функционал.
           Переносить будем после того как реализуем полностью функционал авторизации.
           */
-          window.location.replace('/login');
+          // window.location.replace('/login'); временно закоммнетировал
         }
 
         return Promise.reject(err);

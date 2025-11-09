@@ -3,6 +3,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Modal, InputField } from '@admiral-ds/react-ui';
 import { Column } from '../../styles';
 import { RegisterFormData, registerSchema } from './validationSchema';
+import { AuthApi } from '@/features/auth/api/authApi';
+import { useAppToast } from '@/shared/hooks/useAppToast';
+import axios from 'axios';
+import { useAuthStore } from '@/providers/AuthProvider';
 
 interface RegisterProps {
   setRegisterVisible: (value: boolean) => void;
@@ -26,14 +30,29 @@ export const Register = ({
     mode: 'onChange',
   });
 
+  const authStore = useAuthStore();
+
+  const { showSuccessToast, showErrorToast } = useAppToast();
+
   const handleRegistration = async (values: RegisterFormData) => {
     try {
-      console.log('Registration data:', values);
+      await authStore.registration(values);
+
       setEmailToConfirm(values.email);
       setConfirmVisible(true);
       setRegisterVisible(false);
-    } catch (error) {
-      console.error('Registration error:', error);
+      showSuccessToast('Регистрация прошла успешно', 'Успех');
+    } catch (err) {
+      console.log('err---', err);
+      if (axios.isAxiosError(err)) {
+        const response = err.response?.data;
+
+        const message = response?.message || err.message || 'Ошибка регистрации';
+        showErrorToast(message, 'Ошибка при регистрации');
+        return;
+      }
+
+      showErrorToast('Произошла ошибка. Попробуйте позже.', 'Ошибка');
     }
   };
 
@@ -45,9 +64,9 @@ export const Register = ({
         <Column>
           <InputField
             label="Логин"
-            {...register('username')}
-            status={errors.username ? 'error' : undefined}
-            extraText={errors.username?.message}
+            {...register('login')}
+            status={errors.login ? 'error' : undefined}
+            extraText={errors.login?.message}
           />
 
           <InputField

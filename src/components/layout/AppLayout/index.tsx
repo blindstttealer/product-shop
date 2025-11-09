@@ -17,32 +17,32 @@ interface AppLayoutProps {
   toggleCollapse: () => void;
 }
 
-export const AppLayout: React.FC<AppLayoutProps> = observer(
-  ({ children, collapsed, toggleCollapse }) => {
-    const authStore = useAuthStore();
-    const { isDarkMode, toggleTheme } = useThemeContext();
-    return (
-      <Layout style={{ minHeight: '100vh' }}>
-        <AppHeader>
-          <NavigationPanel />
-          <UserAvatar
-            name={authStore.authorizationUser?.userName}
-            email={authStore.authorizationUser?.email}
-          />
-          <AuthorizationMenu />
-          <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-        </AppHeader>
-        <Layout
-          style={{
-            marginTop: '100px',
-            display: 'flex',
-            minHeight: 'calc(100vh - 100px)',
-          }}
-        >
-          <MainContent collapsed={collapsed}>{children}</MainContent>
-          <Chat currentUser="Slava Petrovskiy" />
-        </Layout>
+export const AppLayout: React.FC<AppLayoutProps> = observer(({ children, collapsed }) => {
+  const authStore = useAuthStore();
+  const { isDarkMode, toggleTheme } = useThemeContext();
+
+  return (
+    <Layout style={{ minHeight: '100vh' }}>
+      <AppHeader>
+        <NavigationPanel />
+        <UserAvatar
+          name={authStore.authenticatedUser?.login}
+          email={authStore.authenticatedUser?.email}
+        />
+        <AuthorizationMenu />
+        <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+      </AppHeader>
+
+      <Layout
+        style={{
+          marginTop: '100px',
+          display: 'flex',
+          minHeight: 'calc(100vh - 100px)',
+        }}
+      >
+        <MainContent collapsed={collapsed}>{children}</MainContent>
+        <Chat currentUser={authStore.authenticatedUser?.login ?? 'Гость'} />
       </Layout>
-    );
-  },
-);
+    </Layout>
+  );
+});
