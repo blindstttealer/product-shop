@@ -64,7 +64,7 @@ export const CareerWelcome = observer(() => {
 
   return (
     <Wrapper>
-      <Title>{WELCOME_TITLE}</Title>
+      <Title>Добро пожаловать в нашу компанию!</Title>
 
       <SelectField
         mode="searchSelect"
@@ -97,4 +97,3 @@ export const CareerWelcome = observer(() => {
     </Wrapper>
   );
 });
-
