@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { Layout } from 'antd';
 
-export const StyledHeader = styled(Layout)`
-  position: fixed;
+export const StyledHeader = styled.header`
+  position: sticky;
+  top: 0;
   width: 100%;
   display: flex;
   min-height: 100px;
@@ -11,13 +11,15 @@ export const StyledHeader = styled(Layout)`
   padding: 24px;
   color: ${({ theme }) => theme.color['Neutral/Neutral 90']};
   background-color: ${({ theme }) => theme.color['Neutral/Neutral 10']};
+  border-bottom: 1px solid ${({ theme }) => theme.color['Neutral/Neutral 20']};
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
 
 export const Container = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  gap: 10px;
+  gap: 16px;
 `;
 
 export const Title = styled.h1`

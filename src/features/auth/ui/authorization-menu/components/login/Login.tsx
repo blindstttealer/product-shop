@@ -1,16 +1,29 @@
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Modal, InputField } from '@admiral-ds/react-ui';
-import { Column } from '../../styles';
+import { InputField } from '@admiral-ds/react-ui';
+import { useNavigate } from 'react-router';
+import { useAuthStore } from '@/providers/AuthProvider';
 import { LoginFormData, loginSchema } from './validationSchema';
+import {
+  PageWrapper,
+  FormCard,
+  FormHeader,
+  FormIcon,
+  FormTitle,
+  FormSubtitle,
+  FieldRow,
+  Actions,
+  AuthLinkWrapper,
+  AuthText,
+  StyledLink,
+  SubmitButton,
+  GhostButton,
+} from '../../styles';
 
-interface LoginProps {
-  setLoginVisible: (value: boolean) => void;
-  showForgot: () => void;
-  loginVisible: boolean;
-}
-
-export const Login = ({ setLoginVisible, showForgot, loginVisible }: LoginProps) => {
+export const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const authStore = useAuthStore();
   const {
     register,
     handleSubmit,
@@ -22,49 +35,69 @@ export const Login = ({ setLoginVisible, showForgot, loginVisible }: LoginProps)
 
   const handleLogin = async (values: LoginFormData) => {
     try {
-      console.log('Login data:', values);
-    } catch (error) {
-      console.error('Login error:', error);
+      await authStore.login({ login: values.loginOrEmail, password: values.password });
+      navigate('/');
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  if (!loginVisible) return null;
+  const goToForgot = () => navigate('/forgot');
+  const handleBackToRegister = () => navigate('/registration');
 
   return (
-    <Modal onClose={() => setLoginVisible(false)} title="Вход">
-      <form onSubmit={handleSubmit(handleLogin)} noValidate>
-        <Column>
-          <InputField
-            label="Логин или Email"
-            {...register('loginOrEmail')}
-            status={errors.loginOrEmail ? 'error' : undefined}
-            extraText={errors.loginOrEmail?.message}
-          />
+    <PageWrapper>
+      <FormCard>
+        <FormHeader>
+          <FormIcon icon="🔐" />
+          <FormTitle>Вход в аккаунт</FormTitle>
+          <FormSubtitle>Введите свои данные, чтобы войти в систему</FormSubtitle>
+        </FormHeader>
 
-          <InputField
-            label="Пароль"
-            type="password"
-            {...register('password')}
-            status={errors.password ? 'error' : undefined}
-            extraText={errors.password?.message}
-          />
+        <form onSubmit={handleSubmit(handleLogin)} style={{ width: '100%' }} noValidate>
+          <FieldRow>
+            <InputField
+              label="Логин или Email"
+              {...register('loginOrEmail')}
+              status={errors.loginOrEmail ? 'error' : undefined}
+              extraText={errors.loginOrEmail?.message}
+              dimension="xl"
+            />
+          </FieldRow>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Button
-              appearance="ghost"
-              onClick={() => {
-                setLoginVisible(false);
-                showForgot();
-              }}
-            >
+          <FieldRow>
+            <InputField
+              label="Пароль"
+              type="password"
+              {...register('password')}
+              status={errors.password ? 'error' : undefined}
+              extraText={errors.password?.message}
+              dimension="xl"
+            />
+          </FieldRow>
+
+          <Actions>
+            <GhostButton appearance="ghost" onClick={goToForgot} dimension="xl">
               Забыли пароль?
-            </Button>
-            <Button appearance="primary" type="submit" disabled={isSubmitting || !isValid}>
+            </GhostButton>
+            <SubmitButton
+              appearance="primary"
+              type="submit"
+              disabled={isSubmitting || !isValid}
+              dimension="xl"
+            >
               {isSubmitting ? 'Вход...' : 'Войти'}
-            </Button>
-          </div>
-        </Column>
-      </form>
-    </Modal>
+            </SubmitButton>
+          </Actions>
+
+          <AuthLinkWrapper>
+            <AuthText>Нет аккаунта?</AuthText>
+            <StyledLink appearance="primary" onClick={handleBackToRegister}>
+              Зарегистрироваться
+            </StyledLink>
+          </AuthLinkWrapper>
+        </form>
+      </FormCard>
+    </PageWrapper>
   );
 };

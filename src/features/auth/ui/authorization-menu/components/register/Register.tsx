@@ -1,28 +1,35 @@
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Modal, InputField } from '@admiral-ds/react-ui';
-import { Column } from '../../styles';
-import { RegisterFormData, registerSchema } from './validationSchema';
-import { AuthApi } from '@/features/auth/api/authApi';
-import { useAppToast } from '@/shared/hooks/useAppToast';
+import { InputField } from '@admiral-ds/react-ui';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
+
+import { RegisterFormData, registerSchema } from './validationSchema';
 import { useAuthStore } from '@/providers/AuthProvider';
+import { useAppToast } from '@/shared/hooks/useAppToast';
+import {
+  PageWrapper,
+  FormCard,
+  FormHeader,
+  FormIcon,
+  FormTitle,
+  FormSubtitle,
+  FieldRow,
+  Actions,
+  AuthLinkWrapper,
+  AuthText,
+  StyledLink,
+  SubmitButton,
+} from '../../styles';
 
-interface RegisterProps {
-  setRegisterVisible: (value: boolean) => void;
-  setConfirmVisible: (value: boolean) => void;
-  registerVisible: boolean;
-  setEmailToConfirm: (value: string) => void;
-}
+export const Register: React.FC = () => {
+  const authStore = useAuthStore();
+  const navigate = useNavigate();
+  const { showSuccessToast, showErrorToast } = useAppToast();
 
-export const Register = ({
-  setRegisterVisible,
-  setConfirmVisible,
-  registerVisible,
-  setEmailToConfirm,
-}: RegisterProps) => {
   const {
-    register,
+    register: registerField,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
@@ -30,23 +37,18 @@ export const Register = ({
     mode: 'onChange',
   });
 
-  const authStore = useAuthStore();
-
-  const { showSuccessToast, showErrorToast } = useAppToast();
-
-  const handleRegistration = async (values: RegisterFormData) => {
+  const onSubmit = async (values: RegisterFormData) => {
     try {
-      await authStore.registration(values);
+      await authStore
+        .registration(values)
+        .then(() => navigate('/email-confirmation', { state: { email: values.email } }));
 
-      setEmailToConfirm(values.email);
-      setConfirmVisible(true);
-      setRegisterVisible(false);
-      showSuccessToast('Регистрация прошла успешно', 'Успех');
+      showSuccessToast('Регистрация прошла успешно', 'Подтверждение');
     } catch (err) {
-      console.log('err---', err);
+      console.error('Registration error', err);
+
       if (axios.isAxiosError(err)) {
         const response = err.response?.data;
-
         const message = response?.message || err.message || 'Ошибка регистрации';
         showErrorToast(message, 'Ошибка при регистрации');
         return;
@@ -56,40 +58,71 @@ export const Register = ({
     }
   };
 
-  if (!registerVisible) return null;
+  const handleBackToLogin = () => {
+    navigate('/login');
+  };
 
   return (
-    <Modal onClose={() => setRegisterVisible(false)} title="Регистрация">
-      <form onSubmit={handleSubmit(handleRegistration)}>
-        <Column>
-          <InputField
-            label="Логин"
-            {...register('login')}
-            status={errors.login ? 'error' : undefined}
-            extraText={errors.login?.message}
-          />
+    <PageWrapper>
+      <FormCard>
+        <FormHeader>
+          <FormIcon icon="👤" />
+          <FormTitle>Регистрация</FormTitle>
+          <FormSubtitle>Создайте аккаунт, чтобы получить доступ ко всем возможностям</FormSubtitle>
+        </FormHeader>
 
-          <InputField
-            label="Email"
-            type="email"
-            {...register('email')}
-            status={errors.email ? 'error' : undefined}
-            extraText={errors.email?.message}
-          />
+        <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }} noValidate>
+          <FieldRow>
+            <InputField
+              label="Логин"
+              {...registerField('login')}
+              status={errors.login ? 'error' : undefined}
+              extraText={errors.login?.message}
+              dimension="xl"
+            />
+          </FieldRow>
 
-          <InputField
-            label="Пароль"
-            type="password"
-            {...register('password')}
-            status={errors.password ? 'error' : undefined}
-            extraText={errors.password?.message}
-          />
+          <FieldRow>
+            <InputField
+              label="Email"
+              type="email"
+              {...registerField('email')}
+              status={errors.email ? 'error' : undefined}
+              extraText={errors.email?.message}
+              dimension="xl"
+            />
+          </FieldRow>
 
-          <Button appearance="primary" type="submit" disabled={isSubmitting || !isValid}>
-            {isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
-          </Button>
-        </Column>
-      </form>
-    </Modal>
+          <FieldRow>
+            <InputField
+              label="Пароль"
+              type="password"
+              {...registerField('password')}
+              status={errors.password ? 'error' : undefined}
+              extraText={errors.password?.message}
+              dimension="xl"
+            />
+          </FieldRow>
+
+          <Actions isOneAction>
+            <SubmitButton
+              appearance="primary"
+              type="submit"
+              disabled={isSubmitting || !isValid}
+              dimension="xl"
+            >
+              {isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
+            </SubmitButton>
+          </Actions>
+        </form>
+
+        <AuthLinkWrapper>
+          <AuthText>Уже есть аккаунт?</AuthText>
+          <StyledLink appearance="primary" onClick={handleBackToLogin}>
+            Войти
+          </StyledLink>
+        </AuthLinkWrapper>
+      </FormCard>
+    </PageWrapper>
   );
 };

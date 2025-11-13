@@ -9,7 +9,7 @@ export interface User {
 
 export class AuthStore {
   user: User | null = null;
-  loading = false;
+  isLoading = false;
   initialized = false;
 
   constructor() {
@@ -33,7 +33,7 @@ export class AuthStore {
   }
 
   setLoading(flag: boolean) {
-    this.loading = flag;
+    this.isLoading = flag;
   }
 
   setInitialized(flag: boolean) {
@@ -45,21 +45,16 @@ export class AuthStore {
     try {
       const resp = await AuthApi.getUser();
       runInAction(() => {
-        if (resp && resp.id) {
-          this.user = {
-            id: resp.id,
-            email: resp.email,
-            // бэк забыл добавить логин, потом еще и его устанавливать
-          };
-        } else {
-          this.user = null;
-        }
-        this.initialized = true;
+        this.user = resp || null;
       });
-      return this.user;
+    } catch (err) {
+      runInAction(() => {
+        this.user = null;
+      });
     } finally {
       runInAction(() => {
-        this.loading = false;
+        this.initialized = true;
+        this.isLoading = false;
       });
     }
   }
@@ -74,9 +69,9 @@ export class AuthStore {
           this.user = { email, id, login };
         }
       });
-      return res;
+      return res; 
     } finally {
-      runInAction(() => (this.loading = false));
+      runInAction(() => (this.isLoading = false));
     }
   }
 
@@ -93,7 +88,7 @@ export class AuthStore {
       });
       return res;
     } finally {
-      runInAction(() => (this.loading = false));
+      runInAction(() => (this.isLoading = false));
     }
   }
 
@@ -105,7 +100,8 @@ export class AuthStore {
         this.user = null;
       });
     } finally {
-      runInAction(() => (this.loading = false));
+      runInAction(() => (this.isLoading = false));
     }
   }
 }
+export const authStore = new AuthStore();
