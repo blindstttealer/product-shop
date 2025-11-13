@@ -13,17 +13,17 @@ import {
 import { ChatIcon as DefaultChatIcon } from './components/ChatIcon';
 import { PhoneIcon } from './components/PhoneIcon';
 import { SearchIcon } from './components/SearchIcon';
+import { SendMessageIcon } from './components/SendMessageIcon';
 
-// ----------------- Styles -----------------
 const FloatingIcon = styled.button`
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 56px;
-  height: 56px;
+  bottom: 28px;
+  right: 28px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #3a9ff3 0%, #0066cc 100%);
-  box-shadow: 0 6px 18px rgba(20, 20, 20, 0.16);
+  background: linear-gradient(135deg, #4aa8ff 0%, #0066cc 100%);
+  box-shadow: 0 10px 30px rgba(5, 22, 48, 0.28);
   border: none;
   cursor: pointer;
   display: flex;
@@ -31,43 +31,53 @@ const FloatingIcon = styled.button`
   justify-content: center;
   color: white;
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 180ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    box-shadow 180ms;
 
   &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(20, 20, 20, 0.2);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 18px 40px rgba(5, 22, 48, 0.36);
   }
 
   &:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
   }
 
   svg {
-    width: 26px;
-    height: 26px;
+    width: 28px;
+    height: 28px;
   }
 `;
 
 const Panel = styled.div`
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 320px 1fr;
   height: 100%;
   min-height: 0;
+  gap: 0;
 `;
 
 const Sidebar = styled.aside`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 12px;
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
-  background: linear-gradient(180deg, rgba(250, 250, 250, 0.9), rgba(245, 245, 245, 0.9));
+  gap: 12px;
+  padding: 16px;
+  border-right: 1px solid rgba(18, 39, 63, 0.06);
+  background: linear-gradient(180deg, rgba(250, 250, 252, 0.92), rgba(245, 246, 250, 0.92));
   min-height: 0;
 `;
 
 const Search = styled.div`
-  padding: 8px 0;
+  padding: 6px 0 2px;
+`;
+
+const UsersList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  padding-right: 6px;
+  min-height: 0;
 `;
 
 const UserContainer = styled.button<{ active?: boolean }>`
@@ -75,16 +85,18 @@ const UserContainer = styled.button<{ active?: boolean }>`
   gap: 12px;
   align-items: center;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
   text-align: left;
   background: ${({ active }) => (active ? 'rgba(0,102,204,0.08)' : 'transparent')};
   transition:
-    background 120ms ease,
-    transform 120ms ease;
+    background 140ms ease,
+    transform 120ms ease,
+    box-shadow 120ms;
+
   &:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     background: rgba(0, 0, 0, 0.03);
   }
 `;
@@ -97,31 +109,32 @@ const Avatar = styled.div<{ size?: number }>`
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 15px;
   color: #fff;
-  background: linear-gradient(135deg, #3a9ff3 0%, #0066cc 100%);
+  background: linear-gradient(135deg, #5ac3ff 0%, #0066cc 100%);
   flex: 0 0 auto;
+  box-shadow: 0 6px 18px rgba(9, 20, 40, 0.06);
 `;
 
 const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   min-width: 0;
 `;
 
 const UserName = styled.div`
   font-size: 14px;
-  font-weight: 600;
-  color: #111;
+  font-weight: 700;
+  color: #0f1724;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const UserSnippet = styled.div`
-  font-size: 12px;
-  color: #666;
+  font-size: 13px;
+  color: #697386;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -137,32 +150,39 @@ const ChatHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(18, 39, 63, 0.06);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(250, 251, 253, 0.6));
+`;
+
+const HeaderMeta = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Status = styled.div`
+  font-size: 13px;
+  color: #1f6feb; /* online accent */
 `;
 
 const UsersGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  gap: 8px;
   padding: 6px 0;
   overflow-y: auto;
   min-height: 0;
-
-  max-height: 200px;
-  width: 100%;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+  max-height: 220px;
 `;
 
 const MessagesWindow = styled.div`
-  padding: 16px;
+  padding: 18px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
   min-height: 0; /* critical for flex containers */
-  background: linear-gradient(180deg, #fff, #fbfbfc);
+  background: linear-gradient(180deg, #ffffff, #fbfcff);
 `;
 
 const MessageRow = styled.div<{ isOwn?: boolean }>`
@@ -173,44 +193,60 @@ const MessageRow = styled.div<{ isOwn?: boolean }>`
 `;
 
 const MessageBubble = styled.div<{ isOwn?: boolean }>`
-  padding: 10px 14px;
+  position: relative;
+  padding: 12px 14px;
   border-radius: 14px;
-  background: ${({ isOwn }) => (isOwn ? 'linear-gradient(180deg,#2b86d1,#0066cc)' : '#f2f3f5')};
-  color: ${({ isOwn }) => (isOwn ? '#fff' : '#111')};
+  border-bottom-right-radius: ${({ isOwn }) => (isOwn ? '6px' : '14px')};
+  border-bottom-left-radius: ${({ isOwn }) => (isOwn ? '14px' : '6px')};
+  background: ${({ isOwn }) => (isOwn ? 'linear-gradient(180deg,#2b86d1,#0066cc)' : '#f4f6f9')};
+  color: ${({ isOwn }) => (isOwn ? '#fff' : '#0f1724')};
   font-size: 14px;
   line-height: 1.4;
-  box-shadow: 0 2px 6px rgba(16, 24, 40, 0.04);
+  box-shadow: 0 6px 18px rgba(12, 20, 40, 0.06);
 `;
 
 const Meta = styled.div`
   font-size: 11px;
-  color: #777;
+  color: #91a0b4;
   margin-top: 6px;
+  text-align: left;
 `;
 
 const Composer = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 10px;
   padding: 12px 16px;
   align-items: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  background: #fff;
+  border-top: 1px solid rgba(18, 39, 63, 0.04);
+  background: linear-gradient(180deg, #fff, #fbfcff);
 `;
 
 const EmptyState = styled.div`
   padding: 24px;
-  color: #666;
+  color: #697386;
   text-align: center;
 `;
 
 const StyledInput = styled(InputField)`
+  display: block;
   flex: 1;
-  border-radius: 8px;
-  font-size: 14px;
-  background-color: ${({ theme }) => theme.color?.['Neutral/Neutral 05'] || '#f9f9f9'};
-`;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff, #f9fafb);
+  padding: 6px;
+  transition:
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    transform 120ms ease;
 
-/* ----------------- Call Modal styles ----------------- */
+  &:focus-within {
+    border-color: #2b86d1;
+    box-shadow:
+      0 6px 18px rgba(9, 20, 40, 0.06),
+      0 0 0 4px rgba(43, 134, 209, 0.06);
+    transform: translateY(-1px);
+  }
+`;
 
 const fade = keyframes`
   from { opacity: 0; transform: translateY(8px) scale(.98); }
@@ -220,25 +256,25 @@ const fade = keyframes`
 const ModalOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(10, 10, 10, 0.45);
+  background: rgba(10, 10, 12, 0.42);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px);
 `;
 
 const ModalCard = styled.div`
-  width: 420px;
+  width: 480px;
   max-width: calc(100% - 40px);
   background: linear-gradient(180deg, #ffffff, #fbfbff);
   border-radius: 14px;
-  box-shadow: 0 12px 40px rgba(12, 34, 80, 0.14);
-  padding: 18px;
+  box-shadow: 0 18px 48px rgba(12, 34, 80, 0.14);
+  padding: 20px;
   animation: ${fade} 160ms ease;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 `;
 
 const ModalHeader = styled.div`
@@ -260,8 +296,8 @@ const ModalBody = styled.div`
 `;
 
 const VideoPreview = styled.div<{ active?: boolean }>`
-  width: 120px;
-  height: 90px;
+  width: 160px;
+  height: 110px;
   border-radius: 10px;
   background: ${({ active }) => (active ? '#000' : 'linear-gradient(180deg,#f5f6fb,#eef2ff)')};
   display: flex;
@@ -284,7 +320,7 @@ const ModalActions = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
-  margin-top: 8px;
+  margin-top: 6px;
   justify-content: flex-end;
 `;
 
@@ -295,14 +331,12 @@ interface Message {
   text: string;
   timestamp: string;
 }
-
 interface Participant {
   id: string;
   name: string;
   lastMessage?: string;
   unread?: number;
 }
-
 interface ChatDrawerProps {
   currentUser: string;
   chatIcon?: React.ReactNode;
@@ -338,7 +372,6 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
   const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
   const closeButtonProps = { 'data-testid': useId() };
 
-  // states for call modal
   const [callModalOpen, setCallModalOpen] = React.useState(false);
   const [previewActive, setPreviewActive] = React.useState(false);
   const [localStream, setLocalStream] = React.useState<MediaStream | null>(null);
@@ -349,7 +382,6 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
   }, [messages, active, opened]);
 
   React.useEffect(() => {
-    // cleanup local stream when modal closed
     if (!callModalOpen && localStream) {
       localStream.getTracks().forEach((t) => t.stop());
       setLocalStream(null);
@@ -369,8 +401,6 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
     };
     setMessages((s) => [...s, msg]);
     setInput('');
-
-    // update participant last message and clear unread for active
     setParticipants((prev) =>
       prev.map((p) => (p.id === active ? { ...p, lastMessage: msg.text, unread: 0 } : p)),
     );
@@ -378,26 +408,18 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
 
   const activeParticipant = participants.find((p) => p.id === active);
 
-  /* ----------------- Call modal handlers ----------------- */
-
   const openCallModal = () => {
     setCallModalOpen(true);
-    // we don't auto-start preview; user must click Start video
   };
-
   const closeCallModal = () => {
     setCallModalOpen(false);
   };
 
   const handleStartVideoPreview = async () => {
     try {
-      // request camera (video only preview)
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       setLocalStream(stream);
       setPreviewActive(true);
-      // you can attach stream to a video element if you want a real preview
-      // For simplicity we keep a placeholder background; if you want real preview,
-      // add a <video ref={...} autoPlay playsInline muted srcObject={stream} />
     } catch (err) {
       console.error('camera access denied or error', err);
       alert('Не удалось получить доступ к камере. Проверьте разрешения браузера.');
@@ -406,12 +428,8 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
 
   const handleStartCall = () => {
     if (!activeParticipant) return;
-    // here — старт звонка (подключение WebRTC и сигналинг)
-    // для демо просто переключаем состояние и закрываем модалку
     setIsCalling(true);
     setCallModalOpen(false);
-
-    // demo: создадим системное сообщение
     setMessages((s) => [
       ...s,
       {
@@ -421,13 +439,7 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
         timestamp: new Date().toISOString(),
       },
     ]);
-
-    // здесь нужно:
-    // - открыть PeerConnection / отправить сигнал по websocket
-    // - управлять состоянием звонка, звонок в фоне и т.д.
-    setTimeout(() => {
-      setIsCalling(false);
-    }, 2000);
+    setTimeout(() => setIsCalling(false), 2000);
   };
 
   return (
@@ -439,7 +451,7 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
       <Drawer
         isOpen={opened}
         onClose={closeChat}
-        style={{ height: '100vh', top: 0 }}
+        style={{ position: 'fixed', top: 0, height: '100vh', zIndex: 20000 }}
         aria-labelledby="chat-drawer-title"
         closeButtonPropsConfig={() => closeButtonProps}
         closeOnBackdropClick
@@ -453,17 +465,19 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
                 <InputField placeholder="Поиск по участникам" onChange={() => {}} />
               </Search>
 
-              <UsersGrid>
+              <UsersGrid aria-hidden />
+
+              <UsersList>
                 {participants.map((p) => (
                   <UserContainer
                     key={p.id}
                     onClick={() => setActive(p.id)}
                     active={p.id === active}
                   >
-                    <Avatar size={40}>{p.name.slice(0, 1).toUpperCase()}</Avatar>
+                    <Avatar size={44}>{p.name.slice(0, 1).toUpperCase()}</Avatar>
 
                     <UserInfo>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <UserName>{p.name}</UserName>
                         {p.unread ? <Badge>{p.unread}</Badge> : null}
                       </div>
@@ -471,19 +485,28 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
                     </UserInfo>
                   </UserContainer>
                 ))}
-              </UsersGrid>
+              </UsersList>
+
+              <div style={{ marginTop: 'auto', paddingTop: 8 }}>
+                <Button appearance="ghost" dimension="s" onClick={() => alert('Открыть все чаты')}>
+                  Все чаты
+                </Button>
+              </div>
             </Sidebar>
 
             <RightColumn>
               <ChatHeader>
                 {activeParticipant ? (
                   <>
-                    <Avatar size={44}>{activeParticipant.name.slice(0, 1).toUpperCase()}</Avatar>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ fontWeight: 700, fontSize: 15 }}>{activeParticipant.name}</div>
-                      <div style={{ fontSize: 13, color: '#666' }}>Онлайн</div>
-                    </div>
-                    <div style={{ marginLeft: 'auto', display: 'flex', gap: 16 }}>
+                    <Avatar size={48}>{activeParticipant.name.slice(0, 1).toUpperCase()}</Avatar>
+                    <HeaderMeta>
+                      <div style={{ fontWeight: 800, fontSize: 15 }}>{activeParticipant.name}</div>
+                      <Status>Онлайн</Status>
+                    </HeaderMeta>
+
+                    <div
+                      style={{ marginLeft: 'auto', display: 'flex', gap: 12, alignItems: 'center' }}
+                    >
                       <SearchIcon />
                       <button
                         onClick={openCallModal}
@@ -492,8 +515,8 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          width: 40,
-                          height: 40,
+                          width: 44,
+                          height: 44,
                           borderRadius: 10,
                           border: 'none',
                           background: 'transparent',
@@ -505,7 +528,7 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
                     </div>
                   </>
                 ) : (
-                  <div style={{ fontSize: 14, color: '#666' }}>
+                  <div style={{ fontSize: 14, color: '#697386' }}>
                     Выберите участника, чтобы начать чат
                   </div>
                 )}
@@ -527,14 +550,16 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
                           <div key={msg.id}>
                             <MessageRow isOwn={isOwn}>
                               {!isOwn && (
-                                <Avatar size={32}>{msg.sender.slice(0, 1).toUpperCase()}</Avatar>
+                                <Avatar size={36}>{msg.sender.slice(0, 1).toUpperCase()}</Avatar>
                               )}
+
                               <div>
                                 <MessageBubble isOwn={isOwn}>{msg.text}</MessageBubble>
                                 <Meta>{new Date(msg.timestamp).toLocaleTimeString()}</Meta>
                               </div>
+
                               {isOwn && (
-                                <Avatar size={32}>
+                                <Avatar size={36}>
                                   {(currentUser || 'You').slice(0, 1).toUpperCase()}
                                 </Avatar>
                               )}
@@ -546,6 +571,21 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
                   </MessagesWindow>
 
                   <Composer>
+                    <button
+                      aria-label="Attach"
+                      title="Attach"
+                      style={{
+                        width: 40,
+                        height: 40,
+                        borderRadius: 10,
+                        border: 'none',
+                        background: 'transparent',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      📎
+                    </button>
+
                     <StyledInput
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
@@ -553,9 +593,10 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
                       onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                       style={{ flex: 1 }}
                     />
-                    <Button dimension="m" appearance="primary" onClick={handleSend}>
-                      Отправить
-                    </Button>
+
+                    <div onClick={handleSend} style={{ cursor: 'pointer' }}>
+                      <SendMessageIcon />
+                    </div>
                   </Composer>
                 </>
               ) : (
@@ -565,10 +606,9 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
           </Panel>
         </DrawerContent>
 
-        <DrawerButtonPanel></DrawerButtonPanel>
+        <DrawerButtonPanel />
       </Drawer>
 
-      {/* Call Modal */}
       {callModalOpen && activeParticipant && (
         <ModalOverlay
           role="dialog"
@@ -582,17 +622,16 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
         >
           <ModalCard>
             <ModalHeader>
-              <Avatar size={44}>{activeParticipant.name.slice(0, 1).toUpperCase()}</Avatar>
+              <Avatar size={48}>{activeParticipant.name.slice(0, 1).toUpperCase()}</Avatar>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <ModalTitle id="call-modal-title">{activeParticipant.name}</ModalTitle>
-                <div style={{ fontSize: 13, color: '#666' }}>Начать звонок</div>
+                <div style={{ fontSize: 13, color: '#697386' }}>Начать звонок</div>
               </div>
             </ModalHeader>
 
             <ModalBody>
               <VideoPreview active={previewActive}>
                 {previewActive ? (
-                  // If you want a real <video />, insert it here with ref and srcObject = localStream
                   <div
                     style={{
                       width: '100%',
@@ -613,8 +652,8 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
               </VideoPreview>
 
               <ModalInfo>
-                <div style={{ fontSize: 14, fontWeight: 600 }}>{activeParticipant.name}</div>
-                <div style={{ fontSize: 13, color: '#666' }}>
+                <div style={{ fontSize: 14, fontWeight: 700 }}>{activeParticipant.name}</div>
+                <div style={{ fontSize: 13, color: '#697386' }}>
                   {activeParticipant.lastMessage ?? 'Нет последних сообщений'}
                 </div>
 
@@ -639,11 +678,9 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon }) => {
               <Button appearance="ghost" onClick={closeCallModal}>
                 Cancel
               </Button>
-
               <Button appearance="secondary" onClick={handleStartVideoPreview}>
                 Start video
               </Button>
-
               <Button appearance="primary" onClick={handleStartCall}>
                 Start call
               </Button>

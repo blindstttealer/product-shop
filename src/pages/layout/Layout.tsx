@@ -1,16 +1,11 @@
 import { Outlet } from 'react-router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AppLayout } from '../../components/layout/AppLayout';
-import { useAuthStore } from '../../providers/AuthProvider';
+import { observer } from 'mobx-react-lite';
 
-export default function MainLayout() {
-  const authStore = useAuthStore();
+function MainLayout() {
   const [collapsed, setCollapsed] = React.useState(false);
   const toggleCollapse = () => setCollapsed(!collapsed);
-
-  useEffect(() => {
-    authStore.hydrate();
-  }, [authStore]);
 
   return (
     <AppLayout collapsed={collapsed} toggleCollapse={toggleCollapse}>
@@ -18,3 +13,5 @@ export default function MainLayout() {
     </AppLayout>
   );
 }
+
+export default observer(MainLayout);

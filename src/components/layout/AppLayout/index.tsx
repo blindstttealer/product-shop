@@ -1,15 +1,14 @@
 import React from 'react';
-import { Layout } from 'antd';
-import { MainContent } from './styles';
-import { UserAvatar } from '../../ui/user-avatar';
-import AppHeader from '../AppHeader';
-import { NavigationPanel } from '../../navigation/NavigationPanel';
 import { observer } from 'mobx-react-lite';
 import { useAuthStore } from '@/providers/AuthProvider';
-import { ThemeToggle } from '@/components/theme-switcher/ThemeSwitcher';
-import { useThemeContext } from '@/providers/ThemeProvider';
-import { Chat } from '@/features/online-chat/ui/OnlineChat';
+import AppHeader from '../AppHeader';
+import { NavigationPanel } from '../../navigation/NavigationPanel';
+import { UserAvatar } from '../../ui/user-avatar';
 import { AuthorizationMenu } from '@/features/auth/ui/authorization-menu';
+import { ThemeToggle } from '@/components/theme-switcher/ThemeSwitcher';
+import { Chat } from '@/features/online-chat/ui/OnlineChat';
+import { useThemeContext } from '@/providers/ThemeProvider';
+import { ContentLayout, LayoutContainer, MainContent } from './styles';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -21,28 +20,27 @@ export const AppLayout: React.FC<AppLayoutProps> = observer(({ children, collaps
   const authStore = useAuthStore();
   const { isDarkMode, toggleTheme } = useThemeContext();
 
-  return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <AppHeader>
-        <NavigationPanel />
-        <UserAvatar
-          name={authStore.authenticatedUser?.login}
-          email={authStore.authenticatedUser?.email}
-        />
-        <AuthorizationMenu />
-        <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-      </AppHeader>
+  const isAuthenticated = authStore.isAuthenticated;
 
-      <Layout
-        style={{
-          marginTop: '100px',
-          display: 'flex',
-          minHeight: 'calc(100vh - 100px)',
-        }}
-      >
-        <MainContent collapsed={collapsed}>{children}</MainContent>
-        <Chat currentUser={authStore.authenticatedUser?.login ?? 'Гость'} />
-      </Layout>
-    </Layout>
+  return (
+    <LayoutContainer>
+      {isAuthenticated && (
+        <AppHeader>
+          <NavigationPanel />
+          <UserAvatar
+            name={authStore.authenticatedUser?.login}
+            email={authStore.authenticatedUser?.email}
+          />
+          <AuthorizationMenu />
+          <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+        </AppHeader>
+      )}
+
+      <ContentLayout $hasHeader={isAuthenticated}>
+        <MainContent $collapsed={collapsed}>{children}</MainContent>
+
+        {isAuthenticated && <Chat currentUser={authStore.authenticatedUser?.login ?? 'Гость'} />}
+      </ContentLayout>
+    </LayoutContainer>
   );
 });

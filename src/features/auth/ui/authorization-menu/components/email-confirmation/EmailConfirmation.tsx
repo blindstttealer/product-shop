@@ -1,21 +1,15 @@
 import { Button, Modal, T } from '@admiral-ds/react-ui';
 import { Column, StyledWrapper } from '../../styles';
+import { useState } from 'react';
 
-export const EmailConfirmation = ({
-  setConfirmVisible,
-  confirmVisible,
-  emailToConfirm,
-}: {
-  setConfirmVisible: (value: boolean) => void;
-  confirmVisible: boolean;
-  emailToConfirm: string;
-}) => {
-  if (!confirmVisible) return null;
+export const EmailConfirmation = ({ emailToConfirm }: { emailToConfirm: string }) => {
+  const [confirmVisible, setConfirmVisible] = useState(true);
+
   const resendConfirmation = async () => {
     console.log('resendConfirmation');
   };
-  return (
-    <Modal onClose={() => setConfirmVisible(false)} title="Подтвердите почту">
+  return confirmVisible ? (
+    <Modal closeOnOutsideClick title="Подтвердите почту">
       <Column>
         <T font="Body/Body 1 Short">
           Мы отправили письмо подтверждения на <strong>{emailToConfirm}</strong>. Пожалуйста,
@@ -31,5 +25,5 @@ export const EmailConfirmation = ({
         </StyledWrapper>
       </Column>
     </Modal>
-  );
+  ) : null;
 };
