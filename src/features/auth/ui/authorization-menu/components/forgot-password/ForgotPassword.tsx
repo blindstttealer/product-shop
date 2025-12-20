@@ -22,7 +22,7 @@ export const ForgotVisible = ({
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
-  } = useForm<ForgotForm>({
+  } = useForm({
     resolver: yupResolver(forgotPasswordSchema),
     mode: 'onChange',
     defaultValues: {

@@ -49,11 +49,11 @@ export const AuthGuard: React.FC<AuthGuardProps> = observer(
         }
         break;
 
-      case 'protected':
-        if (!authStore.isAuthenticated) {
-          return <Navigate to={redirectTo} state={{ from: location }} replace />;
-        }
-        break;
+      // case 'protected':
+      //   if (!authStore.isAuthenticated) {
+      //     return <Navigate to={redirectTo} state={{ from: location }} replace />;
+      //   }
+      //   break;
 
       case 'public':
       default:

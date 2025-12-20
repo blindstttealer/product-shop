@@ -69,7 +69,7 @@ export class AuthStore {
           this.user = { email, id, login };
         }
       });
-      return res; 
+      return res;
     } finally {
       runInAction(() => (this.isLoading = false));
     }

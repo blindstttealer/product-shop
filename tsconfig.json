@@ -1,28 +1,29 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",  
-    "paths": {
-      "@/*": ["*"],                
-      "@shared/*": ["shared/*"],   
-    },
-    "target": "ESNext",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx",
     "strict": false,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "commonjs",
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+    },
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "noEmit": false,
-    "jsx": "react-jsx"
+    "allowJs": true
   },
-  "include": ["src", "src/types"]
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
+  "include": ["src/**/*", "*.d.ts", "webpack.config.ts"],
+  "exclude": ["node_modules", "dist"]
 }
