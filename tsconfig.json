@@ -12,7 +12,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@assets/*": ["src/assets/*"]
     },
     "moduleResolution": "node",
     "resolveJsonModule": true,
