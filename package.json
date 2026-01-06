@@ -49,6 +49,7 @@
     "react-phone-number-input": "^3.4.12",
     "react-router": "^7.5.0",
     "request": "^2.88.2",
+    "socket.io-client": "^4.8.3",
     "styled-components": "^6.1.19",
     "uuid": "^13.0.0",
     "web-vitals": "^2.1.4",
@@ -59,16 +60,15 @@
   "scripts": {
     "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.ts --mode development",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.ts --mode production",
-    "dev": "cross-env NODE_ENV=development webpack serve --config webpack.config.ts --mode development",
+    "dev": "cross-env NODE_ENV=development webpack serve --config webpack.config.ts --mode development --port 3434",
     "clean": "rimraf ./public/main.bundle.js",
     "test": "jest",
     "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}'",
     "lint:fix": "eslint 'src/**/*.{ts,tsx,js,jsx}' --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
     "deploy": "gh-pages -d public",
-
-  "build:prod-analyze": "cross-env NODE_ENV=production webpack --config webpack.config.ts --mode production --env analyze=true",
-  "dev-analyze": "cross-env NODE_ENV=development webpack serve --config webpack.config.ts --mode development --env analyze=true --env hot=false"
+    "build:prod-analyze": "cross-env NODE_ENV=production webpack --config webpack.config.ts --mode production --env analyze=true",
+    "dev-analyze": "cross-env NODE_ENV=development webpack serve --config webpack.config.ts --mode development --env analyze=true --env hot=false"
   },
   "eslintConfig": {
     "extends": [

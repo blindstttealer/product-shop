@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { AuthApi } from '../api/authApi';
+import { UsersApi } from '@/api/controllers/users';
 
 export interface User {
   id: string;
@@ -43,7 +44,7 @@ export class AuthStore {
   async hydrate() {
     this.setLoading(true);
     try {
-      const resp = await AuthApi.getUser();
+      const resp = await AuthApi.me();
       runInAction(() => {
         this.user = resp || null;
       });
@@ -75,15 +76,16 @@ export class AuthStore {
     }
   }
 
-  async login(payload: { login: string; password: string }) {
+  async login(payload: { loginOrEmail: string; password: string }) {
     this.setLoading(true);
     try {
-      const res = await AuthApi.login({ email: payload.login, password: payload.password });
+      console.log('payload', payload);
+      const res = await AuthApi.login({login: payload.loginOrEmail, password: payload.password});
 
       runInAction(() => {
         if (res) {
-          const { email, id } = res;
-          this.user = { email, id };
+          const { email, id, login } = res;
+          this.user = { email, id , login };
         }
       });
       return res;

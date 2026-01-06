@@ -1,9 +1,18 @@
-import { ReactNode } from 'react';
+import { ReactNode, forwardRef } from 'react';
 import { StyledHeader, Container } from './styles';
-export default function AppHeader({ children }: { children?: ReactNode }) {
+
+interface AppHeaderProps {
+  children?: ReactNode;
+}
+
+const AppHeader = forwardRef<HTMLDivElement, AppHeaderProps>(({ children }, ref) => {
   return (
-    <StyledHeader>
+    <StyledHeader ref={ref}>
       <Container>{children}</Container>
     </StyledHeader>
   );
-}
+});
+
+AppHeader.displayName = 'AppHeader';
+
+export default AppHeader;

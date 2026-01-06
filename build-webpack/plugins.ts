@@ -6,6 +6,7 @@ import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import type { WebpackOptions } from './options';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import Dotenv from 'dotenv-webpack';
 export const getPlugins = (options: WebpackOptions, paths: any, isProduction: boolean) =>
   [
     new CleanWebpackPlugin(),
@@ -14,17 +15,19 @@ export const getPlugins = (options: WebpackOptions, paths: any, isProduction: bo
       minify: isProduction,
       favicon: path.resolve(paths.public, 'favicon.ico'),
     }),
+    new Dotenv({
+      path: isProduction ? '.env.production' : '.env.development',
+      systemvars: true,
+    }),
     new ForkTsCheckerWebpackPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(options.mode),
-      'process.env.REACT_APP_API_URL': JSON.stringify(options.apiUrl),
     }),
     new webpack.ProgressPlugin(),
     !isProduction && new ReactRefreshWebpackPlugin(),
     options.analyze &&
       new BundleAnalyzerPlugin({
-        analyzerMode: 'static', 
+        analyzerMode: 'static',
         reportFilename: '../bundle-report.html',
-        openAnalyzer: true, 
+        openAnalyzer: true,
       }),
   ].filter(Boolean);

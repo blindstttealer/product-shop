@@ -6,7 +6,6 @@ const ToggleContainer = styled.div`
   position: fixed;
   top: 20px;
   right: 20px;
-  z-index: 1000;
 `;
 
 interface ThemeToggleProps {

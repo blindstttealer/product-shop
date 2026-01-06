@@ -1,3 +1,4 @@
+import { HEADER_HEIGHT } from '@/shared/const';
 import styled from 'styled-components';
 
 export const StyledHeader = styled.header`
@@ -5,7 +6,7 @@ export const StyledHeader = styled.header`
   top: 0;
   width: 100%;
   display: flex;
-  min-height: 100px;
+  height: ${HEADER_HEIGHT}px;
   align-items: center;
   justify-content: space-between;
   padding: 24px;
@@ -13,6 +14,7 @@ export const StyledHeader = styled.header`
   background-color: ${({ theme }) => theme.color['Neutral/Neutral 10']};
   border-bottom: 1px solid ${({ theme }) => theme.color['Neutral/Neutral 20']};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* ← важно */
 `;
 
 export const Container = styled.div`
