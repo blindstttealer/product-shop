@@ -30,6 +30,7 @@ export const createConfig = (options: WebpackOptions) => {
     plugins: getPlugins(options, paths, isProduction),
     devServer: !isProduction ? getDevServer(options) : undefined,
     optimization: isProduction ? getOptimization() : undefined,
-    devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
+    // devtool: isProduction ? 'source-map' : 'eval-cheap-module-source-map',
+    devtool: 'source-map',
   };
 };

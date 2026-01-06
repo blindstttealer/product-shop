@@ -30,3 +30,11 @@ declare module '*.woff2';
 declare module '*.ttf';
 declare module '*.otf';
 declare module '*.eot';
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    REACT_APP_EMAILJS_SERVICE_ID?: string;
+    REACT_APP_EMAILJS_PUBLIC_KEY?: string;
+    REACT_APP_EMAILJS_DEFAULT_TEMPLATE_ID?: string;
+  }
+}

@@ -4,13 +4,14 @@ import { apiService } from '../../../api/services';
 export interface User {
   id: string;
   login: string;
-  password: string;
+  password?: string;
   email: string;
 }
 
 export interface LoginResponse {
   id: string;
   email: string;
+  login: string
 }
 
 export interface RegistrationResponse {
@@ -35,11 +36,12 @@ export class AuthApi {
   }
 
   static async login(
-    data?: { email: string; password: string },
+    data?: { login: string; password: string },
     config: AxiosRequestConfig = {},
   ): Promise<LoginResponse> {
+    console.log('data', data);
     return apiService
-      .post<any>('http://127.0.0.1:7000/auth/login', data, {
+      .post<any>('api/user/login', data, {
         ...config,
       })
       .then((response) => response.data);
@@ -47,15 +49,16 @@ export class AuthApi {
 
   static async logout(config: AxiosRequestConfig = {}): Promise<any> {
     return apiService
-      .get<any>('http://127.0.0.1:7000/auth/logout', {
+      .delete<any>('api/user/logout', {
         ...config,
       })
       .then((response) => response.data);
   }
+  // TODO: Вынести в контроллер users?
 
-  static async getUser(config: AxiosRequestConfig = {}): Promise<getUserResponse> {
+  static async me(config: AxiosRequestConfig = {}): Promise<getUserResponse> {
     return apiService
-      .get<any>('api/user/get', {
+      .get<any>('api/user/me', {
         ...config,
       })
       .then((response) => response.data);

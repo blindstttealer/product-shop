@@ -1,13 +1,19 @@
 import { ApiService } from './api-service';
-import { AuthExtensionSimple } from '../interceptors/auth-interceptors';
-import { authStore } from '@/features/auth/model/authStore';
+import { io } from 'socket.io-client';
 
 const apiService = new ApiService({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:3000/',
+  baseURL: process.env.REACT_APP_API_URL ,
   withCredentials: true,
   timeout: 10000,
+
 });
 
-// new AuthExtensionSimple(apiService, authStore);
+
+export const socket = io(process.env.REACT_APP_API_URL , {
+  withCredentials: true,
+  autoConnect: true,
+  reconnection: true, 
+});
+
 
 export { apiService };

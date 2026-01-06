@@ -11,6 +11,9 @@ export const getLoaders = (isProduction: boolean) => [
           before: [!isProduction && ReactRefreshTypeScript()].filter(Boolean),
         }),
         transpileOnly: true,
+        compilerOptions: {
+          sourceMap: true,
+        },
       },
     },
   },

@@ -1,43 +1,28 @@
-import styled from 'styled-components';
-import { Link } from 'react-router';
-import { CartIcon } from '../ui/cart';
+import { useNavigate, useLocation } from 'react-router';
 import { useCart } from '../../features/cart/lib/useCart';
-import { observer } from 'mobx-react-lite';
+import { CartIcon } from '../ui/cart';
+import { HorizontalTabs, TabItem } from '../ui/tab-menu/TabMenu';
 
-const NavigationContainer = styled.nav`
-  display: flex;
-  gap: 24px;
-  padding: 16px 24px;
-`;
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: ${({ theme }) => theme.color['Neutral/Neutral 90']};
-  font-weight: 500;
-
-  &:hover {
-    color: ${({ theme }) => theme.color['Primary/Primary 90']};
-  }
-
-  &.active {
-    color: ${({ theme }) => theme.color['Primary/Primary 60']};
-    font-weight: 600;
-  }
-`;
-
-export const NavigationPanel = observer(() => {
+export const NavigationPanel = () => {
   const cart = useCart();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const tabs: TabItem[] = [
+    { text: 'Акции', tabId: '/promotion' },
+    { text: 'Карьера', tabId: '/careers' },
+    { text: 'Доставка', tabId: '/delivery' },
+    { text: 'О нас', tabId: '/about' },
+    { text: 'Конструктор форм', tabId: '/form-constructor' },
+  ];
+
+  const currentTabId = tabs.find((tab) => tab.tabId === location.pathname)?.tabId;
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'end' }}>
-      <NavigationContainer>
-        <StyledLink to="/promotion">Акции</StyledLink>
-        <StyledLink to="/careers">Карьера</StyledLink>
-        <StyledLink to="/delivery">Доставка</StyledLink>
-        <StyledLink to="/about">О нас</StyledLink>
-        <StyledLink to="/products">Продукты</StyledLink>
-        <StyledLink to="/cart">{<CartIcon count={cart.totalItems} />}</StyledLink>
-      </NavigationContainer>
-    </div>
+    <HorizontalTabs
+      tabs={tabs}
+      selectedTabId={currentTabId}
+      onTabChange={(tabId) => navigate(tabId)}
+    />
   );
-});
+};

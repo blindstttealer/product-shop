@@ -14,7 +14,7 @@ export const LayoutContainer = styled.div`
 export const ContentLayout = styled.div<{ $hasHeader: boolean }>`
   display: flex;
   flex: 1;
-  margin-top: ${(props) => (props.$hasHeader ? '100px' : '0')};
+  /* margin-top: ${(props) => (props.$hasHeader ? '100px' : '0')}; */
   min-height: ${(props) => (props.$hasHeader ? 'calc(100vh - 100px)' : '100vh')};
   position: relative;
 `;
