@@ -80,12 +80,12 @@ export class AuthStore {
     this.setLoading(true);
     try {
       console.log('payload', payload);
-      const res = await AuthApi.login({login: payload.loginOrEmail, password: payload.password});
+      const res = await AuthApi.login({ login: payload.loginOrEmail, password: payload.password });
 
       runInAction(() => {
         if (res) {
           const { email, id, login } = res;
-          this.user = { email, id , login };
+          this.user = { email, id, login };
         }
       });
       return res;

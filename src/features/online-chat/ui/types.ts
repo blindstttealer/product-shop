@@ -1,4 +1,4 @@
-import { User } from "@/features/auth/model/authStore";
+import { User } from '@/features/auth/model/authStore';
 
 export interface Message {
   id: string;
@@ -17,7 +17,7 @@ export interface Participant {
 export interface ChatDrawerProps {
   currentUser: User;
   chatIcon?: React.ReactNode;
-  drawerContainerRef: HTMLDivElement | null
+  drawerContainerRef: HTMLDivElement | null;
 }
 
 export type ChatModeType = 'modal' | 'drawer';

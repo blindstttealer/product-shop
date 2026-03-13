@@ -34,7 +34,7 @@ export const Login: React.FC = () => {
   });
 
   const handleLogin = async (values: LoginFormData) => {
-    console.log('values',values);
+    console.log('values', values);
     try {
       await authStore.login({ loginOrEmail: values.loginOrEmail, password: values.password });
       navigate('/');

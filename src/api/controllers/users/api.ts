@@ -1,8 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import { apiService } from '../../services';
-import {  UsersResponse } from './types';
-
-
+import { UsersResponse } from './types';
 
 export class UsersApi {
   static async getUsers(config: AxiosRequestConfig = {}): Promise<UsersResponse> {
@@ -12,6 +10,4 @@ export class UsersApi {
       })
       .then((response) => response.data);
   }
-
-  
 }

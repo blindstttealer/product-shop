@@ -1,1 +1,1 @@
-export {ModalChatMode} from './ModalChatMode'
+export { ModalChatMode } from './ModalChatMode';

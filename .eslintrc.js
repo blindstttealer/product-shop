@@ -27,7 +27,9 @@ module.exports = {
   rules: {
     'no-console': 'warn', // предупреждение при console.log
     '@typescript-eslint/no-unused-vars': ['warn'], // предупреждение при неиспользуемых переменных
+    '@typescript-eslint/no-explicit-any': 'warn', // теперь any будет только предупреждением
     'react/prop-types': 'off', // отключаем проверку prop-types для TS
-    'react/react-in-jsx-scope': 'off', // <- отключаем это правило
+    'react/react-in-jsx-scope': 'off', // отключаем правило для новых версий React
+    'react/display-name': 'off',
   },
 };

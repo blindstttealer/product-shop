@@ -38,7 +38,7 @@ interface ChatContentProps {
   onChangeInputMessage: (value: string) => void;
   sendMessage: () => void;
   currentUser: string;
-  isDrawerMode?: boolean
+  isDrawerMode?: boolean;
 }
 
 export const ChatContent = ({
@@ -51,7 +51,7 @@ export const ChatContent = ({
   onChangeInputMessage,
   sendMessage,
   currentUser,
-  isDrawerMode
+  isDrawerMode,
 }: ChatContentProps) => {
   const handleSetActiveParticipant = useCallback(
     (participant: Participant) => {
@@ -65,15 +65,15 @@ export const ChatContent = ({
     onChangeInputMessage(event.target.value);
   };
 
-const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  if (e.key === 'Enter') {
-    sendMessage();
-  }
-};
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      sendMessage();
+    }
+  };
 
-const handleClickSend = (e: React.MouseEvent<HTMLDivElement>) => {
-  sendMessage();
-};
+  const handleClickSend = (e: React.MouseEvent<HTMLDivElement>) => {
+    sendMessage();
+  };
 
   return (
     <>

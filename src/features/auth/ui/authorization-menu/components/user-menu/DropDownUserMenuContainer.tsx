@@ -32,8 +32,6 @@ const MenuItemStyled = styled(MenuItem)`
   align-items: center;
   gap: 8px;
   cursor: pointer;
-
-  
 `;
 
 export const DropDownUserMenuContainer = observer(({ login, email }: Props) => {
@@ -85,7 +83,6 @@ export const DropDownUserMenuContainer = observer(({ login, email }: Props) => {
           targetElement={targetRef.current}
           alignSelf="center"
           onClickOutside={handleClickOutside}
-          
         >
           <MenuWrapper>
             <Menu model={model} />
