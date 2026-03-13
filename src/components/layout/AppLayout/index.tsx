@@ -20,22 +20,22 @@ interface AppLayoutProps {
 export const AppLayout: React.FC<AppLayoutProps> = observer(({ children, collapsed }) => {
   const authStore = useAuthStore();
   const { isDarkMode, toggleTheme } = useThemeContext();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [headerContainer, setHeaderContainer] = useState<HTMLDivElement | null>(null);
 
   const setDrawerRef = useCallback((node: HTMLDivElement | null) => {
     if (node) {
       setHeaderContainer(node);
     }
-  }, []); 
+  }, []);
 
-/* TODO: Временный коммент, чтобы каждый раз не логиниться и видеть приложение,
+  /* TODO: Временный коммент, чтобы каждый раз не логиниться и видеть приложение,
         раскоментируй нижние строки и закоментируй данные стора чтобы работало
- */  
-const isAuthenticated = authStore.isAuthenticated;
+ */
+  const isAuthenticated = authStore.isAuthenticated;
   // let isAuthenticated = true;
   // console.log('isAuthenticated2', isAuthenticated2);
-  
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/registration', { replace: true });

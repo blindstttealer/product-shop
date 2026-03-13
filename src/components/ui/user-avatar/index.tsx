@@ -13,12 +13,14 @@ interface UserAvatarProps {
   email?: string;
 }
 
-export const UserAvatar = forwardRef<HTMLDivElement, UserAvatarProps>(({ email = '', name = '' }, ref) => (
-  <div>
-    <Space align="center" size="middle">
-      <Avatar ref={ref} size="default" icon={<UserOutlined />} style={{ cursor: 'pointer' }} />
-      <UserName>{name}</UserName>
-      <UserName>{email}</UserName>
-    </Space>
-  </div>
-));
+export const UserAvatar = forwardRef<HTMLDivElement, UserAvatarProps>(
+  ({ email = '', name = '' }, ref) => (
+    <div>
+      <Space align="center" size="middle">
+        <Avatar ref={ref} size="default" icon={<UserOutlined />} style={{ cursor: 'pointer' }} />
+        <UserName>{name}</UserName>
+        <UserName>{email}</UserName>
+      </Space>
+    </div>
+  ),
+);

@@ -1,6 +1,6 @@
 import { FC, useCallback } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Button, DropdownContainer} from '@admiral-ds/react-ui';
+import { Button, DropdownContainer } from '@admiral-ds/react-ui';
 import { useNavigate } from 'react-router';
 import { useAuthStore } from '@/providers/AuthProvider';
 import { UserAvatar } from '@/components/ui/user-avatar';
@@ -8,7 +8,7 @@ import { UserAvatar } from '@/components/ui/user-avatar';
 interface UserMenuProps {
   name?: string;
   email?: string;
-  targetElem: HTMLDivElement 
+  targetElem: HTMLDivElement;
 }
 
 export const DropDownUserMenu: FC<UserMenuProps> = observer(({ name, email, targetElem }) => {

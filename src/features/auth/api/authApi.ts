@@ -11,7 +11,7 @@ export interface User {
 export interface LoginResponse {
   id: string;
   email: string;
-  login: string
+  login: string;
 }
 
 export interface RegistrationResponse {

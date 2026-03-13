@@ -1,1 +1,1 @@
-export {HorizontalTabs} from './TabMenu'
+export { HorizontalTabs } from './TabMenu';

@@ -24,7 +24,8 @@ export const FormInfo = observer(({ formId }: FormInfoProps) => {
     return value === '' || value === null || value === undefined;
   });
 
-  const stepTitle = currentTemplate.steps.length >= currentForm.step ? currentStep.title : 'Review';
+  const stepTitle =
+    currentTemplate?.steps.length >= currentForm?.step ? currentStep?.title : 'Review';
 
   return (
     <FormInfoBlock>

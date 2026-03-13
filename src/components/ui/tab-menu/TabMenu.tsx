@@ -2,17 +2,17 @@ import { useState, useMemo, forwardRef, ReactElement } from 'react';
 import { TabMenuHorizontal, HorizontalTab, TabIcon, TabText, MenuItem } from '@admiral-ds/react-ui';
 
 export interface TabItem {
-  tabId: string; 
-  text: string | ReactElement; 
-  icon?: ReactElement; 
-  disabled?: boolean; 
+  tabId: string;
+  text: string | ReactElement;
+  icon?: ReactElement;
+  disabled?: boolean;
 }
 
 interface HorizontalTabsProps {
   tabs: TabItem[];
   defaultTabId?: string;
-  selectedTabId?: string; 
-  onTabChange?: (tabId: string) => void; 
+  selectedTabId?: string;
+  onTabChange?: (tabId: string) => void;
   dimension?: 'l' | 'm';
 }
 
@@ -25,7 +25,7 @@ const CustomHorizontalTab = forwardRef<HTMLButtonElement, any>(
       selected={selected}
       disabled={disabled}
       onSelectTab={onSelectTab}
-      dimension={dimension} 
+      dimension={dimension}
     >
       {icon && (
         <TabIcon $dimension={dimension} $disabled={disabled}>
@@ -52,8 +52,8 @@ export const HorizontalTabs = ({
 
   const handleSelectTab = (tabId: string) => {
     if (!tabs.find((tab) => tab.tabId === tabId)?.disabled) {
-      if (!controlledTabId) setInternalSelectedTabId(tabId); 
-      onTabChange?.(tabId); 
+      if (!controlledTabId) setInternalSelectedTabId(tabId);
+      onTabChange?.(tabId);
     }
   };
 

@@ -24,11 +24,12 @@ export const useAppToast = () => {
           <DefaultToastItem
             status={options?.status ?? 'error'}
             title={options?.title ?? 'Уведомление'}
-            children={message}
             isClosable={options?.isClosable ?? true}
             onClose={handleOnClose}
             displayStatusIcon
-          />
+          >
+            {message}
+          </DefaultToastItem>
         </ToastItemWithAutoDelete>
       );
     };

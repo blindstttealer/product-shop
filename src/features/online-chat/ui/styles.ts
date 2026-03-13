@@ -1,5 +1,5 @@
-import { InputField } from "@admiral-ds/react-ui";
-import { keyframes, styled } from "styled-components";
+import { InputField } from '@admiral-ds/react-ui';
+import { keyframes, styled } from 'styled-components';
 
 // export const StyledDrawer = styled(Drawer)`
 //   position: fixed;
@@ -99,11 +99,11 @@ export const UserSnippet = styled.div`
   white-space: nowrap;
 `;
 
-export const RightColumn = styled.section<{ $isDrawerMode: boolean}>`
+export const RightColumn = styled.section<{ $isDrawerMode: boolean }>`
   display: flex;
   flex-direction: column;
   min-height: 0;
-  width: ${({$isDrawerMode}) => $isDrawerMode ? '300px' : undefined}
+  width: ${({ $isDrawerMode }) => ($isDrawerMode ? '300px' : undefined)};
 `;
 
 export const ChatHeader = styled.div`
