@@ -68,7 +68,13 @@
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,css,scss,md}'",
     "deploy": "gh-pages -d public",
     "build:prod-analyze": "cross-env NODE_ENV=production webpack --config webpack.config.ts --mode production --env analyze=true",
-    "dev-analyze": "cross-env NODE_ENV=development webpack serve --config webpack.config.ts --mode development --env analyze=true --env hot=false"
+    "dev-analyze": "cross-env NODE_ENV=development webpack serve --config webpack.config.ts --mode development --env analyze=true --env hot=false",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npx eslint --fix"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -89,6 +95,8 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.4.4",
+    "@commitlint/config-conventional": "^20.4.4",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.2",
     "@svgr/webpack": "^8.1.0",
     "@types/antd": "^1.0.4",
@@ -111,6 +119,9 @@
     "fork-ts-checker-webpack-plugin": "^9.1.0",
     "gh-pages": "^6.3.0",
     "html-webpack-plugin": "^5.6.4",
+    "husky": "^9.1.7",
+    "jest": "^30.3.0",
+    "lint-staged": "^16.3.3",
     "minimatch": "^10.1.1",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
