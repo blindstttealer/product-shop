@@ -1,17 +1,11 @@
 import { AxiosRequestConfig } from 'axios';
 import { apiService } from '../../../api/services';
-
-export interface User {
-  id: string;
-  login: string;
-  password?: string;
-  email: string;
-}
+import { User } from '@/entities/user';
 
 export interface LoginResponse {
   id: string;
-  email: string;
-  login: string;
+  email?: string;
+  login?: string;
 }
 
 export interface RegistrationResponse {
@@ -19,8 +13,8 @@ export interface RegistrationResponse {
 }
 
 export interface getUserResponse {
-  id: string;
-  email: string;
+  id?: string;
+  email?: string;
 }
 
 export class AuthApi {
@@ -54,7 +48,6 @@ export class AuthApi {
       })
       .then((response) => response.data);
   }
-  // TODO: Вынести в контроллер users?
 
   static async me(config: AxiosRequestConfig = {}): Promise<getUserResponse> {
     return apiService

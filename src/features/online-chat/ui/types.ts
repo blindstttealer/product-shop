@@ -1,4 +1,4 @@
-import { User } from '@/features/auth/model/authStore';
+import { User } from '@/entities/user';
 
 export interface Message {
   id: string;
