@@ -4,6 +4,7 @@ import { useAuthStore } from '@/providers/AuthProvider';
 import { Spinner } from '@admiral-ds/react-ui';
 import { useEffect, useState } from 'react';
 import { LayoutContainer, LoaderContainer } from '../layout/AppLayout/styles';
+import { userStore } from '@/entities/user/model/userStore';
 
 export type AuthAccess = 'public' | 'protected' | 'guest-only';
 
@@ -43,7 +44,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = observer(
 
     switch (access) {
       case 'guest-only':
-        if (authStore.isAuthenticated) {
+        if (userStore.isAuth) {
           const from = location.state?.from?.pathname || redirectAuthenticatedTo;
           return <Navigate to={from} replace />;
         }

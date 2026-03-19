@@ -10,6 +10,7 @@ import { useThemeContext } from '@/providers/ThemeProvider';
 import { ContentLayout, LayoutContainer, MainContent } from './styles';
 import { useNavigate } from 'react-router';
 import { DropDownUserMenuContainer } from '@/features/auth/ui/authorization-menu/components/user-menu/DropDownUserMenuContainer';
+import { userStore } from '@/entities/user/model/userStore';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -32,7 +33,7 @@ export const AppLayout: React.FC<AppLayoutProps> = observer(({ children, collaps
   /* TODO: Временный коммент, чтобы каждый раз не логиниться и видеть приложение,
         раскоментируй нижние строки и закоментируй данные стора чтобы работало
  */
-  const isAuthenticated = authStore.isAuthenticated;
+  const isAuthenticated = userStore.isAuth;
   // let isAuthenticated = true;
   // console.log('isAuthenticated2', isAuthenticated2);
 
@@ -47,10 +48,7 @@ export const AppLayout: React.FC<AppLayoutProps> = observer(({ children, collaps
       {isAuthenticated && (
         <AppHeader ref={setDrawerRef}>
           <NavigationPanel />
-          <DropDownUserMenuContainer
-            login={authStore.authenticatedUser?.login}
-            email={authStore.authenticatedUser?.email}
-          />
+          <DropDownUserMenuContainer login={userStore.user?.login} email={userStore.user?.email} />
           <AuthorizationMenu />
           <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         </AppHeader>
@@ -60,7 +58,7 @@ export const AppLayout: React.FC<AppLayoutProps> = observer(({ children, collaps
         <MainContent $collapsed={collapsed}>{children}</MainContent>
 
         {isAuthenticated && headerContainer && (
-          <Chat drawerContainerRef={headerContainer} currentUser={authStore.authenticatedUser} />
+          <Chat drawerContainerRef={headerContainer} currentUser={userStore.user} />
         )}
       </ContentLayout>
     </LayoutContainer>
