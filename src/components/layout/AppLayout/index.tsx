@@ -10,6 +10,7 @@ import { useThemeContext } from '@/providers/ThemeProvider';
 import { ContentLayout, LayoutContainer, MainContent } from './styles';
 import { useNavigate } from 'react-router';
 import { DropDownUserMenuContainer } from '@/features/auth/ui/authorization-menu/components/user-menu/DropDownUserMenuContainer';
+import { userStore } from '@/entities/user/model/userStore';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -20,22 +21,22 @@ interface AppLayoutProps {
 export const AppLayout: React.FC<AppLayoutProps> = observer(({ children, collapsed }) => {
   const authStore = useAuthStore();
   const { isDarkMode, toggleTheme } = useThemeContext();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [headerContainer, setHeaderContainer] = useState<HTMLDivElement | null>(null);
 
   const setDrawerRef = useCallback((node: HTMLDivElement | null) => {
     if (node) {
       setHeaderContainer(node);
     }
-  }, []); 
+  }, []);
 
-/* TODO: Временный коммент, чтобы каждый раз не логиниться и видеть приложение,
+  /* TODO: Временный коммент, чтобы каждый раз не логиниться и видеть приложение,
         раскоментируй нижние строки и закоментируй данные стора чтобы работало
- */  
-const isAuthenticated = authStore.isAuthenticated;
+ */
+  const isAuthenticated = userStore.isAuth;
   // let isAuthenticated = true;
   // console.log('isAuthenticated2', isAuthenticated2);
-  
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/registration', { replace: true });
@@ -47,10 +48,7 @@ const isAuthenticated = authStore.isAuthenticated;
       {isAuthenticated && (
         <AppHeader ref={setDrawerRef}>
           <NavigationPanel />
-          <DropDownUserMenuContainer
-            login={authStore.authenticatedUser?.login}
-            email={authStore.authenticatedUser?.email}
-          />
+          <DropDownUserMenuContainer login={userStore.user?.login} email={userStore.user?.email} />
           <AuthorizationMenu />
           <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         </AppHeader>
@@ -60,7 +58,7 @@ const isAuthenticated = authStore.isAuthenticated;
         <MainContent $collapsed={collapsed}>{children}</MainContent>
 
         {isAuthenticated && headerContainer && (
-          <Chat drawerContainerRef={headerContainer} currentUser={authStore.authenticatedUser} />
+          <Chat drawerContainerRef={headerContainer} currentUser={userStore.user} />
         )}
       </ContentLayout>
     </LayoutContainer>

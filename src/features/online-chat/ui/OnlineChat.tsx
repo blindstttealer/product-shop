@@ -9,7 +9,6 @@ import { ChatContent } from './components/chat-content';
 import { v4 as uuidv4 } from 'uuid';
 import { socket } from '@/api/services';
 export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon, drawerContainerRef }) => {
-  
   const [opened, setOpened] = useState(false);
   const [participants, setParticipants] = useState<Participant[]>([
     { id: 'hr', name: 'HR', lastMessage: 'Привет! Добро пожаловать в команду.', unread: 0 },
@@ -43,7 +42,7 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon, drawerC
   //   }
   // }, [callModalOpen, localStream]);
 
-  console.log('socket-', socket)
+  console.log('socket-', socket);
 
   useEffect(() => {
     socket.on('new-message', (message: Message) => {
@@ -61,7 +60,6 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon, drawerC
       socket.off('new-message');
     };
   }, [currentUser.id]);
-
 
   const closeChat = () => setOpened(false);
 
@@ -150,7 +148,7 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon, drawerC
       sendMessage: handleSend,
       onOpenCallModal: openCallModal,
       setActiveParticipant,
-      currentUser: currentUser?.id
+      currentUser: currentUser?.id,
     };
 
     switch (chatMode) {
@@ -162,7 +160,7 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon, drawerC
             setChatMode={() => setChatModeHandler('modal')}
             container={drawerContainerRef}
           >
-            <ChatContent {...contentProps} isDrawerMode={chatMode ==='drawer'} />
+            <ChatContent {...contentProps} isDrawerMode={chatMode === 'drawer'} />
           </DrawerChatMode>
         );
       }
@@ -183,8 +181,6 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon, drawerC
         return null;
     }
   };
-
-
 
   return (
     <>

@@ -56,7 +56,11 @@ export const Products = observer(() => {
       <ProductsColumn>
         <Grid>
           {productsStore.productsToShow.map((product) => (
-            <ProductItem product={product} onItemClick={onClickNavigateProductDetails} />
+            <ProductItem
+              key={product.id}
+              product={product}
+              onItemClick={onClickNavigateProductDetails}
+            />
           ))}
         </Grid>
       </ProductsColumn>

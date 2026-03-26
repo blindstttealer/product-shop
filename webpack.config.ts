@@ -21,5 +21,7 @@ export default (env: any = {}, argv: any = {}): Configuration => {
 
   const options = normalizeOptions(userOptions);
 
-  return createConfig(options);
+  const config = createConfig(options);
+
+  return config;
 };

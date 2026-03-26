@@ -1,18 +1,13 @@
-import { PropsWithChildren } from "react";
-import { StyledDrawer } from "./styles";
-import {
-  DrawerTitle,
-  DrawerContent,
-  DrawerButtonPanel,
-  Button,
-} from '@admiral-ds/react-ui';
+import { PropsWithChildren } from 'react';
+import { StyledDrawer } from './styles';
+import { DrawerTitle, DrawerContent, DrawerButtonPanel, Button } from '@admiral-ds/react-ui';
 
 interface DrawerChatModeProps {
   isOpen: boolean;
   onCloseChat: () => void;
   // onCloseButtonProps: () => void
   setChatMode: () => void;
-  container: HTMLDivElement | null
+  container: HTMLDivElement | null;
 }
 
 export const DrawerChatMode = ({
@@ -20,7 +15,7 @@ export const DrawerChatMode = ({
   isOpen,
   onCloseChat,
   setChatMode,
-  container
+  container,
 }: PropsWithChildren<DrawerChatModeProps>) => {
   console.log('container', container);
   return (

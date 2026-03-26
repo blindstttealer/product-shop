@@ -1,36 +1,13 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { AuthApi } from '../api/authApi';
-import { UsersApi } from '@/api/controllers/users';
-
-export interface User {
-  id: string;
-  login?: string;
-  email: string;
-}
+import { userStore } from '@/entities/user/model/userStore';
 
 export class AuthStore {
-  user: User | null = null;
   isLoading = false;
   initialized = false;
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
-  }
-
-  get isAuthenticated(): boolean {
-    return !!this.user;
-  }
-
-  get authenticatedUser() {
-    return this.user;
-  }
-
-  setUser(user: User | null) {
-    this.user = user;
-  }
-
-  clearUser() {
-    this.user = null;
   }
 
   setLoading(flag: boolean) {
@@ -46,11 +23,11 @@ export class AuthStore {
     try {
       const resp = await AuthApi.me();
       runInAction(() => {
-        this.user = resp || null;
+        userStore.setUser(resp || null);
       });
     } catch (err) {
       runInAction(() => {
-        this.user = null;
+        userStore.setUser(null);
       });
     } finally {
       runInAction(() => {
@@ -66,8 +43,7 @@ export class AuthStore {
       const res = await AuthApi.registration(payload);
       runInAction(() => {
         if (res.user) {
-          const { email, id, login } = res.user;
-          this.user = { email, id, login };
+          userStore.setUser(res.user);
         }
       });
       return res;
@@ -80,12 +56,11 @@ export class AuthStore {
     this.setLoading(true);
     try {
       console.log('payload', payload);
-      const res = await AuthApi.login({login: payload.loginOrEmail, password: payload.password});
+      const res = await AuthApi.login({ login: payload.loginOrEmail, password: payload.password });
 
       runInAction(() => {
         if (res) {
-          const { email, id, login } = res;
-          this.user = { email, id , login };
+          userStore.setUser(res);
         }
       });
       return res;
@@ -99,7 +74,7 @@ export class AuthStore {
     try {
       await AuthApi.logout();
       runInAction(() => {
-        this.user = null;
+        userStore.setUser(null);
       });
     } finally {
       runInAction(() => (this.isLoading = false));
