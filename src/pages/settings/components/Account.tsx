@@ -10,19 +10,30 @@ import {
   CategoryGlobeOutline,
   SystemExitOutline,
 } from '@admiral-ds/icons';
-import { Card, Content, SpanText, StyledButton, SubTitle } from '../styles/settings.styles';
+import {
+  Card,
+  Content,
+  labelStyles,
+  SpanText,
+  StyledButton,
+  SubTitle,
+} from '../styles/settings.styles';
 import type { ComponentType } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 export const Account = () => {
+  const { register } = useFormContext();
+
   return (
     <SettingsBlock title={'Настройки аккаунта'} icon={SystemSettingsSolid}>
       <Content>
         <SettingCard>
           <SectionTitle title={'Email адрес'} icon={SystemEmailOutline} />
-          <InputRow>
-            <EmailInput placeholder={'Email адрес'} name={'email'} />
-            <UpdateButton dimension={'m'}>Обновить</UpdateButton>
-          </InputRow>
+          <InputField {...register('account.email')} placeholder={'Email адрес'} />
+          {/*<InputRow>*/}
+          {/*  <EmailInput placeholder={'Email адрес'} name={'email'} />*/}
+          {/*  <UpdateButton dimension={'m'}>Обновить</UpdateButton>*/}
+          {/*</InputRow>*/}
         </SettingCard>
 
         <SettingCard>
@@ -49,7 +60,11 @@ export const Account = () => {
         </SettingCard>
         <SettingCard>
           <SectionTitle title={'Язык интерфейса'} icon={CategoryGlobeOutline} />
-          <SelectField defaultValue={languageOptions[0].value} name={'language'}>
+          <SelectField
+            {...register('language')}
+            defaultValue={languageOptions[0].value}
+            name={'language'}
+          >
             {languageOptions.map((option) => (
               <Option key={option.value} value={option.value}>
                 {option.label}
@@ -103,18 +118,18 @@ const SettingCard = styled(Card).attrs({
   flex-direction: column;
 `;
 
-const EmailInput = styled(InputField)`
-  flex: 7;
-`;
+// const EmailInput = styled(InputField)`
+//   flex: 7;
+// `;
 
-const UpdateButton = styled(Button)`
-  flex: 1;
-`;
+// const UpdateButton = styled(Button)`
+//   flex: 1;
+// `;
 
-const InputRow = styled.div`
-  display: flex;
-  gap: 10px;
-`;
+// const InputRow = styled.div`
+//   display: flex;
+//   gap: 10px;
+// `;
 
 const ActionBlock = styled.div`
   display: flex;

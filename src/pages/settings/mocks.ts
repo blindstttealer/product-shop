@@ -39,11 +39,11 @@ export const experienceOptions = [
   { value: '10+', label: '10+ лет' },
 ];
 
-export const locationOptions = [
-  { value: 'Moscow', label: 'Moscow' },
-  { value: 'Saint-Petersburg', label: 'Saint-Petersburg' },
-  { value: 'Omsk', label: 'Omsk' },
-];
+// export const locationOptions = [
+//   { value: 'Moscow', label: 'Moscow' },
+//   { value: 'Saint-Petersburg', label: 'Saint-Petersburg' },
+//   { value: 'Omsk', label: 'Omsk' },
+// ];
 
 export const workFormatOptions = [
   { value: '1', label: 'Только удаленно' },
@@ -52,7 +52,7 @@ export const workFormatOptions = [
 ];
 
 export const languageOptions = [
-  { value: '0', label: 'Русский' },
-  { value: '1', label: 'English' },
-  { value: '2', label: 'Español' },
+  { value: 'ru', label: 'Русский' },
+  { value: 'en', label: 'English' },
+  { value: 'es', label: 'Español' },
 ];

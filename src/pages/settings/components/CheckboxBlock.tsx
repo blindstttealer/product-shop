@@ -5,7 +5,7 @@ import styled from 'styled-components';
 type Props = {
   title: string;
   description?: string;
-  name: string;
+  name?: string;
   background?: string;
 };
 

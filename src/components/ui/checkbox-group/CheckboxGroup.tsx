@@ -4,15 +4,15 @@ import { LegendText } from '@/pages/settings/styles/settings.styles';
 
 type Props = {
   title: string;
-  name: string;
-  data: { id: string; value: string }[];
+  name?: string;
+  data: string[];
 };
 export const CheckboxGroup = ({ title, name, data }: Props) => {
   return (
     <FieldSet flexDirection={'row'} name={name}>
       <LegendText>{title}</LegendText>
       {data.map((option) => (
-        <StyledCheckboxField key={option.id}>{option.value}</StyledCheckboxField>
+        <StyledCheckboxField key={option}>{option}</StyledCheckboxField>
       ))}
     </FieldSet>
   );

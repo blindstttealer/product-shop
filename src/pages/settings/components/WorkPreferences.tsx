@@ -6,20 +6,30 @@ import styled from 'styled-components';
 import { CategoryColorSolid } from '@admiral-ds/icons';
 import { CheckboxGroup } from '@/components/ui/checkbox-group';
 import { CheckboxBlock } from '@/pages/settings/components/CheckboxBlock';
+import {
+  EmploymentTypesData,
+  PreferredIndustriesData,
+  SkillsData,
+} from '@/pages/settings/validationSchema';
+import { Controller, useFormContext } from 'react-hook-form';
 
 export const WorkPreferences = () => {
+  const { register, control } = useFormContext();
+
   return (
     <SettingsBlock title={'Предпочтения по работе'} icon={CategoryColorSolid}>
       <Content>
-        <CheckboxGroup
-          title={'Тип занятости'}
-          data={mokEmploymentTypesData}
-          name={'type-of-employment'}
+        <Controller
+          name="jobPreferences.jobType"
+          control={control}
+          render={({ field }) => (
+            <CheckboxGroup {...field} title={'Тип занятости'} data={EmploymentTypesData} />
+          )}
         />
 
         <SelectField
+          {...register('jobPreferences.workLocation')}
           defaultValue={workFormatOptions[0].value}
-          name={'work-format'}
           label={'Предпочтения по местоположению работы'}
           labelCssMixins={{
             label: labelStyles,
@@ -36,7 +46,7 @@ export const WorkPreferences = () => {
           <LegendText>Ожидаемая зарплата (₽)</LegendText>
           <InputsBlockWrapper>
             <NumberInputField
-              name={'salary-min'}
+              {...register('jobPreferences.salaryMin')}
               min={0}
               step={1000}
               label={'Минимум'}
@@ -45,7 +55,7 @@ export const WorkPreferences = () => {
               }}
             />
             <NumberInputField
-              name={'salary-max'}
+              {...register('jobPreferences.salaryMax')}
               min={0}
               step={1000}
               label={'Максимум'}
@@ -56,17 +66,29 @@ export const WorkPreferences = () => {
           </InputsBlockWrapper>
         </FieldSet>
 
-        <CheckboxGroup
-          title={'Предпочтительные отрасли'}
-          data={mokPreferredIndustriesData}
-          name={'preferred-industries'}
+        <Controller
+          name="jobPreferences.industries"
+          control={control}
+          render={({ field }) => (
+            <CheckboxGroup
+              {...field}
+              title={'Предпочтительные отрасли'}
+              data={PreferredIndustriesData}
+            />
+          )}
         />
 
-        <CheckboxBlock
-          title={'Готовность к переезду'}
-          description={'Рассматривать вакансии в других городах'}
-          name={'relocate'}
-          background={'Neutral/Neutral 05'}
+        <Controller
+          name="jobPreferences.willingToRelocate"
+          control={control}
+          render={({ field }) => (
+            <CheckboxBlock
+              {...field}
+              title={'Готовность к переезду'}
+              description={'Рассматривать вакансии в других городах'}
+              background={'Neutral/Neutral 05'}
+            />
+          )}
         />
       </Content>
     </SettingsBlock>

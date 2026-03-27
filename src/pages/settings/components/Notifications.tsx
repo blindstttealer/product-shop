@@ -4,8 +4,11 @@ import { SettingsBlock } from './SettingsBlock';
 import { SystemNotificationsSolid } from '@admiral-ds/icons';
 import { Card, Content, SpanText, SubTitle } from '@/pages/settings/styles/settings.styles';
 import { CheckboxBlock } from './CheckboxBlock';
+import { useFormContext } from 'react-hook-form';
 
 export const Notifications = () => {
+  const { register, control } = useFormContext();
+
   return (
     <SettingsBlock title={'Настройки уведомлений'} icon={SystemNotificationsSolid}>
       <Content>

@@ -2,28 +2,37 @@ import { SettingsBlock } from './SettingsBlock';
 import { AvatarBlock } from './AvatarBlock';
 import styled from 'styled-components';
 import { InputField, SelectField, TextField, Option } from '@admiral-ds/react-ui';
-import { experienceOptions, locationOptions, mokSkillsData } from '../mocks';
+import { experienceOptions, mokSkillsData } from '../mocks';
 import { SystemPersonSolid } from '@admiral-ds/icons';
 import { Content, labelStyles } from '@/pages/settings/styles/settings.styles';
 import { CheckboxGroup } from '@/components/ui/checkbox-group';
+import { Controller, useFormContext } from 'react-hook-form';
+import { LocationOptionsData, SkillsData } from '@/pages/settings/validationSchema';
 
 export const General = () => {
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <SettingsBlock title={'Профессиональный профиль'} icon={SystemPersonSolid}>
       <Content>
         <AvatarBlock />
         <InputsBlockWrapper>
           <InputField
-            name="full-name"
+            {...register('profile.name')}
             placeholder={'Полное имя'}
             label={'Полное имя'}
             labelCssMixins={{
               label: labelStyles,
             }}
+            // status={errors}
           />
 
           <InputField
-            name={'current-position'}
+            {...register('profile.jobTitle')}
             placeholder={'Текущая должность'}
             label={'Текущая должность'}
             labelCssMixins={{
@@ -32,8 +41,8 @@ export const General = () => {
           />
 
           <SelectField
-            defaultValue="0-1"
-            name={'experience'}
+            {...register('profile.experience')}
+            defaultValue={experienceOptions[0].value}
             label={'Опыт работы'}
             labelCssMixins={{
               label: labelStyles,
@@ -47,23 +56,23 @@ export const General = () => {
           </SelectField>
 
           <SelectField
-            defaultValue="Moscow"
-            name={'location'}
+            {...register('profile.location')}
+            defaultValue={LocationOptionsData[0]}
             label={'Местоположение'}
             labelCssMixins={{
               label: labelStyles,
             }}
           >
-            {locationOptions.map((option) => (
-              <Option key={option.value} value={option.value}>
-                {option.label}
+            {LocationOptionsData.map((option) => (
+              <Option key={option} value={option}>
+                {option}
               </Option>
             ))}
           </SelectField>
         </InputsBlockWrapper>
 
         <TextField
-          name={'professional-biography'}
+          {...register('profile.bio')}
           label={'Профессиональная биография'}
           labelCssMixins={{
             label: labelStyles,
@@ -72,7 +81,13 @@ export const General = () => {
           dimension={'xl'}
         />
 
-        <CheckboxGroup title={'Навыки и экспертиза'} data={mokSkillsData} name={'skills-list'} />
+        <Controller
+          name="profile.skills"
+          control={control}
+          render={({ field }) => (
+            <CheckboxGroup {...field} data={SkillsData} title={'Навыки и экспертиза'} />
+          )}
+        />
       </Content>
     </SettingsBlock>
   );
