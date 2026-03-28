@@ -2,21 +2,34 @@ import { Card, SpanText } from '@/pages/settings/styles/settings.styles';
 import { CheckboxField } from '@admiral-ds/react-ui';
 import styled from 'styled-components';
 
-type Props = {
+export type CheckboxBlockProps = {
   title: string;
   description?: string;
-  name?: string;
+  name: string;
   background?: string;
+  value: boolean;
+  onChange: (value: boolean) => void;
 };
 
-export const CheckboxBlock = ({ title, description, name, background }: Props) => {
+export const CheckboxBlock = ({
+  value,
+  title,
+  description,
+  name,
+  background,
+  onChange,
+}: CheckboxBlockProps) => {
   return (
     <CheckboxWrapper background={background}>
       <div>
         <p>{title}</p>
         <SpanText>{description}</SpanText>
       </div>
-      <CheckboxField name={name} />
+      <CheckboxField
+        name={name}
+        checked={value}
+        onChange={(e) => onChange(e.currentTarget.checked)}
+      />
     </CheckboxWrapper>
   );
 };

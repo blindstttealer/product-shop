@@ -1,19 +1,19 @@
-import { Control, Controller, FieldValues } from 'react-hook-form';
-import { CheckboxBlock } from '@/pages/settings/components/CheckboxBlock';
+import { useController } from 'react-hook-form';
+import { CheckboxBlock, CheckboxBlockProps } from '@/pages/settings/components/CheckboxBlock';
 
-export const ControlledCheckboxBlock = (control: Control<FieldValues, any, FieldValues>) => {
+type Props = Omit<CheckboxBlockProps, 'onChange' | 'value'>;
+
+export const ControlledCheckboxBlock = ({ name, ...rest }: Props) => {
+  const { field } = useController({
+    name,
+  });
+
   return (
-    <Controller
-      name="jobPreferences.willingToRelocate"
-      control={control}
-      render={({ field }) => (
-        <CheckboxBlock
-          {...field}
-          title={'Готовность к переезду'}
-          description={'Рассматривать вакансии в других городах'}
-          background={'Neutral/Neutral 05'}
-        />
-      )}
+    <CheckboxBlock
+      value={field.value ?? false}
+      name={field.name}
+      onChange={field.onChange}
+      {...rest}
     />
   );
 };

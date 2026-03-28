@@ -7,7 +7,7 @@ import {
 } from '@admiral-ds/icons';
 
 import { Card, Content, SpanText, StyledButton, SubTitle } from '../styles/settings.styles';
-import { CheckboxBlock } from './CheckboxBlock';
+import { ControlledCheckboxBlock } from '../controlled/ControlledCheckboxBlock';
 
 export const ProfileVisibility = () => {
   return (
@@ -15,21 +15,21 @@ export const ProfileVisibility = () => {
       <Content>
         <SubTitle>Настройки видимости профиля</SubTitle>
 
-        <CheckboxBlock
+        <ControlledCheckboxBlock
           title={'Показывать ожидания по зарплате'}
           description={'Отображать ожидаемую зарплату работодателям'}
-          name={'show-salary-expectations'}
+          name={'privacy.showSalaryExpectations'}
         />
-        <CheckboxBlock
+        <ControlledCheckboxBlock
           title={'Показывать контактную информацию'}
           description={'Разрешить работодателям видеть ваш email и телефон'}
-          name={'show-contact-info'}
+          name={'privacy.showContactInfo'}
         />
 
-        <CheckboxBlock
+        <ControlledCheckboxBlock
           title={'Разрешить сообщения от рекрутеров'}
           description={'Позволить рекрутерам связываться с вами напрямую'}
-          name={'allow-recruiter-messages'}
+          name={'privacy.allowRecruiterMessages'}
         />
 
         <ActionCard hoverable={false}>

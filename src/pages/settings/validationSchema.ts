@@ -1,5 +1,5 @@
 import { object, string, array, boolean, InferType } from 'yup';
-import { experienceOptions, languageOptions } from '@/pages/settings/mocks';
+import { experienceOptions, languageOptions, notificationOptions } from '@/pages/settings/mocks';
 
 export const SkillsData = [
   'JavaScript',
@@ -36,11 +36,11 @@ export const PreferredIndustriesData = [
 
 export const LocationOptionsData = ['Москва', 'Санкт-Петербург', 'Омск'];
 
-const WorkFormatOptionsData = ['Только удаленно', 'Только в офисе', 'Гибридный формат'];
+export const WorkFormatOptionsData = ['Только удаленно', 'Только в офисе', 'Гибридный формат'];
 
-// const LanguageOptionsData = ['ru', 'en', 'es'];
-//
-// const ExperienceOptionsData = ['0-1', '1-3', '3-5', '5-10', '10+'];
+const NotificationStyleData = ['push', 'email', 'both'];
+const LanguageOptionsData = ['ru', 'en', 'es'];
+const ExperienceOptionsData = ['0-1', '1-3', '3-5', '5-10', '10+'];
 
 export const profileSettingsSchema = object({
   profile: object({
@@ -67,7 +67,7 @@ export const profileSettingsSchema = object({
       interviewReminders: boolean(),
       careerInsights: boolean(),
     }),
-    notificationStyle: string(),
+    notificationStyle: string().oneOf(notificationOptions.map((el) => el.value)),
   }),
   privacy: object({
     showSalaryExpectations: boolean(),
@@ -75,7 +75,7 @@ export const profileSettingsSchema = object({
     allowRecruiterMessages: boolean(),
   }),
   account: object({
-    email: string().email().required(),
+    email: string().required('Введите email').email('Введите корректный email'),
     language: string().oneOf(languageOptions.map((el) => el.value)),
   }),
 });

@@ -56,3 +56,21 @@ export const languageOptions = [
   { value: 'en', label: 'English' },
   { value: 'es', label: 'Español' },
 ];
+
+export const notificationOptions = [
+  {
+    value: 'push',
+    label: 'Только push-уведомления',
+    description: 'Получать мгновенные оповещения на устройство',
+  },
+  {
+    value: 'email',
+    label: 'Только email',
+    description: 'Получать обновления по электронной почте',
+  },
+  {
+    value: 'both',
+    label: 'Push и Email',
+    description: 'Получать уведомления по всем каналам',
+  },
+];

@@ -1,25 +1,31 @@
 import { SettingsBlock } from './SettingsBlock';
 import { AvatarBlock } from './AvatarBlock';
 import styled from 'styled-components';
-import { InputField, SelectField, TextField, Option } from '@admiral-ds/react-ui';
-import { experienceOptions, mokSkillsData } from '../mocks';
+import { InputField, Option, SelectField, TextField } from '@admiral-ds/react-ui';
+import { experienceOptions } from '../mocks';
 import { SystemPersonSolid } from '@admiral-ds/icons';
 import { Content, labelStyles } from '@/pages/settings/styles/settings.styles';
-import { CheckboxGroup } from '@/components/ui/checkbox-group';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, get, useFormContext } from 'react-hook-form';
 import { LocationOptionsData, SkillsData } from '@/pages/settings/validationSchema';
+import { ControlledCheckboxGroup } from '@/pages/settings/controlled/ControlledCheckboxGroup';
 
 export const General = () => {
   const {
     register,
-    control,
     formState: { errors },
+    control,
   } = useFormContext();
+
+  const nameError = get(errors, 'profile.name');
 
   return (
     <SettingsBlock title={'Профессиональный профиль'} icon={SystemPersonSolid}>
       <Content>
-        <AvatarBlock />
+        <Controller
+          name={'profile.photo'}
+          control={control}
+          render={({ field }) => <AvatarBlock value={field.value} onChange={field.onChange} />}
+        />
         <InputsBlockWrapper>
           <InputField
             {...register('profile.name')}
@@ -28,7 +34,8 @@ export const General = () => {
             labelCssMixins={{
               label: labelStyles,
             }}
-            // status={errors}
+            status={nameError ? 'error' : null}
+            extraText={nameError?.message}
           />
 
           <InputField
@@ -81,12 +88,10 @@ export const General = () => {
           dimension={'xl'}
         />
 
-        <Controller
-          name="profile.skills"
-          control={control}
-          render={({ field }) => (
-            <CheckboxGroup {...field} data={SkillsData} title={'Навыки и экспертиза'} />
-          )}
+        <ControlledCheckboxGroup
+          name={'profile.skills'}
+          data={SkillsData}
+          title={'Навыки и экспертиза'}
         />
       </Content>
     </SettingsBlock>

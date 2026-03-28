@@ -3,63 +3,63 @@ import styled from 'styled-components';
 import { SettingsBlock } from './SettingsBlock';
 import { SystemNotificationsSolid } from '@admiral-ds/icons';
 import { Card, Content, SpanText, SubTitle } from '@/pages/settings/styles/settings.styles';
-import { CheckboxBlock } from './CheckboxBlock';
-import { useFormContext } from 'react-hook-form';
+import { ControlledCheckboxBlock } from '@/pages/settings/controlled/ControlledCheckboxBlock';
+import { Controller } from 'react-hook-form';
+import { notificationOptions } from '@/pages/settings/mocks';
 
 export const Notifications = () => {
-  const { register, control } = useFormContext();
-
   return (
     <SettingsBlock title={'Настройки уведомлений'} icon={SystemNotificationsSolid}>
       <Content>
         <SubTitle>Настройки оповещений</SubTitle>
 
-        <CheckboxBlock
+        <ControlledCheckboxBlock
           title={'Новые вакансии'}
           description={
             'Получать уведомления о новых вакансиях, соответствующих вашим предпочтениям'
           }
-          name={'receive-new-vacancies'}
+          name={'notifications.alerts.jobMatches'}
         />
 
-        <CheckboxBlock
+        <ControlledCheckboxBlock
           title={'Обновления по откликам'}
           description={'Отслеживать статус ваших откликов на вакансии'}
-          name={'receive-application-updates'}
+          name={'notifications.alerts.applicationUpdates'}
         />
 
-        <CheckboxBlock
+        <ControlledCheckboxBlock
           title={'Напоминания о собеседованиях'}
           description={'Не пропустить ни одного собеседования с своевременными напоминаниями'}
-          name={'receive-interview-reminders'}
+          name={'notifications.alerts.interviewReminders'}
         />
 
-        <CheckboxBlock
+        <ControlledCheckboxBlock
           title={'Карьерные инсайты'}
           description={'Получать советы и тренды в индустрии'}
-          name={'receive-career-insights'}
+          name={'notifications.alerts.careerInsights'}
         />
 
         <NotificationWrapper hoverable={false}>
           <SubTitle>Способ доставки уведомлений</SubTitle>
-          <FieldSet>
-            <Card>
-              <StyledRadioButton value={1} name="notification-channel">
-                Только push-уведомления
-                <SpanText>Получать мгновенные оповещения на устройство</SpanText>
-              </StyledRadioButton>
-            </Card>
-            <Card>
-              <StyledRadioButton value={2} name="notification-channel">
-                Только email <SpanText>Получать обновления по электронной почте</SpanText>
-              </StyledRadioButton>
-            </Card>
-            <Card>
-              <StyledRadioButton value={3} name="notification-channel">
-                Push и Email <SpanText>Получать уведомления по всем каналам</SpanText>
-              </StyledRadioButton>
-            </Card>
-          </FieldSet>
+
+          <Controller
+            name={'notifications.notificationStyle'}
+            render={({ field }) => (
+              <FieldSet>
+                {notificationOptions.map((option) => (
+                  <Card key={option.value}>
+                    <StyledRadioButton
+                      checked={field.value === option.value}
+                      onChange={() => field.onChange(option.value)}
+                    >
+                      {option.label}
+                      <SpanText>{option.description}</SpanText>
+                    </StyledRadioButton>
+                  </Card>
+                ))}
+              </FieldSet>
+            )}
+          ></Controller>
         </NotificationWrapper>
       </Content>
     </SettingsBlock>

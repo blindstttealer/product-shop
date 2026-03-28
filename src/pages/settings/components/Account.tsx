@@ -19,32 +19,42 @@ import {
   SubTitle,
 } from '../styles/settings.styles';
 import type { ComponentType } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { get, useFormContext } from 'react-hook-form';
 
 export const Account = () => {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  const emailError = get(errors, 'account.email');
 
   return (
     <SettingsBlock title={'Настройки аккаунта'} icon={SystemSettingsSolid}>
       <Content>
         <SettingCard>
           <SectionTitle title={'Email адрес'} icon={SystemEmailOutline} />
-          <InputField {...register('account.email')} placeholder={'Email адрес'} />
+          <InputField
+            {...register('account.email')}
+            placeholder={'Email адрес'}
+            status={emailError ? 'error' : null}
+            extraText={emailError?.message}
+          />
           {/*<InputRow>*/}
           {/*  <EmailInput placeholder={'Email адрес'} name={'email'} />*/}
           {/*  <UpdateButton dimension={'m'}>Обновить</UpdateButton>*/}
           {/*</InputRow>*/}
         </SettingCard>
 
-        <SettingCard>
-          <SectionTitle title={'Пароль и безопасность'} icon={SecurityLockOutline} />
-          <ActionBlock>
-            <SpanText>Обеспечьте безопасность вашего аккаунта, регулярно обновляя пароль.</SpanText>
-            <StyledButton dimension={'m'} appearance={'tertiary'}>
-              Изменить пароль
-            </StyledButton>
-          </ActionBlock>
-        </SettingCard>
+        {/*<SettingCard>*/}
+        {/*  <SectionTitle title={'Пароль и безопасность'} icon={SecurityLockOutline} />*/}
+        {/*  <ActionBlock>*/}
+        {/*    <SpanText>Обеспечьте безопасность вашего аккаунта, регулярно обновляя пароль.</SpanText>*/}
+        {/*    <StyledButton dimension={'m'} appearance={'tertiary'}>*/}
+        {/*      Изменить пароль*/}
+        {/*    </StyledButton>*/}
+        {/*  </ActionBlock>*/}
+        {/*</SettingCard>*/}
 
         <SettingCard>
           <SectionTitle title={'Информация о платформе'} icon={ServiceInfoOutline} />
@@ -60,11 +70,7 @@ export const Account = () => {
         </SettingCard>
         <SettingCard>
           <SectionTitle title={'Язык интерфейса'} icon={CategoryGlobeOutline} />
-          <SelectField
-            {...register('language')}
-            defaultValue={languageOptions[0].value}
-            name={'language'}
-          >
+          <SelectField {...register('account.language')} defaultValue={languageOptions[0].value}>
             {languageOptions.map((option) => (
               <Option key={option.value} value={option.value}>
                 {option.label}

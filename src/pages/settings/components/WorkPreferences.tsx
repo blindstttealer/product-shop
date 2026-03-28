@@ -10,8 +10,11 @@ import {
   EmploymentTypesData,
   PreferredIndustriesData,
   SkillsData,
+  WorkFormatOptionsData,
 } from '@/pages/settings/validationSchema';
 import { Controller, useFormContext } from 'react-hook-form';
+import { ControlledCheckboxGroup } from '@/pages/settings/controlled/ControlledCheckboxGroup';
+import { ControlledCheckboxBlock } from '@/pages/settings/controlled/ControlledCheckboxBlock';
 
 export const WorkPreferences = () => {
   const { register, control } = useFormContext();
@@ -19,25 +22,23 @@ export const WorkPreferences = () => {
   return (
     <SettingsBlock title={'Предпочтения по работе'} icon={CategoryColorSolid}>
       <Content>
-        <Controller
-          name="jobPreferences.jobType"
-          control={control}
-          render={({ field }) => (
-            <CheckboxGroup {...field} title={'Тип занятости'} data={EmploymentTypesData} />
-          )}
+        <ControlledCheckboxGroup
+          name={'jobPreferences.jobType'}
+          data={EmploymentTypesData}
+          title={'Тип занятости'}
         />
 
         <SelectField
           {...register('jobPreferences.workLocation')}
-          defaultValue={workFormatOptions[0].value}
+          defaultValue={WorkFormatOptionsData[0]}
           label={'Предпочтения по местоположению работы'}
           labelCssMixins={{
             label: labelStyles,
           }}
         >
-          {workFormatOptions.map((option) => (
-            <Option key={option.value} value={option.value}>
-              {option.label}
+          {WorkFormatOptionsData.map((option) => (
+            <Option key={option} value={option}>
+              {option}
             </Option>
           ))}
         </SelectField>
@@ -49,6 +50,7 @@ export const WorkPreferences = () => {
               {...register('jobPreferences.salaryMin')}
               min={0}
               step={1000}
+              precision={0}
               label={'Минимум'}
               labelCssMixins={{
                 label: labelStyles,
@@ -66,29 +68,17 @@ export const WorkPreferences = () => {
           </InputsBlockWrapper>
         </FieldSet>
 
-        <Controller
-          name="jobPreferences.industries"
-          control={control}
-          render={({ field }) => (
-            <CheckboxGroup
-              {...field}
-              title={'Предпочтительные отрасли'}
-              data={PreferredIndustriesData}
-            />
-          )}
+        <ControlledCheckboxGroup
+          name={'jobPreferences.industries'}
+          data={PreferredIndustriesData}
+          title={'Предпочтительные отрасли'}
         />
 
-        <Controller
-          name="jobPreferences.willingToRelocate"
-          control={control}
-          render={({ field }) => (
-            <CheckboxBlock
-              {...field}
-              title={'Готовность к переезду'}
-              description={'Рассматривать вакансии в других городах'}
-              background={'Neutral/Neutral 05'}
-            />
-          )}
+        <ControlledCheckboxBlock
+          name={'jobPreferences.willingToRelocate'}
+          title={'Готовность к переезду'}
+          description={'Рассматривать вакансии в других городах'}
+          background={'Neutral/Neutral 05'}
         />
       </Content>
     </SettingsBlock>

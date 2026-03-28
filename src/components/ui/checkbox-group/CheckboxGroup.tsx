@@ -6,13 +6,28 @@ type Props = {
   title: string;
   name?: string;
   data: string[];
+  value: string[];
+  onChange: (value: string[]) => void;
 };
-export const CheckboxGroup = ({ title, name, data }: Props) => {
+export const CheckboxGroup = ({ title, name, data, value, onChange }: Props) => {
+  const onChangeHandler = (option: string) => {
+    if (value.includes(option)) {
+      onChange(value.filter((v) => v !== option));
+    } else {
+      onChange([...value, option]);
+    }
+  };
   return (
     <FieldSet flexDirection={'row'} name={name}>
       <LegendText>{title}</LegendText>
       {data.map((option) => (
-        <StyledCheckboxField key={option}>{option}</StyledCheckboxField>
+        <StyledCheckboxField
+          checked={value?.includes(option)}
+          key={option}
+          onChange={() => onChangeHandler(option)}
+        >
+          {option}
+        </StyledCheckboxField>
       ))}
     </FieldSet>
   );
