@@ -49,7 +49,6 @@ export const General = () => {
 
           <SelectField
             {...register('profile.experience')}
-            defaultValue={experienceOptions[0].value}
             label={'Опыт работы'}
             labelCssMixins={{
               label: labelStyles,
@@ -64,7 +63,6 @@ export const General = () => {
 
           <SelectField
             {...register('profile.location')}
-            defaultValue={LocationOptionsData[0]}
             label={'Местоположение'}
             labelCssMixins={{
               label: labelStyles,

@@ -1,23 +1,19 @@
-import { SelectField, Option, NumberInputField, FieldSet } from '@admiral-ds/react-ui';
+import { FieldSet, NumberInputField, Option, SelectField } from '@admiral-ds/react-ui';
 import { Content, labelStyles, LegendText } from '../styles/settings.styles';
 import { SettingsBlock } from './SettingsBlock';
-import { mokEmploymentTypesData, mokPreferredIndustriesData, workFormatOptions } from '../mocks';
 import styled from 'styled-components';
 import { CategoryColorSolid } from '@admiral-ds/icons';
-import { CheckboxGroup } from '@/components/ui/checkbox-group';
-import { CheckboxBlock } from '@/pages/settings/components/CheckboxBlock';
 import {
   EmploymentTypesData,
   PreferredIndustriesData,
-  SkillsData,
   WorkFormatOptionsData,
 } from '@/pages/settings/validationSchema';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { ControlledCheckboxGroup } from '@/pages/settings/controlled/ControlledCheckboxGroup';
 import { ControlledCheckboxBlock } from '@/pages/settings/controlled/ControlledCheckboxBlock';
 
 export const WorkPreferences = () => {
-  const { register, control } = useFormContext();
+  const { register } = useFormContext();
 
   return (
     <SettingsBlock title={'Предпочтения по работе'} icon={CategoryColorSolid}>
@@ -30,7 +26,6 @@ export const WorkPreferences = () => {
 
         <SelectField
           {...register('jobPreferences.workLocation')}
-          defaultValue={WorkFormatOptionsData[0]}
           label={'Предпочтения по местоположению работы'}
           labelCssMixins={{
             label: labelStyles,
