@@ -17,22 +17,35 @@ export default function Settings() {
     mode: 'onChange',
   });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
-  // useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     try {
-  //       const profile = await UserApi.getUserProfile();
-  //       console.log('User profile:', profile);
-  //     } catch (err) {
-  //       console.error('Error profile:', err);
-  //     }
-  //   };
-  //
-  //   fetchProfile();
-  // }, []);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profile = await UserApi.getUserProfile();
+        console.log('User profile:', profile);
+        reset({
+          account: {
+            email: profile.user.email,
+          },
+        });
+      } catch (err) {
+        console.error('Error profile:', err);
+      }
+    };
 
-  const onSubmit: SubmitHandler<ProfileSettingsData> = (data) => console.log('data', data);
+    fetchProfile();
+  }, [reset]);
+
+  const onSubmit: SubmitHandler<ProfileSettingsData> = async (data) => {
+    // const formData = new FormData();
+    // formData.append('settings', JSON.stringify(data));
+    // const res = await UserApi.updateUserProfile(formData);
+    // console.log('RESULT', res);
+    // if (data.profile.photo) {
+    //   formData.append('profile.photo', data.profile.photo);
+    // }
+  };
   const onError = (errors) => console.log('errors', errors);
 
   return (
