@@ -42,18 +42,13 @@ export const CareerFormItem: FC<CareerFormItemProps> = observer(
         </div>
 
         <ActionsContainer>
-          <ActionButton
-            onClick={handleSwitchClick}
-            aria-label="Переключить форму"
-            icon={<SwapHorizOutlined />}
-          />
+          <ActionButton onClick={handleSwitchClick} aria-label="Переключить форму">
+            <SwapHorizOutlined />
+          </ActionButton>
 
-          <ActionButton
-            onClick={handleDeleteClick}
-            danger
-            aria-label="Удалить"
-            icon={<CloseOutlined />}
-          />
+          <ActionButton onClick={handleDeleteClick} aria-label="Удалить">
+            <CloseOutlined />
+          </ActionButton>
         </ActionsContainer>
       </FormItemContainer>
     );

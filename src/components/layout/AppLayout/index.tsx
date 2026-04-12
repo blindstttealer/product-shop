@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useAuthStore } from '@/providers/AuthProvider';
 import AppHeader from '../AppHeader';
 import { NavigationPanel } from '../../navigation/NavigationPanel';
 import { AuthorizationMenu } from '@/features/auth/ui/authorization-menu';
@@ -19,7 +18,6 @@ interface AppLayoutProps {
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = observer(({ children, collapsed }) => {
-  const authStore = useAuthStore();
   const { isDarkMode, toggleTheme } = useThemeContext();
   const navigate = useNavigate();
   const [headerContainer, setHeaderContainer] = useState<HTMLDivElement | null>(null);

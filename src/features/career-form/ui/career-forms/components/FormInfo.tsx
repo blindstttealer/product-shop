@@ -17,10 +17,11 @@ export const FormInfo = observer(({ formId }: FormInfoProps) => {
 
   const requiredFields = currentStep?.fields?.filter((f) => f.required) || [];
 
-  const stepData = currentForm.data[currentStepIndex] || {};
+  const stepNamespace = currentStep?.id ?? currentStepIndex;
+  const stepData = currentForm.data[stepNamespace] || {};
 
   const emptyRequiredFields = requiredFields.filter((f) => {
-    const value = stepData?.[f.key];
+    const value = stepData?.[f.id];
     return value === '' || value === null || value === undefined;
   });
 
@@ -31,7 +32,7 @@ export const FormInfo = observer(({ formId }: FormInfoProps) => {
     <FormInfoBlock>
       <FormInfoTitle>Информация о текущей форме:</FormInfoTitle>
       <FormInfoItem>ID: {formId}</FormInfoItem>
-      <FormInfoItem>Шаблон: {currentTemplate.name}</FormInfoItem>
+      <FormInfoItem>Шаблон: {currentTemplate.title}</FormInfoItem>
       <FormInfoItem>
         Шаг {currentForm.step}: {stepTitle}
       </FormInfoItem>

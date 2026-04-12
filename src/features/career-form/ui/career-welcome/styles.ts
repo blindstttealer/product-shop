@@ -7,8 +7,10 @@ export const Wrapper = styled.div`
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   max-width: 768px;
   margin: 32px auto;
-  font-family: 'VTB Group UI', sans-serif;
   border: 1px solid ${({ theme }) => theme.color['Neutral/Neutral 20']};
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 
   &:hover {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -18,28 +20,26 @@ export const Wrapper = styled.div`
 
 export const Title = styled.h2`
   margin-bottom: 16px;
-  font-size: 24px;
-  font-weight: 700;
   text-align: center;
   color: ${({ theme }) => theme.color['Primary/Primary 60']};
+  ${({ theme }) => theme.typography['Header/H4']};
 `;
 
-export const StepInfo = styled.button<{ hasFormId?: boolean }>`
+export const StyledButton = styled.button<{ hasFormId?: boolean }>`
   cursor: pointer;
   background-color: ${({ theme, hasFormId }) =>
     hasFormId ? theme.color['Attention/Attention 70'] : theme.color['Success/Success 70']};
   color: ${({ theme }) => theme.color['Neutral/Neutral 00']};
-  font-weight: 700;
   padding: 16px 24px;
   border-radius: 16px;
   border: none;
   width: 100%;
-  font-size: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease;
   margin-top: 20px;
+  ${({ theme }) => theme.typography['Header/H5']};
 
   &:hover {
     background-color: ${({ theme, hasFormId }) =>
@@ -68,9 +68,8 @@ export const StepInfo = styled.button<{ hasFormId?: boolean }>`
 
 export const CompanyInfo = styled.p`
   margin-top: 24px;
-  font-size: 16px;
-  line-height: 24px;
   color: ${({ theme }) => theme.color['Neutral/Neutral 70']};
   text-align: center;
   user-select: none;
+  ${({ theme }) => theme.typography['Body/Body 1 Long']};
 `;

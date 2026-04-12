@@ -60,7 +60,7 @@ export const CareerForms = observer(() => {
 
     if (template && Array.isArray(template.steps)) {
       template.steps.forEach((s, idx) => {
-        const title = (s as any).title ?? (s as any).name ?? (s as any).id ?? `Step ${idx + 1}`;
+        const title = s.title ?? `Step ${idx + 1}`;
         header.push({ title });
       });
     } else {
@@ -76,15 +76,15 @@ export const CareerForms = observer(() => {
 
   return (
     <Container>
-      <CreateFormModal
-        formName={formName}
-        error={formNameError}
-        isModalOpen={isModalVisible}
-        onOkHandler={handleCreateNewForm}
-        onCancelHandler={closeModal}
-        onChangeFormName={updateFormName}
-      />
-
+      {isModalVisible && (
+        <CreateFormModal
+          formName={formName}
+          error={formNameError}
+          onOkHandler={handleCreateNewForm}
+          onCancelHandler={closeModal}
+          onChangeFormName={updateFormName}
+        />
+      )}
       <HeaderSection>
         <FormHeader currentStep={currentForm.step} steps={headerSteps} />
 

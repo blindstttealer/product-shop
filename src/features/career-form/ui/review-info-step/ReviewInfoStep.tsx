@@ -1,10 +1,19 @@
 import { observer } from 'mobx-react-lite';
-import { Container, Item, Label, SectionTitle, NoData, EditButton, StyledCard } from './styles';
+import {
+  Container,
+  Item,
+  Label,
+  SectionTitle,
+  NoData,
+  StyledCard,
+  ButtonContainer,
+} from './styles';
 import { EditField } from '../../../../components/ui/edit-field/EditField';
 import { useEmailSender } from '../../../../shared/api/useEmailSender';
 import { formManager } from '../../model/multi-form-manager';
 import { useParams } from 'react-router';
 import { formatLabel, formatValue } from './utils';
+import { Button } from '@admiral-ds/react-ui';
 
 export const ReviewInfoStep = observer(() => {
   const { formId } = useParams<{ formId: string }>();
@@ -21,12 +30,14 @@ export const ReviewInfoStep = observer(() => {
   const template = formManager.templates[currentForm.templateId];
   const emailSender = useEmailSender();
 
-  // Сбор всех данных для отправки (теперь из steps)
   const collectAllDataFlat = () => {
     const out: Record<string, any> = {};
-    Object.entries(template.steps).forEach(([ns, stepData]) => {
-      if (typeof stepData === 'object' && stepData !== null) Object.assign(out, stepData);
-    });
+    if (template && Array.isArray(template.steps)) {
+      template.steps.forEach((stepDef) => {
+        const stepData = currentForm.data[stepDef.id];
+        if (typeof stepData === 'object' && stepData !== null) Object.assign(out, stepData);
+      });
+    }
     return out;
   };
 
@@ -62,52 +73,30 @@ export const ReviewInfoStep = observer(() => {
 
   return (
     <Container>
-      {template.steps.map((stepDef: any, idx: number) => {
-        const fullData = currentForm.data[idx] as Record<string, any>;
+      {template.steps.map((stepDef, idx) => {
+        const fullData = currentForm.data[stepDef.id] as Record<string, any>;
 
         return (
-          <StyledCard key={idx}>
+          <StyledCard key={stepDef.id}>
             <SectionTitle>
               {stepDef.title ?? `Шаг ${idx + 1}`}
-              <EditButton
-                style={{
-                  marginLeft: 12,
-                  padding: '4px 8px',
-                  fontSize: 12,
-                }}
+              <Button
+                appearance="ghost"
+                dimension="s"
+                style={{ marginLeft: 12 }}
                 onClick={() => goToStep(idx)}
               >
                 Редактировать
-              </EditButton>
+              </Button>
             </SectionTitle>
 
             {Array.isArray(stepDef.fields) && stepDef.fields.length > 0 ? (
-              stepDef.fields.map((field: any) => {
-                // группа полей
-                if (field.type === 'group' && Array.isArray(field.fields)) {
-                  return (
-                    <div key={field.key} style={{ marginTop: 8 }}>
-                      <SectionTitle style={{ fontSize: 14 }}>
-                        {field.label ?? formatLabel(field.key)}
-                      </SectionTitle>
-                      {field.fields.map((sf: any) => (
-                        <Item key={sf.key}>
-                          <Label>{sf.label ?? formatLabel(sf.key)}</Label>
-                          <EditField text={formatValue(sf, fullData?.[sf?.key])} />
-                        </Item>
-                      ))}
-                    </div>
-                  );
-                }
-
-                // обычное поле
-                return (
-                  <Item key={field.key}>
-                    <Label>{field.label ?? formatLabel(field.key)}</Label>
-                    <EditField text={formatValue(field, fullData?.[field?.key])} />
-                  </Item>
-                );
-              })
+              stepDef.fields.map((field) => (
+                <Item key={field.id}>
+                  <Label>{field.label ?? formatLabel(field.id)}</Label>
+                  <EditField text={formatValue(field, fullData?.[field.id])} />
+                </Item>
+              ))
             ) : (
               <NoData>Нет данных</NoData>
             )}
@@ -115,25 +104,22 @@ export const ReviewInfoStep = observer(() => {
         );
       })}
 
-      <div
-        style={{
-          display: 'flex',
-          gap: 20,
-          justifyContent: 'space-between',
-          marginTop: 20,
-        }}
-      >
-        <EditButton
+      <ButtonContainer>
+        <Button
+          appearance="secondary"
+          dimension="m"
           onClick={() => {
             const lastIndex = template.steps.length - 1;
             currentForm.setStep(lastIndex + 1);
           }}
         >
           Вернуться к редактированию
-        </EditButton>
+        </Button>
 
-        <EditButton onClick={sendEmail}>Отправить форму</EditButton>
-      </div>
+        <Button appearance="primary" dimension="m" onClick={sendEmail}>
+          Отправить форму
+        </Button>
+      </ButtonContainer>
     </Container>
   );
 });

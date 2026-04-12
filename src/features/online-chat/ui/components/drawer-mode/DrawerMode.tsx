@@ -9,6 +9,7 @@ interface DrawerChatModeProps {
   setChatMode: () => void;
   container: HTMLDivElement | null;
 }
+const CHAT_DRAWER_OVERLAY_Z_INDEX = 1100;
 
 export const DrawerChatMode = ({
   children,
@@ -25,7 +26,8 @@ export const DrawerChatMode = ({
       aria-labelledby="chat-drawer-title"
       // closeButtonPropsConfig={ onCloseButtonProps}
       closeOnBackdropClick
-      container={container}
+      // container={container}
+      overlayStyle={{ zIndex: CHAT_DRAWER_OVERLAY_Z_INDEX }}
     >
       <DrawerTitle id="chat-drawer-title">Онлайн чат</DrawerTitle>
       <Button dimension="s" appearance="ghost" onClick={setChatMode}>

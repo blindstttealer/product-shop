@@ -55,11 +55,12 @@ export class MultiFormManager {
   }
 
   createFromTemplate(templateId: string, name?: string) {
+    console.log('templateId', templateId, name);
     const template = this.templates[templateId];
     console.log('template', template);
     if (!template) throw new Error('Template not found: ' + templateId);
     const id = `form_${nanoid()}`;
-    const form = new CareerFormStore(id, {}, 1, name ?? template.name, templateId);
+    const form = new CareerFormStore(id, {}, 1, name ?? template.title, templateId);
     runInAction(() => {
       this.forms[id] = form;
       this.currentFormId = id;
@@ -114,6 +115,7 @@ export class MultiFormManager {
   }
 
   saveForms() {
+    console.log('this.forms', JSON.parse(JSON.stringify(this.forms)));
     const payload = Object.entries(this.forms).reduce<Record<string, SerializedForm>>(
       (acc, [id, form]) => {
         acc[id] = form.serialize();
@@ -121,6 +123,7 @@ export class MultiFormManager {
       },
       {},
     );
+    console.log('payload', payload);
     saveToLocalStorage(LS_KEY_FORMS, payload);
     saveToLocalStorage(LS_KEY_LAST_ACTIVE, this.currentFormId);
   }

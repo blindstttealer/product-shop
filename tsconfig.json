@@ -24,6 +24,6 @@
       "module": "CommonJS"
     }
   },
-  "include": ["src/**/*", "*.d.ts", "webpack.config.ts"],
+  "include": ["src/**/*", "*.d.ts", "webpack.config.ts", "orval.config.ts"],
   "exclude": ["node_modules", "dist"]
 }

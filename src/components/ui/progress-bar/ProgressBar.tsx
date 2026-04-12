@@ -1,11 +1,8 @@
 import React from 'react';
-import { Steps } from 'antd';
-import type { StepProps } from 'antd/es/steps';
+import { Stepper, Step, StepContent } from '@admiral-ds/react-ui';
 
 export type ProgressStep = {
   title: string;
-  status?: 'wait' | 'process' | 'finish' | 'error';
-  icon?: React.ReactNode;
 };
 
 type ProgressStepsProps = {
@@ -14,11 +11,13 @@ type ProgressStepsProps = {
 };
 
 export const ProgressSteps: React.FC<ProgressStepsProps> = ({ steps, current = 0 }) => {
-  const items: StepProps[] = steps.map(({ title, status, icon }) => ({
-    title,
-    status,
-    icon,
-  }));
-
-  return <Steps current={current} items={items} />;
+  return (
+    <Stepper activeStep={current}>
+      {steps.map((step, idx) => (
+        <Step key={idx}>
+          <StepContent>{step.title}</StepContent>
+        </Step>
+      ))}
+    </Stepper>
+  );
 };

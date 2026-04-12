@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 
 import { RegisterFormData, registerSchema } from './validationSchema';
-import { useAuthStore } from '@/providers/AuthProvider';
+import { useUserControllerRegister } from '@/api/generated/user/user';
 import { useAppToast } from '@/shared/hooks/useAppToast';
 import {
   PageWrapper,
@@ -24,7 +24,7 @@ import {
 } from '../../styles';
 
 export const Register: React.FC = () => {
-  const authStore = useAuthStore();
+  const registerMutation = useUserControllerRegister();
   const navigate = useNavigate();
   const { showSuccessToast, showErrorToast } = useAppToast();
 
@@ -39,10 +39,14 @@ export const Register: React.FC = () => {
 
   const onSubmit = async (values: RegisterFormData) => {
     try {
-      await authStore
-        .registration(values)
-        .then(() => navigate('/email-confirmation', { state: { email: values.email } }));
-
+      await registerMutation.mutateAsync({
+        data: {
+          login: values.login,
+          email: values.email,
+          password: values.password,
+        },
+      });
+      navigate('/email-confirmation', { state: { email: values.email } });
       showSuccessToast('Регистрация прошла успешно', 'Подтверждение');
     } catch (err) {
       console.error('Registration error', err);
@@ -108,10 +112,10 @@ export const Register: React.FC = () => {
             <SubmitButton
               appearance="primary"
               type="submit"
-              disabled={isSubmitting || !isValid}
+              disabled={isSubmitting || !isValid || registerMutation.isPending}
               dimension="xl"
             >
-              {isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
+              {isSubmitting || registerMutation.isPending ? 'Регистрация...' : 'Зарегистрироваться'}
             </SubmitButton>
           </Actions>
         </form>

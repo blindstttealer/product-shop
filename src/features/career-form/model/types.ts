@@ -1,49 +1,59 @@
-export type Option = { label: string; value: string | number };
+export type Option = { label: string; value: string };
 
 export type FieldType =
   | 'text'
-  | 'email'
-  | 'phone'
   | 'number'
-  | 'date'
-  | 'dateTime'
-  | 'select'
-  | 'multiSelect'
+  | 'email'
+  | 'password'
+  | 'tel'
+  | 'url'
+  | 'textarea'
   | 'checkbox'
   | 'radio'
-  | 'textArea'
-  | 'tags'
+  | 'select'
+  | 'date'
+  | 'time'
   | 'file'
-  | 'url'
-  | 'group'
-  | 'repeater';
+  | 'switch'
+  | 'slider';
+
+export type ValidationRule = {
+  minLength?: number | null;
+  maxLength?: number | null;
+  min?: number | null;
+  max?: number | null;
+  pattern?: string | null;
+  errorMessage?: string;
+};
 
 export type ServerField = {
-  key: string;
-  label: string;
+  id: string;
   type: FieldType;
-  required?: boolean;
-  options?: Option[];
-  multiple?: boolean;
-  min?: number;
-  max?: number;
+  label: string;
   placeholder?: string;
-  itemSchema?: ServerField[];
-  fields?: ServerField[];
+  description?: string;
   defaultValue?: any;
+  required?: boolean;
+  width?: number;
+  options?: Option[];
+  validation?: ValidationRule;
 };
 
 export type StepDefinition = {
   id: string;
   title: string;
+  description?: string;
+  order: number;
+  isSkippable?: boolean;
+  allowBack?: boolean;
   fields: ServerField[];
 };
 
 export type FormDefinition = {
   id: string;
-  name: string;
-  version?: string | number;
+  title: string;
   description?: string;
+  createdAt?: string;
+  updatedAt?: string;
   steps: StepDefinition[];
-  initialData?: Record<string, any>;
 };

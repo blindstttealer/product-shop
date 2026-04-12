@@ -1,10 +1,10 @@
 import { observer } from 'mobx-react-lite';
 import { Navigate, useLocation } from 'react-router';
-import { useAuthStore } from '@/providers/AuthProvider';
 import { Spinner } from '@admiral-ds/react-ui';
-import { useEffect, useState } from 'react';
+import { useUserControllerGetMe } from '@/api/generated/user/user';
 import { LayoutContainer, LoaderContainer } from '../layout/AppLayout/styles';
-import { userStore } from '@/entities/user/model/userStore';
+import { mapSessionToUser } from '@/features/auth/lib/mapSessionUser';
+import { sessionUserQueryOptions } from '@/features/auth/lib/sessionUserQueryOptions';
 
 export type AuthAccess = 'public' | 'protected' | 'guest-only';
 
@@ -15,52 +15,39 @@ interface AuthGuardProps {
   redirectAuthenticatedTo?: string;
 }
 
-export const AuthGuard: React.FC<AuthGuardProps> = observer(
-  ({ children, access = 'public', redirectTo = '/login', redirectAuthenticatedTo = '/' }) => {
-    const authStore = useAuthStore();
-    const location = useLocation();
-    const [isChecking, setIsChecking] = useState(true);
+export const AuthGuard: React.FC<AuthGuardProps> = observer((props: AuthGuardProps) => {
+  const { children, access = 'public', redirectAuthenticatedTo = '/' } = props;
+  const location = useLocation();
+  const sessionQuery = useUserControllerGetMe({
+    query: sessionUserQueryOptions,
+  });
 
-    useEffect(() => {
-      const initializeAuth = async () => {
-        if (!authStore.initialized) {
-          await authStore.hydrate();
-        }
-        setIsChecking(false);
-      };
+  const isBootstrapping = !sessionQuery.isFetched;
 
-      initializeAuth();
-    }, [authStore]);
+  if (isBootstrapping) {
+    return (
+      <LayoutContainer>
+        <LoaderContainer>
+          <Spinner />
+        </LoaderContainer>
+      </LayoutContainer>
+    );
+  }
 
-    if (isChecking || authStore.isLoading) {
-      return (
-        <LayoutContainer>
-          <LoaderContainer>
-            <Spinner />
-          </LoaderContainer>
-        </LayoutContainer>
-      );
-    }
+  const isAuthed = mapSessionToUser(sessionQuery.data) !== null && !sessionQuery.isError;
 
-    switch (access) {
-      case 'guest-only':
-        if (userStore.isAuth) {
-          const from = location.state?.from?.pathname || redirectAuthenticatedTo;
-          return <Navigate to={from} replace />;
-        }
-        break;
+  switch (access) {
+    case 'guest-only':
+      if (isAuthed) {
+        const from = location.state?.from?.pathname || redirectAuthenticatedTo;
+        return <Navigate to={from} replace />;
+      }
+      break;
 
-      // case 'protected':
-      //   if (!authStore.isAuthenticated) {
-      //     return <Navigate to={redirectTo} state={{ from: location }} replace />;
-      //   }
-      //   break;
+    case 'public':
+    default:
+      break;
+  }
 
-      case 'public':
-      default:
-        break;
-    }
-
-    return <>{children}</>;
-  },
-);
+  return <>{children}</>;
+});

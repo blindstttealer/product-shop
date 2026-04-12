@@ -16,11 +16,11 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    line-height: 1.5;
+    font-family: var(--admiral-font-family, ${({ theme }) => theme.fontFamily});
     color: ${({ theme }) => theme.color['Neutral/Neutral 90']};
     background-color: ${({ theme }) => theme.color['Background/Background 1']};
     transition: background-color 0.3s ease, color 0.3s ease;
+    ${({ theme }) => theme.typography['Body/Body 1 Long']};
   }
 
   a {

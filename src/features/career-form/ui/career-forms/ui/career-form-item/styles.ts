@@ -1,26 +1,26 @@
 import styled from 'styled-components';
-import { Button, Typography } from 'antd';
 
 export const FormItemContainer = styled.div<{ $isActive: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 4px 12px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid ${({ theme }) => theme.color['Neutral/Neutral 20']};
   border-radius: 8px;
   margin-bottom: 8px;
   transition: all 0.3s;
   max-width: 500px;
   width: 100%;
-  background-color: ${(props) => (props.$isActive ? '#eaeaea' : '#f8f8f8')};
+  background-color: ${({ theme, $isActive }) =>
+    $isActive ? theme.color['Background/Background 2'] : theme.color['Background/Background 1']};
 
   &:hover {
-    border-color: #d9d9d9;
+    border-color: ${({ theme }) => theme.color['Neutral/Neutral 30']};
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
   }
 `;
 
-export const FormTitle = styled(Typography)`
+export const FormTitle = styled.span`
   flex: 1;
   cursor: pointer;
   margin: 0;
@@ -28,10 +28,12 @@ export const FormTitle = styled(Typography)`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: ${({ theme }) => theme.color['Neutral/Neutral 90']};
+  ${({ theme }) => theme.typography['Body/Body 2 Long']};
 
   &.current {
-    font-weight: 500;
-    color: #1890ff;
+    color: ${({ theme }) => theme.color['Primary/Primary 60']};
+    ${({ theme }) => theme.typography['Subtitle/Subtitle 3']};
   }
 `;
 
@@ -40,14 +42,18 @@ export const ActionsContainer = styled.div`
   gap: 8px;
 `;
 
-export const ActionButton = styled(Button).attrs({
-  type: 'text',
-  size: 'small',
-})`
-  color: #8c8c8c;
+export const ActionButton = styled.button`
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: ${({ theme }) => theme.color['Neutral/Neutral 50']};
+  cursor: pointer;
+  transition: all 0.2s;
+  ${({ theme }) => theme.typography['Caption/Caption 1']};
 
   &:hover {
-    color: #1890ff;
-    background: #e6f7ff;
+    color: ${({ theme }) => theme.color['Primary/Primary 60']};
+    background-color: ${({ theme }) => theme.color['Background/Background 2']};
   }
 `;

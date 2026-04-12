@@ -3,7 +3,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { InputField } from '@admiral-ds/react-ui';
 import { useNavigate } from 'react-router';
-import { useAuthStore } from '@/providers/AuthProvider';
+import { useQueryClient } from '@tanstack/react-query';
+import { getUserControllerGetMeQueryKey, useUserControllerLogin } from '@/api/generated/user/user';
+import { mapSessionToUser } from '@/features/auth/lib/mapSessionUser';
+import { userStore } from '@/entities/user/model/userStore';
 import { LoginFormData, loginSchema } from './validationSchema';
 import {
   PageWrapper,
@@ -23,7 +26,8 @@ import {
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
-  const authStore = useAuthStore();
+  const queryClient = useQueryClient();
+  const loginMutation = useUserControllerLogin();
   const {
     register,
     handleSubmit,
@@ -34,9 +38,13 @@ export const Login: React.FC = () => {
   });
 
   const handleLogin = async (values: LoginFormData) => {
-    console.log('values', values);
     try {
-      await authStore.login({ loginOrEmail: values.loginOrEmail, password: values.password });
+      const data = await loginMutation.mutateAsync({
+        data: { login: values.loginOrEmail, password: values.password },
+      });
+      queryClient.setQueryData(getUserControllerGetMeQueryKey(), data);
+      const user = mapSessionToUser(data);
+      if (user) userStore.setUser(user);
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -84,10 +92,10 @@ export const Login: React.FC = () => {
             <SubmitButton
               appearance="primary"
               type="submit"
-              disabled={isSubmitting || !isValid}
+              disabled={isSubmitting || !isValid || loginMutation.isPending}
               dimension="xl"
             >
-              {isSubmitting ? 'Вход...' : 'Войти'}
+              {isSubmitting || loginMutation.isPending ? 'Вход...' : 'Войти'}
             </SubmitButton>
           </Actions>
 

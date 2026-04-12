@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@admiral-ds/flags": "^3.1.1",
     "@admiral-ds/react-ui": "^8.56.0",
     "@ant-design/icons": "^5.6.1",
     "@emailjs/browser": "^4.4.1",
@@ -13,6 +14,7 @@
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.1.1",
     "@mui/styled-engine-sc": "^7.1.1",
+    "@tanstack/react-query": "^5.99.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -37,6 +39,7 @@
     "jsonwebtoken": "^9.0.2",
     "kill-port": "^2.0.1",
     "mini-css-extract-plugin": "^2.9.4",
+    "mobx": "^6.15.0",
     "mobx-react-lite": "^4.1.0",
     "mongodb": "^6.18.0",
     "mongoose": "^8.17.1",
@@ -69,7 +72,10 @@
     "deploy": "gh-pages -d public",
     "build:prod-analyze": "cross-env NODE_ENV=production webpack --config webpack.config.ts --mode production --env analyze=true",
     "dev-analyze": "cross-env NODE_ENV=development webpack serve --config webpack.config.ts --mode development --env analyze=true --env hot=false",
-    "prepare": "husky"
+    "prepare": "husky",
+    "codegen": "orval --config orval.config.ts",
+    "openapi:pull": "node scripts/fetch-openapi.mjs",
+    "openapi:sync": "node scripts/openapi-sync.mjs"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -124,6 +130,7 @@
     "lint-staged": "^16.3.3",
     "minimatch": "^10.1.1",
     "nodemon": "^3.1.10",
+    "orval": "^8.7.0",
     "prettier": "^3.6.2",
     "react-refresh": "^0.18.0",
     "react-refresh-typescript": "^2.0.11",

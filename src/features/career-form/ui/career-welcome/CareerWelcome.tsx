@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { formManager } from '../../model/multi-form-manager';
-import { CompanyInfo, StepInfo, Title, Wrapper } from './styles';
+import { StyledButton, Wrapper } from './styles';
 import { observer } from 'mobx-react-lite';
 import { Option, SelectField } from '@admiral-ds/react-ui';
 import { FormDefinition } from '../../model/types';
@@ -56,7 +56,7 @@ export const CareerWelcome = observer(() => {
     return templates.map((option) => {
       return (
         <Option key={option.id} value={option.id}>
-          {option.name}
+          {option.title}
         </Option>
       );
     });
@@ -64,8 +64,6 @@ export const CareerWelcome = observer(() => {
 
   return (
     <Wrapper>
-      <Title>Добро пожаловать в нашу компанию!</Title>
-
       <SelectField
         mode="searchSelect"
         label="Выберите форму"
@@ -76,24 +74,19 @@ export const CareerWelcome = observer(() => {
         {renderOptions()}
       </SelectField>
 
-      <StepInfo hasFormId={!!formId} onClick={handleStartClick} disabled={!selectedTemplate}>
+      <StyledButton hasFormId={!!formId} onClick={handleStartClick} disabled={!selectedTemplate}>
         {StepInfoTitle}
-      </StepInfo>
+      </StyledButton>
 
-      <CompanyInfo>
-        Мы рады приветствовать новых сотрудников в нашей компании! Здесь вы найдете дружелюбную
-        команду, возможности для роста и поддержку на каждом этапе вашего карьерного пути. Добро
-        пожаловать в команду!
-      </CompanyInfo>
-
-      <CreateFormModal
-        isModalOpen={isModalVisible}
-        formName={formName}
-        error={formNameError}
-        onChangeFormName={updateFormName}
-        onCancelHandler={closeModal}
-        onOkHandler={handleCreateForm}
-      />
+      {isModalVisible && (
+        <CreateFormModal
+          formName={formName}
+          error={formNameError}
+          onChangeFormName={updateFormName}
+          onCancelHandler={closeModal}
+          onOkHandler={handleCreateForm}
+        />
+      )}
     </Wrapper>
   );
 });

@@ -9,7 +9,9 @@ import {
 } from '@admiral-ds/react-ui';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
-import { useAuthStore } from '@/providers/AuthProvider';
+import { useQueryClient } from '@tanstack/react-query';
+import { getUserControllerGetMeQueryKey, useUserControllerLogout } from '@/api/generated/user/user';
+import { userStore } from '@/entities/user/model/userStore';
 import { UserAvatar } from '@/components/ui/user-avatar';
 
 interface Props {
@@ -35,16 +37,22 @@ const MenuItemStyled = styled(MenuItem)`
 `;
 
 export const DropDownUserMenuContainer = observer(({ login, email }: Props) => {
-  const authStore = useAuthStore();
+  const queryClient = useQueryClient();
+  const logoutMutation = useUserControllerLogout();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   const targetRef = useRef<HTMLDivElement | null>(null);
 
   const handleLogout = useCallback(() => {
-    authStore.logout();
-    navigate('/registration', { replace: true });
-  }, [authStore, navigate]);
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        queryClient.removeQueries({ queryKey: getUserControllerGetMeQueryKey() });
+        userStore.setUser(null);
+        navigate('/registration', { replace: true });
+      },
+    });
+  }, [logoutMutation, navigate, queryClient]);
 
   const handleClickOutside = (e: Event) => {
     if (e.target && targetRef.current?.contains(e.target as Node)) return;
