@@ -13,7 +13,7 @@ import EmailConfirmationPage from '@/pages/auth/EmailConfirmationPage';
 import { EmailVerification } from '@/features/auth/ui/authorization-menu/components/email-verification';
 import { AuthGuard } from '@/components/auth/AuthGuard';
 import FormConstructor from '@/pages/form-constructor/form-constructor-page';
-import Settings from '@/pages/settings/settings-page';
+import { ProfileSettingsPage } from '@/features/profile-settings';
 
 export const appRouter = createBrowserRouter([
   {
@@ -75,7 +75,7 @@ export const appRouter = createBrowserRouter([
       { path: 'about', Component: About },
       { path: 'form-constructor', Component: FormConstructor },
       { path: 'cart', Component: Cart },
-      { path: 'settings', Component: Settings },
+      { path: 'settings', Component: ProfileSettingsPage },
     ],
   },
 ]);

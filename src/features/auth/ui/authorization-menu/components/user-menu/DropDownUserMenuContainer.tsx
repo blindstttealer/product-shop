@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { getUserControllerGetMeQueryKey, useUserControllerLogout } from '@/api/generated/user/user';
-import { userStore } from '@/entities/user/model/userStore';
 import { UserAvatar } from '@/components/ui/user-avatar';
 
 interface Props {
@@ -47,8 +46,7 @@ export const DropDownUserMenuContainer = observer(({ login, email }: Props) => {
   const handleLogout = useCallback(() => {
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
-        queryClient.removeQueries({ queryKey: getUserControllerGetMeQueryKey() });
-        userStore.setUser(null);
+        queryClient.clear();
         navigate('/registration', { replace: true });
       },
     });

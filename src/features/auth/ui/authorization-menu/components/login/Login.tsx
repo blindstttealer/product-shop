@@ -5,8 +5,6 @@ import { InputField } from '@admiral-ds/react-ui';
 import { useNavigate } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { getUserControllerGetMeQueryKey, useUserControllerLogin } from '@/api/generated/user/user';
-import { mapSessionToUser } from '@/features/auth/lib/mapSessionUser';
-import { userStore } from '@/entities/user/model/userStore';
 import { LoginFormData, loginSchema } from './validationSchema';
 import {
   PageWrapper,
@@ -43,8 +41,6 @@ export const Login: React.FC = () => {
         data: { login: values.loginOrEmail, password: values.password },
       });
       queryClient.setQueryData(getUserControllerGetMeQueryKey(), data);
-      const user = mapSessionToUser(data);
-      if (user) userStore.setUser(user);
       navigate('/');
     } catch (err) {
       console.error(err);

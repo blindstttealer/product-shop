@@ -1,4 +1,4 @@
-import { userStore } from '@/entities/user/model/userStore';
+import { useAuth } from '@/features/auth/hooks';
 import { EmailConfirmation } from '@/features/auth/ui/authorization-menu/components/email-confirmation';
 import { observer } from 'mobx-react-lite';
 import { useLocation } from 'react-router';
@@ -6,9 +6,11 @@ import { useLocation } from 'react-router';
 function EmailConfirmationPage() {
   const location = useLocation();
 
+  const { user } = useAuth();
+
   const emailFromState = location.state?.email;
 
-  const emailFromStore = userStore.user?.email;
+  const emailFromStore = user?.email;
 
   const emailToConfirm = emailFromState || emailFromStore;
 

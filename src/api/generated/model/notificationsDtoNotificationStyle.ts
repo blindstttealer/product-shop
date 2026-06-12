@@ -9,9 +9,11 @@ Auth: session cookies (not Bearer header). After login/register, the browser sto
  * OpenAPI spec version: 1.0
  */
 
-export type SettingsControllerSaveSettingsBody = {
-  /** Stringified JSON matching SaveSettingsDto */
-  settings: string;
-  /** Optional profile image (JPEG, PNG, WebP, GIF), max 5 MB */
-  photo?: Blob;
-};
+export type NotificationsDtoNotificationStyle =
+  (typeof NotificationsDtoNotificationStyle)[keyof typeof NotificationsDtoNotificationStyle];
+
+export const NotificationsDtoNotificationStyle = {
+  email: 'email',
+  push: 'push',
+  both: 'both',
+} as const;

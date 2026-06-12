@@ -1,5 +1,3 @@
-import { User } from '@/entities/user';
-
 export interface Message {
   id: string;
   sender: string;
@@ -15,7 +13,7 @@ export interface Participant {
   unread?: number;
 }
 export interface ChatDrawerProps {
-  currentUser: User;
+  currentUser: any;
   chatIcon?: React.ReactNode;
   drawerContainerRef: HTMLDivElement | null;
 }

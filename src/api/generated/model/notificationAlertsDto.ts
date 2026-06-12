@@ -9,9 +9,9 @@ Auth: session cookies (not Bearer header). After login/register, the browser sto
  * OpenAPI spec version: 1.0
  */
 
-export type SettingsControllerSaveSettingsBody = {
-  /** Stringified JSON matching SaveSettingsDto */
-  settings: string;
-  /** Optional profile image (JPEG, PNG, WebP, GIF), max 5 MB */
-  photo?: Blob;
-};
+export interface NotificationAlertsDto {
+  jobMatches: boolean;
+  applicationUpdates: boolean;
+  interviewReminders: boolean;
+  careerInsights: boolean;
+}

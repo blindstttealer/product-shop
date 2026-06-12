@@ -8,10 +8,10 @@ WebSocket events (chat) are not described here — use a Socket.IO client.
 Auth: session cookies (not Bearer header). After login/register, the browser stores cookies; use the same origin or forward cookies in tools like Postman.
  * OpenAPI spec version: 1.0
  */
+import type { NotificationAlertsDto } from './notificationAlertsDto';
+import type { NotificationsDtoNotificationStyle } from './notificationsDtoNotificationStyle';
 
-export type SettingsControllerSaveSettingsBody = {
-  /** Stringified JSON matching SaveSettingsDto */
-  settings: string;
-  /** Optional profile image (JPEG, PNG, WebP, GIF), max 5 MB */
-  photo?: Blob;
-};
+export interface NotificationsDto {
+  alerts: NotificationAlertsDto;
+  notificationStyle: NotificationsDtoNotificationStyle;
+}

@@ -59,7 +59,7 @@ export const Chat: React.FC<ChatDrawerProps> = ({ currentUser, chatIcon, drawerC
     return () => {
       socket.off('new-message');
     };
-  }, [currentUser.id]);
+  }, [currentUser?.id]);
 
   const closeChat = () => setOpened(false);
 

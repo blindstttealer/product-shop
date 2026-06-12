@@ -3,15 +3,14 @@ import type { AxiosInstance } from 'axios';
 import { getUserControllerGetMeQueryKey } from '@/api/generated/user/user';
 import { orvalAxiosInstance } from '@/api/orval-axios-instance';
 import { apiService } from '@/api/services';
-import { userStore } from '@/entities/user/model/userStore';
 
 function attachUnauthorizedHandler(instance: AxiosInstance, queryClient: QueryClient) {
   const id = instance.interceptors.response.use(
     (res) => res,
     (err) => {
       if (err?.response?.status === 401) {
-        userStore.setUser(null);
-        queryClient.removeQueries({ queryKey: getUserControllerGetMeQueryKey() });
+        queryClient.cancelQueries();
+        queryClient.setQueryData(getUserControllerGetMeQueryKey(), null);
       }
       return Promise.reject(err);
     },

@@ -1,6 +1,17 @@
 import { CheckboxField, FieldSet } from '@admiral-ds/react-ui';
 import styled from 'styled-components';
-import { LegendText } from '@/pages/settings/styles/settings.styles';
+import { css } from 'styled-components';
+
+const labelStyles = css`
+  font-size: 16px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.color['Neutral/Neutral 90']};
+`;
+
+const LegendText = styled.legend`
+  ${labelStyles};
+  margin-bottom: -8px;
+`;
 
 type Props = {
   title: string;
