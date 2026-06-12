@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 
 import { RegisterFormData, registerSchema } from './validationSchema';
-import { useUserControllerRegister } from '@/api/generated/user/user';
+import { useUserControllerGetMe, useUserControllerRegister } from '@/api/generated/user/user';
 import { useAppToast } from '@/shared/hooks/useAppToast';
 import {
   PageWrapper,

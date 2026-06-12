@@ -4,8 +4,6 @@ import { Button, DropdownContainer } from '@admiral-ds/react-ui';
 import { useNavigate } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { getUserControllerGetMeQueryKey, useUserControllerLogout } from '@/api/generated/user/user';
-import { userStore } from '@/entities/user/model/userStore';
-import { UserAvatar } from '@/components/ui/user-avatar';
 
 interface UserMenuProps {
   name?: string;
@@ -22,7 +20,6 @@ export const DropDownUserMenu: FC<UserMenuProps> = observer(({ name, email, targ
     logoutMutation.mutate(undefined, {
       onSuccess: () => {
         queryClient.removeQueries({ queryKey: getUserControllerGetMeQueryKey() });
-        userStore.setUser(null);
         navigate('/registration', { replace: true });
       },
     });

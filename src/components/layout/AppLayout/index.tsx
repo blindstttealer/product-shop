@@ -7,9 +7,8 @@ import { ThemeToggle } from '@/components/theme-switcher/ThemeSwitcher';
 import { Chat } from '@/features/online-chat/ui/OnlineChat';
 import { useThemeContext } from '@/providers/ThemeProvider';
 import { ContentLayout, LayoutContainer, MainContent } from './styles';
-import { useNavigate } from 'react-router';
 import { DropDownUserMenuContainer } from '@/features/auth/ui/authorization-menu/components/user-menu/DropDownUserMenuContainer';
-import { userStore } from '@/entities/user/model/userStore';
+import { useAuth } from '@/features/auth/hooks';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -19,8 +18,9 @@ interface AppLayoutProps {
 
 export const AppLayout: React.FC<AppLayoutProps> = observer(({ children, collapsed }) => {
   const { isDarkMode, toggleTheme } = useThemeContext();
-  const navigate = useNavigate();
   const [headerContainer, setHeaderContainer] = useState<HTMLDivElement | null>(null);
+
+  const { user, isAuth } = useAuth();
 
   const setDrawerRef = useCallback((node: HTMLDivElement | null) => {
     if (node) {
@@ -28,35 +28,22 @@ export const AppLayout: React.FC<AppLayoutProps> = observer(({ children, collaps
     }
   }, []);
 
-  /* TODO: Временный коммент, чтобы каждый раз не логиниться и видеть приложение,
-        раскоментируй нижние строки и закоментируй данные стора чтобы работало
- */
-  const isAuthenticated = userStore.isAuth;
-  // let isAuthenticated = true;
-  // console.log('isAuthenticated2', isAuthenticated2);
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/registration', { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
-
   return (
     <LayoutContainer>
-      {isAuthenticated && (
+      {isAuth && (
         <AppHeader ref={setDrawerRef}>
           <NavigationPanel />
-          <DropDownUserMenuContainer login={userStore.user?.login} email={userStore.user?.email} />
+          <DropDownUserMenuContainer login={user?.login} email={user?.email} />
           <AuthorizationMenu />
           <ThemeToggle isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
         </AppHeader>
       )}
 
-      <ContentLayout $hasHeader={isAuthenticated}>
+      <ContentLayout $hasHeader={isAuth}>
         <MainContent $collapsed={collapsed}>{children}</MainContent>
 
-        {isAuthenticated && headerContainer && (
-          <Chat drawerContainerRef={headerContainer} currentUser={userStore.user} />
+        {isAuth && headerContainer && (
+          <Chat drawerContainerRef={headerContainer} currentUser={user} />
         )}
       </ContentLayout>
     </LayoutContainer>

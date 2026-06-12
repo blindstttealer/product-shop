@@ -1,10 +1,9 @@
 import { observer } from 'mobx-react-lite';
-import { Navigate, useLocation } from 'react-router';
+import { Navigate, useLocation, useNavigate } from 'react-router';
 import { Spinner } from '@admiral-ds/react-ui';
-import { useUserControllerGetMe } from '@/api/generated/user/user';
 import { LayoutContainer, LoaderContainer } from '../layout/AppLayout/styles';
-import { mapSessionToUser } from '@/features/auth/lib/mapSessionUser';
-import { sessionUserQueryOptions } from '@/features/auth/lib/sessionUserQueryOptions';
+import { useAuth } from '@/features/auth/hooks';
+import { useEffect } from 'react';
 
 export type AuthAccess = 'public' | 'protected' | 'guest-only';
 
@@ -18,13 +17,17 @@ interface AuthGuardProps {
 export const AuthGuard: React.FC<AuthGuardProps> = observer((props: AuthGuardProps) => {
   const { children, access = 'public', redirectAuthenticatedTo = '/' } = props;
   const location = useLocation();
-  const sessionQuery = useUserControllerGetMe({
-    query: sessionUserQueryOptions,
-  });
+  const navigate = useNavigate();
 
-  const isBootstrapping = !sessionQuery.isFetched;
+  const { isAuth, isLoading } = useAuth();
 
-  if (isBootstrapping) {
+  useEffect(() => {
+    if (!isAuth) {
+      navigate('/registration', { replace: true });
+    }
+  }, [isAuth, navigate]);
+
+  if (isLoading) {
     return (
       <LayoutContainer>
         <LoaderContainer>
@@ -34,11 +37,9 @@ export const AuthGuard: React.FC<AuthGuardProps> = observer((props: AuthGuardPro
     );
   }
 
-  const isAuthed = mapSessionToUser(sessionQuery.data) !== null && !sessionQuery.isError;
-
   switch (access) {
     case 'guest-only':
-      if (isAuthed) {
+      if (isAuth) {
         const from = location.state?.from?.pathname || redirectAuthenticatedTo;
         return <Navigate to={from} replace />;
       }

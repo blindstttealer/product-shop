@@ -4,6 +4,7 @@
     "/api/user/register": {
       "post": {
         "operationId": "UserController_register",
+        "summary": "Register; sets auth cookies on success",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -17,17 +18,25 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterUserResponseDto"
+                }
+              }
+            }
           }
         },
         "tags": [
-          "user"
+          "User"
         ]
       }
     },
     "/api/user/login": {
       "post": {
         "operationId": "UserController_login",
+        "summary": "Login; sets auth cookies on success",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -45,20 +54,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/UserPublicResponseDto"
                 }
               }
             }
           }
         },
         "tags": [
-          "user"
+          "User"
         ]
       }
     },
     "/api/user/me": {
       "get": {
         "operationId": "UserController_getMe",
+        "summary": "Current user (minimal fields)",
         "parameters": [],
         "responses": {
           "200": {
@@ -66,14 +76,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/UserPublicResponseDto"
                 }
               }
             }
           }
         },
         "tags": [
-          "user"
+          "User"
         ],
         "security": [
           {
@@ -85,6 +95,7 @@
     "/api/user/profile": {
       "get": {
         "operationId": "UserController_getProfile",
+        "summary": "Profile + settings payload",
         "parameters": [],
         "responses": {
           "200": {
@@ -92,14 +103,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/UserProfileResponseDto"
                 }
               }
             }
           }
         },
         "tags": [
-          "user"
+          "User"
         ],
         "security": [
           {
@@ -111,24 +122,15 @@
     "/api/user/users": {
       "get": {
         "operationId": "UserController_getUsers",
+        "summary": "List other users (for chat, etc.)",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object"
-                  }
-                }
-              }
-            }
+            "description": ""
           }
         },
         "tags": [
-          "user"
+          "User"
         ],
         "security": [
           {
@@ -140,6 +142,7 @@
     "/api/user/logout": {
       "delete": {
         "operationId": "UserController_logout",
+        "summary": "Clear auth cookies",
         "parameters": [],
         "responses": {
           "200": {
@@ -147,7 +150,7 @@
           }
         },
         "tags": [
-          "user"
+          "User"
         ],
         "security": [
           {
@@ -159,6 +162,7 @@
     "/api/user/settings": {
       "get": {
         "operationId": "SettingsController_getSettings",
+        "summary": "Get saved settings JSON",
         "parameters": [],
         "responses": {
           "200": {
@@ -166,14 +170,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/SaveSettingsDto"
                 }
               }
             }
           }
         },
         "tags": [
-          "settings"
+          "Settings"
         ],
         "security": [
           {
@@ -216,14 +220,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/SaveSettingsDto"
                 }
               }
             }
           }
         },
         "tags": [
-          "settings"
+          "Settings"
         ],
         "security": [
           {
@@ -235,7 +239,7 @@
   },
   "info": {
     "title": "Workforms API",
-    "description": "HTTP API (WebSocket chat is not described here)",
+    "description": "REST API for Workforms.\nWebSocket events (chat) are not described here — use a Socket.IO client.\n\nAuth: session cookies (not Bearer header). After login/register, the browser stores cookies; use the same origin or forward cookies in tools like Postman.",
     "version": "1.0",
     "contact": {}
   },
@@ -247,7 +251,7 @@
         "type": "apiKey",
         "in": "cookie",
         "name": "short_token",
-        "description": "HttpOnly cookies from POST /api/user/login or /api/user/register (short_token or long_token)."
+        "description": "HttpOnly cookies from POST /api/user/login or /api/user/register. The API accepts short_token or long_token."
       }
     },
     "schemas": {
@@ -255,15 +259,16 @@
         "type": "object",
         "properties": {
           "email": {
-            "type": "string"
+            "type": "string",
+            "example": "john@example.com"
           },
           "password": {
             "type": "string",
-            "minLength": 3
+            "example": "secret123"
           },
           "login": {
             "type": "string",
-            "minLength": 3
+            "example": "john_doe"
           }
         },
         "required": [
@@ -272,21 +277,281 @@
           "login"
         ]
       },
+      "UserPublicResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "clx123abc456"
+          },
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          },
+          "login": {
+            "type": "string",
+            "example": "john_doe"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "login"
+        ]
+      },
+      "RegisterUserResponseDto": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserPublicResponseDto"
+          }
+        },
+        "required": [
+          "user"
+        ]
+      },
       "LoginUserDto": {
         "type": "object",
         "properties": {
           "login": {
             "type": "string",
-            "minLength": 1
+            "example": "john@example.com"
           },
           "password": {
             "type": "string",
-            "minLength": 1
+            "example": "secret123"
           }
         },
         "required": [
           "login",
           "password"
+        ]
+      },
+      "ProfileDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "jobTitle": {
+            "type": "string",
+            "example": "Frontend Developer"
+          },
+          "experience": {
+            "type": "string",
+            "example": "3 years"
+          },
+          "location": {
+            "type": "string",
+            "example": "Warsaw, Poland"
+          },
+          "skills": {
+            "example": [
+              "React",
+              "TypeScript",
+              "CSS"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "bio": {
+            "type": "string",
+            "example": "Building user interfaces and design systems."
+          },
+          "photo": {
+            "type": "string",
+            "example": "https://example.com/uploads/profile-photo.jpg"
+          }
+        },
+        "required": [
+          "name",
+          "jobTitle",
+          "experience",
+          "location",
+          "skills",
+          "bio",
+          "photo"
+        ]
+      },
+      "JobPreferencesDto": {
+        "type": "object",
+        "properties": {
+          "jobType": {
+            "example": [
+              "full-time",
+              "contract"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "workLocation": {
+            "type": "string",
+            "example": "remote"
+          },
+          "salaryMin": {
+            "type": "string",
+            "example": "2000"
+          },
+          "salaryMax": {
+            "type": "string",
+            "example": "4000"
+          },
+          "industries": {
+            "example": [
+              "ecommerce",
+              "fintech"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "willingToRelocate": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": [
+          "jobType",
+          "workLocation",
+          "salaryMin",
+          "salaryMax",
+          "industries",
+          "willingToRelocate"
+        ]
+      },
+      "NotificationAlertsDto": {
+        "type": "object",
+        "properties": {
+          "jobMatches": {
+            "type": "boolean",
+            "example": true
+          },
+          "applicationUpdates": {
+            "type": "boolean",
+            "example": true
+          },
+          "interviewReminders": {
+            "type": "boolean",
+            "example": false
+          },
+          "careerInsights": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": [
+          "jobMatches",
+          "applicationUpdates",
+          "interviewReminders",
+          "careerInsights"
+        ]
+      },
+      "NotificationsDto": {
+        "type": "object",
+        "properties": {
+          "alerts": {
+            "$ref": "#/components/schemas/NotificationAlertsDto"
+          },
+          "notificationStyle": {
+            "type": "string",
+            "enum": [
+              "email",
+              "push",
+              "both"
+            ],
+            "example": "both"
+          }
+        },
+        "required": [
+          "alerts",
+          "notificationStyle"
+        ]
+      },
+      "PrivacyDto": {
+        "type": "object",
+        "properties": {
+          "showSalaryExpectations": {
+            "type": "boolean",
+            "example": false
+          },
+          "showContactInfo": {
+            "type": "boolean",
+            "example": true
+          },
+          "allowRecruiterMessages": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": [
+          "showSalaryExpectations",
+          "showContactInfo",
+          "allowRecruiterMessages"
+        ]
+      },
+      "AccountDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "john@example.com"
+          },
+          "language": {
+            "type": "string",
+            "example": "en"
+          }
+        },
+        "required": [
+          "email",
+          "language"
+        ]
+      },
+      "SaveSettingsDto": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/ProfileDto"
+          },
+          "jobPreferences": {
+            "$ref": "#/components/schemas/JobPreferencesDto"
+          },
+          "notifications": {
+            "$ref": "#/components/schemas/NotificationsDto"
+          },
+          "privacy": {
+            "$ref": "#/components/schemas/PrivacyDto"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountDto"
+          }
+        },
+        "required": [
+          "profile",
+          "jobPreferences",
+          "notifications",
+          "privacy",
+          "account"
+        ]
+      },
+      "UserProfileResponseDto": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserPublicResponseDto"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/SaveSettingsDto"
+          }
+        },
+        "required": [
+          "user",
+          "settings"
         ]
       }
     }

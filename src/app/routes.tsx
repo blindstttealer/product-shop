@@ -5,14 +5,15 @@ import Promotion from '../pages/promotion/promotion-page';
 import Favorites from '../pages/favorites/favorites-page';
 import Delivery from '../pages/delivery/delivery-page';
 import Cart from '../pages/cart/cart-page';
-import { CareerWelcome } from '../features/career-form/ui/career-welcome/CareerWelcome';
-import { CareerForms } from '../features/career-form/ui/career-forms/CareerForms';
+import { CareerWelcome } from '@/features/career-form/ui/career-welcome/CareerWelcome';
+import { CareerForms } from '@/features/career-form/ui/career-forms/CareerForms';
 import LoginPage from '@/pages/auth/LoginPage';
 import RegisterPage from '@/pages/auth/RegistrationPage';
 import EmailConfirmationPage from '@/pages/auth/EmailConfirmationPage';
 import { EmailVerification } from '@/features/auth/ui/authorization-menu/components/email-verification';
 import { AuthGuard } from '@/components/auth/AuthGuard';
 import FormConstructor from '@/pages/form-constructor/form-constructor-page';
+import { ProfileSettingsPage } from '@/features/profile-settings';
 
 export const appRouter = createBrowserRouter([
   {
@@ -74,6 +75,7 @@ export const appRouter = createBrowserRouter([
       { path: 'about', Component: About },
       { path: 'form-constructor', Component: FormConstructor },
       { path: 'cart', Component: Cart },
+      { path: 'settings', Component: ProfileSettingsPage },
     ],
   },
 ]);
